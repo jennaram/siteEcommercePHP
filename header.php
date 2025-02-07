@@ -31,7 +31,7 @@
         <a class="nav-link fw-bold" href="smartphones.php">Smartphones</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link fw-bold" href="laptop.php">Ordinateurs portables</a>
+        <a class="nav-link fw-bold" href="laptop.php">Ordinateurs</a>
     </li>
     <li class="nav-item">
         <a class="nav-link fw-bold" href="tablettes.php">Tablettes</a>
