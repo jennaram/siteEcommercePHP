@@ -11,8 +11,8 @@
   <style>
     /* Style de base pour le body et la page */
     html, body {
-      height: 100%;
-      margin: 0;
+      height: 100vh; /* 100% de la hauteur de la fenêtre */
+      margin: 0; /* Supprimer la marge par défaut */
       display: flex;
       flex-direction: column;
     }
@@ -20,6 +20,7 @@
     /* Contenu principal de la page */
     .content {
       flex: 1; /* Cela pousse le footer vers le bas */
+      margin-bottom: 20px; /* Ajouter de l'espace entre le contenu et le footer */
     }
 
     /* Style personnalisé pour le footer */
@@ -27,12 +28,10 @@
       background-color: #A6C8D1;
       color: #fff;
       padding: 20px 0; /* Espacement autour du footer */
-      position: relative;
-      bottom: 0;
       width: 100%;
       display: flex;
       flex-direction: column;
-      align-items: center; /* Centrer tout le contenu horizontalement */
+      align-items: center;
       min-height: 300px; /* Hauteur minimale du footer */
     }
 
