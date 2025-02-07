@@ -26,10 +26,14 @@
     .footer {
       background-color: #A6C8D1;
       color: #fff;
-      padding: 10px 0; /* Réduction de la hauteur du footer */
+      padding: 20px 0; /* Espacement autour du footer */
       position: relative;
       bottom: 0;
       width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Centrer tout le contenu horizontalement */
+      min-height: 300px; /* Hauteur minimale du footer */
     }
 
     .footer a {
@@ -41,43 +45,28 @@
       text-decoration: underline;
     }
 
-    /* Flexbox pour distribuer les sections également */
-    .footer .footer-sections {
-      display: flex;
-      justify-content: space-between; /* Espacement égal entre les sections */
-      align-items: center;
-      flex-wrap: wrap; /* Pour la responsivité */
-      padding: 0 15px; /* Espacement sur les bords */
-    }
-
-    .footer .footer-section {
-      flex: 1; /* Chaque section prend une part égale de l'espace */
-      text-align: center;
-      margin: 10px;
-    }
-
-    .footer .footer-section h5 {
-      font-size: 1.1rem;
-      margin-bottom: 10px;
-      font-weight: bold;
-    }
-
-    .footer .footer-section ul {
-      list-style: none;
-      padding: 0;
-    }
-
+    /* Section Services */
     .footer .footer-section ul li {
-      margin-bottom: 8px;
+      margin-bottom: 0.5rem; /* Très petite marge */
     }
 
-    .footer .footer-section ul li a {
-      color: #fff;
-      text-decoration: none;
+    /* Section "Suivez-nous" et autres éléments centrés */
+    .footer-section {
+      text-align: center; /* Centrer les titres */
+      margin-bottom: 20px; /* Espacement entre les sections */
     }
 
-    .footer .footer-section ul li a:hover {
-      text-decoration: underline;
+    /* Ajouter plus de marge sous le titre "Suivez-nous" */
+    .footer-section h5 {
+      margin-bottom: 20px; /* Augmenter l'espacement sous le titre "Suivez-nous" */
+    }
+
+    /* Pour le logo CodingFactory */
+    .codingfactory-logo {
+      width: 100px;
+      height: 80px;
+      margin-top: 5px;
+      margin-bottom: 5px;
     }
 
     /* Style pour les icônes LinkedIn */
@@ -98,40 +87,28 @@
       gap: 30px; /* Espacement entre les icônes */
     }
 
-    .linkedin-item {
+    /* Conteneur pour les éléments principaux (Services, Suivez-nous et logo) */
+    .footer-main-content {
       display: flex;
-      align-items: center;
-      justify-content: center;
+      justify-content: space-between; /* Espacement égal entre les sections */
+      width: 100%;
+      max-width: 1000px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
     }
 
-    .linkedin-item span {
-      margin-left: 10px;
-      font-size: 16px;
-      font-weight: 500;
-    }
-
-    /* Pour le logo CodingFactory */
-    .codingfactory-logo {
-      width: 100px;
-      height: 80px;
-      margin-top: 5px;
-      margin-bottom: 5px;
-    }
-
-    .codingfactory-container {
+    /* Section pour "2025 TechPulse" en bas, centré horizontalement */
+    .footer-2025 {
       text-align: center;
-      margin-top: 20px;
+      width: 100%; /* Prendre toute la largeur disponible */
     }
 
-    /* Responsive: Lorsque l'écran est plus petit, les sections s'empilent */
+    /* Responsive : ajustement pour les petits écrans */
     @media (max-width: 768px) {
-      .footer .footer-sections {
-        flex-direction: column;
+      .footer-main-content {
+        flex-direction: column; /* Empiler verticalement les éléments */
         align-items: center;
-      }
-
-      .footer .footer-section {
-        margin: 15px 0;
+        text-align: center;
       }
     }
   </style>
@@ -145,53 +122,54 @@
 
   <!-- Footer -->
   <footer class="footer">
-    <div class="footer-sections">
-      <!-- Section Copyright -->
-      <div class="footer-section">
-        <h5>© 2025 TechPulse</h5>
-      </div>
+    <div class="container">
+      <!-- Conteneur principal des sections -->
+      <div class="footer-main-content">
+        <!-- Section Services -->
+        <div class="footer-section">
+          <h5>Services</h5>
+          <ul class="list-unstyled">
+            <li class="mb-1"><a href="about.php">Qui sommes-nous ?</a></li>
+            <li class="mb-1"><a href="help.php">Aide et assistance</a></li>
+            <li class="mb-1"><a href="livraison.php">Livraison</a></li>
+            <li class="mb-1"><a href="refund.php">Retours & remboursements</a></li>
+            <li class="mb-1"><a href="contact.php">Contact</a></li>
+          </ul>
+        </div>
 
-      <!-- Section Services -->
-      <div class="footer-section">
-        <h5>Services</h5>
-        <ul>
-        <li><a href="about.php">Qui somme nous ?</a></li>
-          <li><a href="help.php">Aide et assistance</a></li>
-          <li><a href="livraison.php">Livraison</a></li>
-          <li><a href="refund.php">Retours & remboursements</a></li>
-          <li><a href="contact.php">Contact</a></li>
-        </ul>
-      </div>
+        <!-- Section Suivez-nous -->
+        <div class="footer-section">
+          <h5>Suivez-nous</h5>
+          <!-- Icônes LinkedIn avec prénoms -->
+          <div class="linkedin-container">
+            <!-- Lien LinkedIn 1 avec prénom -->
+            <div class="linkedin-item">
+              <a href="https://www.linkedin.com/in/jennabenufferamia/" target="_blank">
+                <i class="bi bi-linkedin linkedin-icon"></i>
+              </a>
+              <span>Jenna</span>
+            </div>
+            <!-- Lien LinkedIn 2 avec prénom -->
+            <div class="linkedin-item">
+              <a href="https://www.linkedin.com/in/alexandre-fourquin-5ba470187/" target="_blank">
+                <i class="bi bi-linkedin linkedin-icon"></i>
+              </a>
+              <span>Alexandre</span>
+            </div>
+          </div>
+        </div>
 
-      <!-- Section Icônes locales et LinkedIn -->
-      <div class="footer-section">
-        <h5>Suivez-nous</h5>
-        <!-- Icônes LinkedIn avec prénoms -->
-        <div class="linkedin-container">
-          <!-- Lien LinkedIn 1 avec prénom -->
-          <div class="linkedin-item">
-            <a href="https://www.linkedin.com/in/jennabenufferamia/" target="_blank">
-              <i class="bi bi-linkedin linkedin-icon"></i>
-            </a>
-            <span>Jenna</span>
-          </div>
-          <!-- Lien LinkedIn 2 avec prénom -->
-          <div class="linkedin-item">
-            <a href="https://www.linkedin.com/in/alexandre-fourquin-5ba470187/" target="_blank">
-              <i class="bi bi-linkedin linkedin-icon"></i>
-            </a>
-            <span>Alexandre</span>
-          </div>
+        <!-- Section pour le logo CodingFactory -->
+        <div class="footer-section">
+          <a href="https://www.codingfactory.fr" target="_blank">
+            <img src="images/logo-coding.png" alt="Logo CodingFactory" class="codingfactory-logo">
+          </a>
         </div>
       </div>
 
-      <!-- Section Logo CodingFactory -->
-      <div class="footer-section codingfactory-container">
-        
-        <!-- Logo CodingFactory -->
-        <a href="https://www.codingfactory.fr" target="_blank">
-          <img src="images/logo-coding.png" alt="Logo CodingFactory" class="codingfactory-logo">
-        </a>
+      <!-- Section 2025 TechPulse en bas -->
+      <div class="footer-2025">
+        <h5>© 2025 TechPulse</h5>
       </div>
     </div>
   </footer>
