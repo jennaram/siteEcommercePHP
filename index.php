@@ -122,17 +122,43 @@
         </div>
     </div>
 
-    <!-- Paragraphe supplémentaire -->
-    <div class="content-section-wrapper">
-        <div class="container content-section">
-            <h1>Votre matériel high-tech au meilleur prix !</h1>
-            <p style="font-size: 1.1rem; text-align: justify;">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent euismod, sapien ut vehicula dignissim, 
-                ligula mi cursus quam, nec dictum mi libero eget arcu. Nullam auctor ex in lorem aliquet, at facilisis sapien pretium. 
-                Integer nec sapien in nisl facilisis placerat a et orci. Aenean vitae augue at lacus ultrices sodales. 
-            </p>
-        </div>
+    <!-- Filtres de recherche -->
+    <div class="container mt-4">
+        <form method="GET" action="index.php">
+            <div class="row">
+                <div class="col-md-3">
+                    <select name="brand" class="form-select">
+                        <option value="">Toutes les marques</option>
+                        <option value="Apple">Apple</option>
+                        <option value="Samsung">Samsung</option>
+                        <option value="Dell">Dell</option>
+                        <!-- Ajoutez d'autres marques ici -->
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select name="sort" class="form-select">
+                        <option value="price_asc">Prix croissant</option>
+                        <option value="price_desc">Prix décroissant</option>
+                        <option value="best_sellers">Meilleures ventes</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select name="type" class="form-select">
+                        <option value="">Tous les types</option>
+                        <option value="smartphone">Smartphones</option>
+                        <option value="laptop">Ordinateurs portables</option>
+                        <option value="tablet">Tablettes</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary w-100">Filtrer</button>
+                </div>
+            </div>
+        </form>
     </div>
+
+    
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -163,5 +189,7 @@
         });
     </script>
 </body>
+
 </html>
+
 <?php include 'footer.php'; ?>

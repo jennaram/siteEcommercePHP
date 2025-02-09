@@ -126,11 +126,34 @@
     <div class="content-section-wrapper">
         <div class="container content-section">
             <h1>Nos tablettes iPad et Android</h1>
-            <p style="font-size: 1.1rem; text-align: center; justify;">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent euismod, sapien ut vehicula dignissim, 
-                ligula mi cursus quam, nec dictum mi libero eget arcu. Nullam auctor ex in lorem aliquet, at facilisis sapien pretium. 
-                Integer nec sapien in nisl facilisis placerat a et orci. Aenean vitae augue at lacus ultrices sodales. 
-            </p>
+            <!-- Filtres de recherche -->
+     <div class="container mt-4">
+        <form method="GET" action="index.php">
+            <div class="row">
+                <div class="col-md-3">
+                    <select name="brand" class="form-select">
+                        <option value="">Toutes les marques</option>
+                        <option value="Apple">Apple</option>
+                        <option value="Samsung">Samsung</option>
+                        <option value="Dell">Dell</option>
+                        <!-- Ajoutez d'autres marques ici -->
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select name="sort" class="form-select">
+                        <option value="price_asc">Prix croissant</option>
+                        <option value="price_desc">Prix décroissant</option>
+                        <option value="best_sellers">Meilleures ventes</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary w-100">Filtrer</button>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+    </div>
         </div>
     </div>
 
