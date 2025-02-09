@@ -147,8 +147,6 @@
           <ul class="list-unstyled">
             <li class="mb-1"><a href="about.php">Qui sommes-nous ?</a></li>
             <li class="mb-1"><a href="help.php">Aide et assistance</a></li>
-            <li class="mb-1"><a href="livraison.php">Livraison</a></li>
-            <li class="mb-1"><a href="refund.php">Retours & remboursements</a></li>
             <li class="mb-1"><a href="contact.php">Contact</a></li>
           </ul>
         </div>

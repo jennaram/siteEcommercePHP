@@ -28,7 +28,7 @@
             position: absolute;
             left: 0;
         }
-        /* ... autres styles ... */
+       
 
         .promo-banner {
             background-color: #A6C8D1;
@@ -47,12 +47,29 @@
         }
 
         /* Styles pour le mode sombre */
-        /* ... (styles existants pour le mode sombre) ... */
+[data-bs-theme="dark"] {
+    background-color: #212529; /* Couleur de fond sombre pour la page */
+    color: white; /* Couleur de texte claire pour la page */
+}
+
+[data-bs-theme="dark"] .promo-banner {
+    background-color: #343a40; /* Couleur de fond sombre pour le promo-banner */
+    color: white; /* Couleur de texte claire pour le promo-banner */
+}
+
+[data-bs-theme="dark"] .container {
+    background-color: #343a40; /* Couleur de fond sombre pour le container */
+}
+
+[data-bs-theme="dark"] footer {
+    background-color: #343a40; /* Couleur de fond sombre pour le footer */
+}
+    
     </style>
 </head>
 <body>
 
-    <div class="promo-banner">
+    <div class="promo-banner" id="promoBanner">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-12 text-center">
@@ -121,7 +138,26 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // ... (votre code JavaScript pour le mode sombre)
+        document.addEventListener("DOMContentLoaded", function () {
+    const darkModeSwitch = document.getElementById('darkModeSwitch');
+
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.documentElement.setAttribute('data-bs-theme', 'dark');
+        // ... (autres modifications pour le mode sombre)
+    }
+
+    darkModeSwitch.addEventListener('change', function () {
+        if (this.checked) {
+            document.documentElement.setAttribute('data-bs-theme', 'dark');
+            // ... (autres modifications pour le mode sombre)
+            localStorage.setItem('darkMode', 'true');
+        } else {
+            document.documentElement.setAttribute('data-bs-theme', 'light');
+            // ... (autres modifications pour le mode clair)
+            localStorage.setItem('darkMode', 'false');
+        }
+    });
+});
     </script>
 </body>
 </html>
