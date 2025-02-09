@@ -9,16 +9,19 @@
   <!-- Lien vers Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <style>
-    html, body {
-      height: 100vh;
+   html, body {
+      height: 100%; /* Utiliser 100% pour html et body */
       margin: 0;
+    }
+
+    body {
       display: flex;
       flex-direction: column;
+      min-height: 100vh; /* S'assurer que le body couvre toute la hauteur de la vue */
     }
 
     .content {
-      flex: 1;
-      margin-bottom: 20px;
+      flex: 1 0 auto; /* Clé : Permettre au contenu de croître, mais pas de rétrécir en dessous de la taille du contenu */
     }
 
     .footer {
@@ -26,10 +29,7 @@
       color: #fff;
       padding: 20px 0;
       width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 300px;
+      
     }
 
     .footer a {
@@ -46,9 +46,9 @@
     }
 
     .footer-section {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+  padding: 1.5rem 0;
+  margin-bottom: 1rem;
+}
 
     .footer-section h5 {
       margin-bottom: 20px;
@@ -73,7 +73,7 @@
 
     .linkedin-container {
       display: flex;
-      justify-content: flex-end;
+      justify-content: center;
       gap: 30px;
     }
 
@@ -87,21 +87,51 @@
     }
 
     .footer-2025 {
-      text-align: center;
-      width: 100%;
-      margin-top: 0 auto;
-    }
+    text-align: center; 
+    width: 100%;
+    padding: 1rem;
+    margin-top: 20px;
+}
 
+    /* Styles pour les petits écrans */
     @media (max-width: 768px) {
       .footer-main-content {
         flex-direction: column;
         align-items: center;
         text-align: center;
       }
-      .linkedin-container {
-        justify-content: center;
+
+      .footer-section {
+        padding: 1rem 0;
       }
+
+      .codingfactory-logo {
+        width: 120px; /* Réduire la taille du logo */
+      }
+
+      .linkedin-container {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .linkedin-icon {
+        font-size: 24px; /* Réduire la taille des icônes */
+      }
+
+      @media (max-width: 768px) {
+    .footer-2025 {
+        margin-top: 15px;
+        padding: 0.75rem;
     }
+}
+
+      @media (max-width: 576px) {
+    .footer-2025 {
+        margin-top: 10px;
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+}
   </style>
 </head>
 <body>
@@ -111,6 +141,7 @@
   <footer class="footer">
     <div class="container">
       <div class="footer-main-content">
+        <!-- Section Services -->
         <div class="footer-section">
           <h5>Services</h5>
           <ul class="list-unstyled">
@@ -122,33 +153,38 @@
           </ul>
         </div>
 
+        <!-- Section Logo CodingFactory -->
         <div class="footer-section">
           <a href="https://www.codingfactory.fr" target="_blank">
             <img src="images/logo-coding.png" alt="Logo CodingFactory" class="codingfactory-logo">
           </a>
         </div>
 
-        <div class="footer-section">
-          <h5>Suivez-nous</h5>
-          <div class="linkedin-container">
-            <div class="linkedin-item">
-              <a href="https://www.linkedin.com/in/jennabenufferamia/" target="_blank">
-                <i class="bi bi-linkedin linkedin-icon"></i>
-              </a>
-              <span>Jenna</span>
-            </div>
-            <div class="linkedin-item">
-              <a href="https://www.linkedin.com/in/alexandre-fourquin-5ba470187/" target="_blank">
-                <i class="bi bi-linkedin linkedin-icon"></i>
-              </a>
-              <span>Alexandre</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="footer-2025">
-        <h5>© 2025 TechPulse</h5>
-      </div>
+        <!-- Section Suivez-nous -->
+<div class="footer-section text-center">
+  <h5 class="mb-3">Suivez-nous</h5>
+  <div class="d-flex justify-content-center align-items-center flex-wrap gap-4">
+    <div class="social-item">
+      <a href="https://www.linkedin.com/in/jennabenufferamia/" target="_blank" 
+         class="d-flex flex-column align-items-center text-decoration-none">
+        <i class="bi bi-linkedin linkedin-icon mb-2"></i>
+        <span>Jenna</span>
+      </a>
+    </div>
+    <div class="social-item">
+      <a href="https://www.linkedin.com/in/alexandre-fourquin-5ba470187/" target="_blank"
+         class="d-flex flex-column align-items-center text-decoration-none">
+        <i class="bi bi-linkedin linkedin-icon mb-2"></i>
+        <span>Alexandre</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+      <!-- Section 2025 TechPulse -->
+      <div class="footer-2025 w-100 text-center mt-4 py-3">
+    <h5 class="mb-0">© 2025 TechPulse</h5>
+</div>
     </div>
   </footer>
 
