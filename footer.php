@@ -94,7 +94,7 @@
 }
 
     /* Styles pour les petits écrans */
-    @media (max-width: 768px) {
+    @media (max-width: 768px) 
       .footer-main-content {
         flex-direction: column;
         align-items: center;
