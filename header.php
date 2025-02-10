@@ -93,6 +93,9 @@
                     <a class="nav-link me-3" href="cart.php">
                         <i class="bi bi-cart3 fs-5"></i>
                     </a>
+                    <a class="nav-link me-3" href="logout.php">
+                        <i class="bi bi-box-arrow-right fs-5"></i>
+                    </a>
 
                     <!-- Bouton de bascule dark/light -->
                     <div class="form-check form-switch ms-2">
