@@ -1,47 +1,49 @@
+<?php include 'header.php'; ?>
 <?php
+
 include 'db.php'; // Connexion à la base de données
 
-// Ajouter un produit
-if (isset($_POST['add_product'])) {
-    $name = $_POST['name'];
-    $description = $_POST['description'];
-    $price = $_POST['price'];
-    $image = $_FILES['image']['name'];
+// // Ajouter un produit
+// if (isset($_POST['add_product'])) {
+//     $name = $_POST['name'];
+//     $description = $_POST['description'];
+//     // $price = $_POST['price'];
+//     $image = $_FILES['image']['name'];
 
-    // Vérifier si l'image a bien été uploadée
-    if (move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/' . $image)) {
-        // Insérer le produit dans la base de données
-        $stmt = $pdo->prepare("INSERT INTO products (name, description, price, image) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$name, $description, $price, $image]);
-    } else {
-        echo "Erreur lors de l'upload de l'image.";
-    }
-}
+//     // Vérifier si l'image a bien été uploadée
+//     if (move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/' . $image)) {
+//         // Insérer le produit dans la base de données
+//         $stmt = $pdo->prepare("INSERT INTO products (name, description, price, image) VALUES (?, ?, ?, ?)");
+//         $stmt->execute([$name, $description, $price, $image]);
+//     } else {
+//         echo "Erreur lors de l'upload de l'image.";
+//     }
+// }
 
-// Supprimer un produit
-if (isset($_GET['delete'])) {
-    $id = $_GET['delete'];
+// // Supprimer un produit
+// if (isset($_GET['delete'])) {
+//     $id = $_GET['delete'];
 
-    // Récupérer l'image du produit avant de le supprimer
-    $stmt = $pdo->prepare("SELECT image FROM products WHERE id = ?");
-    $stmt->execute([$id]);
-    $product = $stmt->fetch();
-    $imagePath = 'uploads/' . $product['image'];
+//     // Récupérer l'image du produit avant de le supprimer
+//     $stmt = $pdo->prepare("SELECT image FROM products WHERE id = ?");
+//     $stmt->execute([$id]);
+//     $product = $stmt->fetch();
+//     $imagePath = 'uploads/' . $product['image'];
 
-    // Supprimer le produit de la base de données
-    $stmt = $pdo->prepare("DELETE FROM products WHERE id = ?");
-    $stmt->execute([$id]);
+//     // Supprimer le produit de la base de données
+//     $stmt = $pdo->prepare("DELETE FROM products WHERE id = ?");
+//     $stmt->execute([$id]);
 
-    // Supprimer l'image du serveur si elle existe
-    if (file_exists($imagePath)) {
-        unlink($imagePath);
-    }
-}
+//     // Supprimer l'image du serveur si elle existe
+//     if (file_exists($imagePath)) {
+//         unlink($imagePath);
+//     }
+// }
 
-// Récupérer tous les produits
-$stmt = $pdo->query("SELECT * FROM products");
-$products = $stmt->fetchAll();
-?>
+// // Récupérer tous les produits
+// $stmt = $pdo->query("SELECT * FROM products");
+// $products = $stmt->fetchAll();
+// ?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -107,7 +109,7 @@ $products = $stmt->fetchAll();
         </tbody>
     </table>
 </div>
-
+<?php include 'footer.php'; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
