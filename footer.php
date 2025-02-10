@@ -11,7 +11,7 @@
   <style>
     /* Style de base pour le body et la page */
     html, body {
-      height: 100vh; /* 100% de la hauteur de la fenêtre */
+      height: 100%; /* 100% de la hauteur de la fenêtre */
       margin: 0; /* Supprimer la marge par défaut */
       display: flex;
       flex-direction: column;
@@ -32,7 +32,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-height: 300px; /* Hauteur minimale du footer */
+      justify-content: flex-start;
     }
 
     .footer a {
@@ -109,6 +109,10 @@
         align-items: center;
         text-align: center;
       }
+
+      .footer {
+        padding: 10px 0; /* Réduire un peu l'espace vertical sur petits écrans */
+      }
     }
   </style>
 </head>
@@ -139,16 +143,13 @@
         <!-- Section Suivez-nous -->
         <div class="footer-section">
           <h5>Suivez-nous</h5>
-          <!-- Icônes LinkedIn avec prénoms -->
           <div class="linkedin-container">
-            <!-- Lien LinkedIn 1 avec prénom -->
             <div class="linkedin-item">
               <a href="https://www.linkedin.com/in/jennabenufferamia/" target="_blank">
                 <i class="bi bi-linkedin linkedin-icon"></i>
               </a>
               <span>Jenna</span>
             </div>
-            <!-- Lien LinkedIn 2 avec prénom -->
             <div class="linkedin-item">
               <a href="https://www.linkedin.com/in/alexandre-fourquin-5ba470187/" target="_blank">
                 <i class="bi bi-linkedin linkedin-icon"></i>
