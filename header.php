@@ -96,6 +96,12 @@
                     <a class="nav-link me-3" href="logout.php">
                         <i class="bi bi-box-arrow-right fs-5"></i>
                     </a>
+                   <?php if (isset($_SESSION['user_id'])): ?> 
+        <a class="nav-link me-3 text-danger" href="logout.php">
+            <i class="bi bi-box-arrow-right fs-5"></i>
+        </a>
+    <?php endif; ?>
+                    </div>
 
                     <!-- Bouton de bascule dark/light -->
                     <div class="form-check form-switch ms-2">

@@ -1,4 +1,8 @@
-<?php include 'header.php'; ?>
+<?php 
+include 'header.php';
+require_once 'includes/db.php'; // Connexion à la base de données
+session_start(); // Démarrer la session pour récupérer l'id de l'utilisateur connecté 
+?>
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="light">
 <head>
@@ -60,6 +64,31 @@
 <body>
 <div class="container my-5">
     <h1 class="text-center mb-4">Contactez-nous</h1>
+    <?php 
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $nom = htmlspecialchars($_POST['nom']);
+        $email_visiteur = filter_var($_POST['email_visiteur'], FILTER_SANITIZE_EMAIL);
+        $message = htmlspecialchars($_POST['message']);
+        $id_users = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : NULL; // Récupère l'id utilisateur s'il est connecté
+
+        if (!empty($nom) && !empty($email_visiteur) && !empty($message)) {
+            try {
+                $stmt = $pdo->prepare("INSERT INTO contact (id_users, nom, email_visiteur, message) VALUES (:id_users, :nom, :email_visiteur, :message)");
+                $stmt->execute([
+                    'id_users' => $id_users,
+                    'nom' => $nom,
+                    'email_visiteur' => $email_visiteur,
+                    'message' => $message
+                ]);
+                echo '<div class="alert alert-success text-center">Votre message a été envoyé avec succès.</div>';
+            } catch (PDOException $e) {
+                echo '<div class="alert alert-danger text-center">Erreur : ' . $e->getMessage() . '</div>';
+            }
+        } else {
+            echo '<div class="alert alert-danger text-center">Veuillez remplir tous les champs.</div>';
+        }
+    }
+    ?>
 
     <!-- Formulaire de contact -->
     <form action="submit_contact.php" method="POST" class="mx-auto" style="max-width: 600px;">

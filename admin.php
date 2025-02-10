@@ -1,5 +1,15 @@
 <?php include 'header.php'; ?>
 <?php
+session_start();
+
+// Vérifier si l'utilisateur est connecté et s'il est admin
+if (!isset($_SESSION['user_id']) || !$_SESSION['admin']) {
+    header("Location: user.php"); // Rediriger vers la page de connexion
+    exit();
+}
+?>
+
+<?php
 
 include 'db.php'; // Connexion à la base de données
 
