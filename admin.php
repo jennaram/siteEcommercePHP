@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 <?php
 include 'db.php'; // Connexion à la base de données
+=======
+<?php include 'header.php'; ?>
+ <?php
+// include 'db.php'; // Connexion à la base de données
+>>>>>>> bdd-jenna
 
 // Ajouter un produit
 if (isset($_POST['add_product'])) {
@@ -39,9 +45,15 @@ if (isset($_GET['delete'])) {
 }
 
 // Récupérer tous les produits
+<<<<<<< HEAD
 $stmt = $pdo->query("SELECT * FROM products");
 $products = $stmt->fetchAll();
 ?>
+=======
+// $stmt = $pdo->query("SELECT * FROM products");
+// $products = $stmt->fetchAll();
+?> 
+>>>>>>> bdd-jenna
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -107,7 +119,11 @@ $products = $stmt->fetchAll();
         </tbody>
     </table>
 </div>
+<<<<<<< HEAD
 
+=======
+<?php include 'footer.php'; ?>
+>>>>>>> bdd-jenna
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
