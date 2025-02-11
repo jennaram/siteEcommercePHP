@@ -1,4 +1,23 @@
 <?php include 'header.php'; ?>
+<?php
+// Inclure le fichier de connexion à la base de données
+include 'db.php';
+
+// Récupérer la connexion à la base de données
+$pdo = getDBConnection();
+
+// Définir l'ID du type de produit "Smartphone"
+$id_type_smartphone = 3; // Remplacez par l'ID correct de votre table `type_produits`
+
+// Requête SQL pour récupérer les smartphones
+$sql = "SELECT p.id_produits, p.nom, p.prix, p.description, p.images, m.nom_marque 
+        FROM produits p
+        JOIN marques m ON p.id_marques = m.id_marque
+        WHERE p.id_type_produits = :id_type_smartphone";
+$stmt = $pdo->prepare($sql);
+$stmt->execute([':id_type_smartphone' => $id_type_smartphone]);
+$smartphones = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="light">
 <head>
@@ -116,7 +135,7 @@
                 </a>
                 </div>
                 <div class="col-md-6 text-end">
-                    <img src="images/iPhone 15 Pro Max All Colors .png" alt="PC portables" class="img-fluid rounded" style="max-width: 40%; height: auto;">
+                    <img src="images/iPhone15-Pro-Max-All-Colors .png" alt="smartphones" class="img-fluid rounded" style="max-width: 40%; height: auto;">
                 </div>
             </div>
         </div>
@@ -156,6 +175,28 @@
         </div>
     </div>
     </div>
+        </div>
+    </div>
+
+    <!-- Section des smartphones -->
+    <div class="content-section-wrapper">
+        <div class="container content-section">
+            <h1>Nos smartphones</h1>
+            <div class="row">
+                <?php foreach ($smartphones as $smartphone) : ?>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img src="images/<?= htmlspecialchars($smartphone['images']) ?>" class="card-img-top" alt="<?= htmlspecialchars($smartphone['nom']) ?>">
+                            <div class="card-body">
+                                <h5 class="card-title"><?= htmlspecialchars($smartphone['nom']) ?></h5>
+                                <p class="card-text"><?= htmlspecialchars($smartphone['description']) ?></p>
+                                <p class="card-text"><strong>Prix :</strong> <?= number_format($smartphone['prix'], 2, ',', ' ') ?> €</p>
+                                <a href="#" class="btn btn-primary">Voir le produit</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         </div>
     </div>
 
