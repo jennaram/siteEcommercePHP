@@ -7,6 +7,55 @@ include 'db.php';
 // Récupérer la connexion à la base de données
 $pdo = getDBConnection();
 
+// Récupérer les paramètres de filtrage
+$brand = $_GET['brand'] ?? ''; // Marque sélectionnée
+$sort = $_GET['sort'] ?? '';   // Ordre de tri sélectionné
+$type = $_GET['type'] ?? '';   // Type de produit sélectionné
+
+// Construire la requête SQL de base
+$sql = "SELECT p.id_produits, p.nom, p.prix, p.description, p.images, m.nom_marque, t.nom AS type_produit
+        FROM produits p
+        JOIN marques m ON p.id_marques = m.id_marque
+        JOIN type_produits t ON p.id_type_produits = t.id_type_produits
+        WHERE 1=1"; // Condition toujours vraie pour faciliter l'ajout de filtres
+
+// Ajouter les filtres à la requête
+if (!empty($brand)) {
+    $sql .= " AND m.nom_marque = :brand";
+}
+if (!empty($type)) {
+    $sql .= " AND t.nom = :type";
+}
+
+// Ajouter l'ordre de tri
+switch ($sort) {
+    case 'price_asc':
+        $sql .= " ORDER BY p.prix ASC";
+        break;
+    case 'price_desc':
+        $sql .= " ORDER BY p.prix DESC";
+        break;
+    case 'best_sellers':
+        $sql .= " ORDER BY p.nombre_ventes DESC";
+        break;
+    default:
+        $sql .= " ORDER BY p.nom ASC"; // Tri par défaut
+}
+
+// Préparer et exécuter la requête
+$stmt = $pdo->prepare($sql);
+
+// Binder les paramètres de filtrage
+if (!empty($brand)) {
+    $stmt->bindValue(':brand', $brand, PDO::PARAM_STR);
+}
+if (!empty($type)) {
+    $stmt->bindValue(':type', $type, PDO::PARAM_STR);
+}
+
+$stmt->execute();
+$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 // Requête SQL pour récupérer les 3 meilleures ventes
 $sql = "SELECT p.id_produits, p.nom, p.prix, p.description, p.images, m.nom_marque 
         FROM produits p
@@ -147,25 +196,25 @@ $bestSellers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="col-md-3">
                     <select name="brand" class="form-select">
                         <option value="">Toutes les marques</option>
-                        <option value="Apple">Apple</option>
-                        <option value="Samsung">Samsung</option>
-                        <option value="Dell">Dell</option>
+                        <option value="Apple" <?= $brand === 'Apple' ? 'selected' : '' ?>>Apple</option>
+                        <option value="Samsung" <?= $brand === 'Samsung' ? 'selected' : '' ?>>Samsung</option>
+                        <option value="Dell" <?= $brand === 'Dell' ? 'selected' : '' ?>>Dell</option>
                         <!-- Ajoutez d'autres marques ici -->
                     </select>
                 </div>
                 <div class="col-md-3">
                     <select name="sort" class="form-select">
-                        <option value="price_asc">Prix croissant</option>
-                        <option value="price_desc">Prix décroissant</option>
-                        <option value="best_sellers">Meilleures ventes</option>
+                        <option value="price_asc" <?= $sort === 'price_asc' ? 'selected' : '' ?>>Prix croissant</option>
+                        <option value="price_desc" <?= $sort === 'price_desc' ? 'selected' : '' ?>>Prix décroissant</option>
+                        <option value="best_sellers" <?= $sort === 'best_sellers' ? 'selected' : '' ?>>Meilleures ventes</option>
                     </select>
                 </div>
                 <div class="col-md-3">
                     <select name="type" class="form-select">
                         <option value="">Tous les types</option>
-                        <option value="smartphone">Smartphones</option>
-                        <option value="laptop">Ordinateurs portables</option>
-                        <option value="tablet">Tablettes</option>
+                        <option value="Smartphone" <?= $type === 'Smartphone' ? 'selected' : '' ?>>Smartphones</option>
+                        <option value="Ordinateur Portable" <?= $type === 'Ordinateur Portable' ? 'selected' : '' ?>>Ordinateurs portables</option>
+                        <option value="Tablette" <?= $type === 'Tablette' ? 'selected' : '' ?>>Tablettes</option>
                     </select>
                 </div>
                 <div class="col-md-3">
@@ -174,6 +223,36 @@ $bestSellers = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </form>
     </div>
+
+  <!-- Section des produits filtrés -->
+  <div class="content-section-wrapper">
+        <div class="container content-section">
+            <h1>Résultats de la recherche</h1>
+            <div class="row">
+                <?php if (count($products) > 0) : ?>
+                    <?php foreach ($products as $product) : ?>
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                <img src="images/<?= htmlspecialchars($product['images']) ?>" class="card-img-top" alt="<?= htmlspecialchars($product['nom']) ?>">
+                                <div class="card-body">
+                                    <h5 class="card-title"><?= htmlspecialchars($product['nom']) ?></h5>
+                                    <p class="card-text"><?= htmlspecialchars($product['description']) ?></p>
+                                    <p class="card-text"><strong>Marque :</strong> <?= htmlspecialchars($product['nom_marque']) ?></p>
+                                    <p class="card-text"><strong>Type :</strong> <?= htmlspecialchars($product['type_produit']) ?></p>
+                                    <p class="card-text"><strong>Prix :</strong> <?= number_format($product['prix'], 2, ',', ' ') ?> €</p>
+                                    <a href="#" class="btn btn-primary">Voir le produit</a>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <div class="col-12">
+                        <p class="text-center">Aucun produit trouvé.</p>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>  
 
     <!-- Section des meilleures ventes -->
 <div class="content-section-wrapper">
