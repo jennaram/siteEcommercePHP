@@ -1,16 +1,35 @@
 <?php include 'header.php'; ?>
+<?php
+// Inclure le fichier de connexion à la base de données
+include 'db.php';
+
+// Récupérer la connexion à la base de données
+$pdo = getDBConnection();
+
+// Définir l'ID du type de produit "tablette"
+$id_type_tablette = 2; // Remplacez par l'ID correct de votre table `type_produits`
+
+// Requête SQL pour récupérer les tablettes
+$sql = "SELECT p.id_produits, p.nom, p.prix, p.description, p.images, m.nom_marque 
+        FROM produits p
+        JOIN marques m ON p.id_marques = m.id_marque
+        WHERE p.id_type_produits = :id_type_tablette";
+$stmt = $pdo->prepare($sql);
+$stmt->execute([':id_type_tablette' => $id_type_tablette]);
+$tablettes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tablettes</title>
+    <title>Nos Tablettes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <style>
         /* Styles de base */
         .promo-banner {
-            background-color: #C2D1A6;
+            background-color: #A6C8D1;
             color: black;
             transition: background-color 0.3s, color 0.3s;
         }
@@ -108,15 +127,15 @@
     <div class="promo-banner py-4">
         <div class="container">
             <div class="row align-items-center">
-            <div class="col-md-6 text-start">
-                <h1 class="fw-bold" style="font-size: 1.8rem; white-space: nowrap;">Découvrez nos tablettes !</h1>
-                <p class="lead" style="font-size: 1.1rem; white-space: nowrap;">Profitez de nos offres exclusives sur une large sélection de produits.</p>
-                <a href="promo.php" class="btn btn-lg" style="background-color: #FDD835; border-color: #FDD835; color: black;">
-                    Découvrir nos offres
-                </a>
+                <div class="col-md-6 text-start">
+                    <h1 class="fw-bold" style="font-size: 1.8rem; white-space: nowrap;">Nos dernières tablettes !</h1>
+                    <p class="lead" style="font-size: 1.1rem; white-space: nowrap;">Profitez de nos offres exclusives sur une large sélection de produits.</p>
+                    <a href="promo.php" class="btn btn-lg" style="background-color: #FDD835; border-color: #FDD835; color: black;">
+                        Découvrir nos offres
+                    </a>
                 </div>
                 <div class="col-md-6 text-end">
-                    <img src="images/TabletteLenovoIdeapad.png" alt="PC portables" class="img-fluid rounded" style="max-width: 55%; height: auto;">
+                    <img src="images/promo-tablette.png" alt="promotions tablettes" class="img-fluid rounded" style="max-width: 40%; height: auto;">
                 </div>
             </div>
         </div>
@@ -125,35 +144,55 @@
     <!-- Paragraphe supplémentaire -->
     <div class="content-section-wrapper">
         <div class="container content-section">
-            <h1>Nos tablettes iPad et Android</h1>
+            <h1>Nos tablettes</h1>
             <!-- Filtres de recherche -->
-     <div class="container mt-4">
-        <form method="GET" action="index.php">
-            <div class="row">
-                <div class="col-md-3">
-                    <select name="brand" class="form-select">
-                        <option value="">Toutes les marques</option>
-                        <option value="Apple">Apple</option>
-                        <option value="Samsung">Samsung</option>
-                        <option value="Dell">Dell</option>
-                        <!-- Ajoutez d'autres marques ici -->
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <select name="sort" class="form-select">
-                        <option value="price_asc">Prix croissant</option>
-                        <option value="price_desc">Prix décroissant</option>
-                        <option value="best_sellers">Meilleures ventes</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <button type="submit" class="btn btn-primary w-100">Filtrer</button>
-                </div>
+            <div class="container mt-4">
+                <form method="GET" action="index.php">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <select name="brand" class="form-select">
+                                <option value="">Toutes les marques</option>
+                                <option value="Apple">Apple</option>
+                                <option value="Samsung">Samsung</option>
+                                <option value="Dell">Dell</option>
+                                <!-- Ajoutez d'autres marques ici -->
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select name="sort" class="form-select">
+                                <option value="price_asc">Prix croissant</option>
+                                <option value="price_desc">Prix décroissant</option>
+                                <option value="best_sellers">Meilleures ventes</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-primary w-100">Filtrer</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
         </div>
     </div>
-    </div>
+
+    <!-- Section des tablettes -->
+    <div class="content-section-wrapper">
+        <div class="container content-section">
+            <h1>Nos tablettes</h1>
+            <div class="row">
+                <?php foreach ($tablettes as $tablette) : ?>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img src="images/<?= htmlspecialchars($tablette['images']) ?>" class="card-img-top" alt="<?= htmlspecialchars($tablette['nom']) ?>">
+                            <div class="card-body">
+                                <h5 class="card-title"><?= htmlspecialchars($tablette['nom']) ?></h5>
+                                <p class="card-text"><?= htmlspecialchars($tablette['description']) ?></p>
+                                <p class="card-text"><strong>Prix :</strong> <?= number_format($tablette['prix'], 2, ',', ' ') ?> €</p>
+                                <a href="#" class="btn btn-primary">Voir le produit</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         </div>
     </div>
 
