@@ -1,4 +1,21 @@
 <?php include 'header.php'; ?>
+<?php
+// Inclure le fichier de connexion à la base de données
+include 'db.php';
+
+// Récupérer la connexion à la base de données
+$pdo = getDBConnection();
+
+// Requête SQL pour récupérer les produits en promotion
+$sql = "SELECT p.id_produits, p.nom, p.prix, p.description, p.images, p.promos, m.nom_marque 
+        FROM produits p
+        JOIN marques m ON p.id_marques = m.id_marque
+        WHERE p.promos > 0
+        LIMIT 4";
+$stmt = $pdo->query($sql);
+$promoProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="light">
 <head>
@@ -164,6 +181,48 @@
 
         </div>
     </div>
+
+    <!-- Section des produits en promotion -->
+<div class="content-section-wrapper mt-4">
+    <div class="container">
+        <div class="row">
+            <?php foreach ($promoProducts as $product) : ?>
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 position-relative">
+                        <!-- Badge promotion -->
+                        <div class="position-absolute top-0 start-0 m-2">
+                            <span class="badge bg-danger">
+                                -<?= htmlspecialchars($product['promos']) ?>%
+                            </span>
+                        </div>
+                        
+                        <img src="images/<?= htmlspecialchars($product['images']) ?>" class="card-img-top" alt="<?= htmlspecialchars($product['nom']) ?>">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= htmlspecialchars($product['nom']) ?></h5>
+                            <p class="card-text"><?= htmlspecialchars($product['description']) ?></p>
+                            <p class="card-text"><strong>Marque :</strong> <?= htmlspecialchars($product['nom_marque']) ?></p>
+                            
+                            <!-- Prix avec promotion -->
+                            <div class="d-flex align-items-center gap-2">
+                                <p class="card-text mb-0">
+                                    <strong>Prix :</strong> 
+                                    <span class="text-decoration-line-through text-muted">
+                                        <?= number_format($product['prix'], 2, ',', ' ') ?> €
+                                    </span>
+                                    <span class="text-danger fw-bold">
+                                        <?= number_format($product['prix'] * (1 - $product['promos']/100), 2, ',', ' ') ?> €
+                                    </span>
+                                </p>
+                            </div>
+                            
+                            <a href="#" class="btn btn-primary mt-3">Voir le produit</a>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
