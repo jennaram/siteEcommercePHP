@@ -6,24 +6,24 @@ include 'db.php';
 // Récupérer la connexion à la base de données
 $pdo = getDBConnection();
 
-// Définir l'ID du type de produit "Smartphone"
-$id_type_smartphone = 1; // Remplacez par l'ID correct de votre table `type_produits`
+// Définir l'ID du type de produit "Ordinateur"
+$id_type_ordinateur = 1; // ID correct de votre table `type_produits` pour les ordinateurs
 
-// Requête SQL pour récupérer les smartphones
+// Requête SQL pour récupérer les ordinateurs
 $sql = "SELECT p.id_produits, p.nom, p.prix, p.description, p.images, m.nom_marque 
         FROM produits p
         JOIN marques m ON p.id_marques = m.id_marque
-        WHERE p.id_type_produits = :id_type_smartphone";
+        WHERE p.id_type_produits = :id_type_ordinateur";
 $stmt = $pdo->prepare($sql);
-$stmt->execute([':id_type_smartphone' => $id_type_smartphone]);
-$smartphones = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$stmt->execute([':id_type_ordinateur' => $id_type_ordinateur]);
+$ordinateurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smartphones</title>
+    <title>Nos Ordinateurs</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <style>
@@ -127,12 +127,12 @@ $smartphones = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="promo-banner py-4">
         <div class="container">
             <div class="row align-items-center">
-            <div class="col-md-6 text-start">
-                <h1 class="fw-bold" style="font-size: 1.8rem; white-space: nowrap;">Nos derniers ordinateurs portables !</h1>
-                <p class="lead" style="font-size: 1.1rem; white-space: nowrap;">Profitez de nos offres exclusives sur une large sélection de produits.</p>
-                <a href="promo.php" class="btn btn-lg" style="background-color: #FDD835; border-color: #FDD835; color: black;">
-                    Découvrir nos offres
-                </a>
+                <div class="col-md-6 text-start">
+                    <h1 class="fw-bold" style="font-size: 1.8rem; white-space: nowrap;">Nos derniers ordinateurs portables !</h1>
+                    <p class="lead" style="font-size: 1.1rem; white-space: nowrap;">Profitez de nos offres exclusives sur une large sélection de produits.</p>
+                    <a href="promo.php" class="btn btn-lg" style="background-color: #FDD835; border-color: #FDD835; color: black;">
+                        Découvrir nos offres
+                    </a>
                 </div>
                 <div class="col-md-6 text-end">
                     <img src="images/promo-ordinateurs.png" alt="promotions ordinateurs" class="img-fluid rounded" style="max-width: 40%; height: auto;">
@@ -141,56 +141,52 @@ $smartphones = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 
-     
-
     <!-- Paragraphe supplémentaire -->
     <div class="content-section-wrapper">
         <div class="container content-section">
-            <h1>Nos tablettes iPad et Android</h1>
+            <h1>Nos ordinateurs portables</h1>
             <!-- Filtres de recherche -->
-     <div class="container mt-4">
-        <form method="GET" action="index.php">
-            <div class="row">
-                <div class="col-md-3">
-                    <select name="brand" class="form-select">
-                        <option value="">Toutes les marques</option>
-                        <option value="Apple">Apple</option>
-                        <option value="Samsung">Samsung</option>
-                        <option value="Dell">Dell</option>
-                        <!-- Ajoutez d'autres marques ici -->
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <select name="sort" class="form-select">
-                        <option value="price_asc">Prix croissant</option>
-                        <option value="price_desc">Prix décroissant</option>
-                        <option value="best_sellers">Meilleures ventes</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <button type="submit" class="btn btn-primary w-100">Filtrer</button>
-                </div>
+            <div class="container mt-4">
+                <form method="GET" action="index.php">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <select name="brand" class="form-select">
+                                <option value="">Toutes les marques</option>
+                                <option value="Apple">Apple</option>
+                                <option value="HP">HP</option>
+                                <option value="Dell">Dell</option>
+                                <!-- Ajoutez d'autres marques ici -->
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select name="sort" class="form-select">
+                                <option value="price_asc">Prix croissant</option>
+                                <option value="price_desc">Prix décroissant</option>
+                                <option value="best_sellers">Meilleures ventes</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-primary w-100">Filtrer</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
-        </div>
-    </div>
-    </div>
         </div>
     </div>
 
-    <!-- Section des smartphones -->
+    <!-- Section des ordinateurs -->
     <div class="content-section-wrapper">
         <div class="container content-section">
-            <h1>Nos smartphones</h1>
+            <h1>Nos ordinateurs</h1>
             <div class="row">
-                <?php foreach ($smartphones as $smartphone) : ?>
+                <?php foreach ($ordinateurs as $ordinateur) : ?>
                     <div class="col-md-4 mb-4">
                         <div class="card h-100">
-                            <img src="images/<?= htmlspecialchars($smartphone['images']) ?>" class="card-img-top" alt="<?= htmlspecialchars($smartphone['nom']) ?>">
+                            <img src="images/<?= htmlspecialchars($ordinateur['images']) ?>" class="card-img-top" alt="<?= htmlspecialchars($ordinateur['nom']) ?>">
                             <div class="card-body">
-                                <h5 class="card-title"><?= htmlspecialchars($smartphone['nom']) ?></h5>
-                                <p class="card-text"><?= htmlspecialchars($smartphone['description']) ?></p>
-                                <p class="card-text"><strong>Prix :</strong> <?= number_format($smartphone['prix'], 2, ',', ' ') ?> €</p>
+                                <h5 class="card-title"><?= htmlspecialchars($ordinateur['nom']) ?></h5>
+                                <p class="card-text"><?= htmlspecialchars($ordinateur['description']) ?></p>
+                                <p class="card-text"><strong>Prix :</strong> <?= number_format($ordinateur['prix'], 2, ',', ' ') ?> €</p>
                                 <a href="#" class="btn btn-primary">Voir le produit</a>
                             </div>
                         </div>
