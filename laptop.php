@@ -1,4 +1,26 @@
 <?php include 'header.php'; ?>
+
+<?php
+// Inclure le fichier de connexion à la base de données
+require_once 'db.php';
+
+// Établir la connexion à la base de données
+$db = getDBConnection();
+
+// Exemple de requête pour obtenir des produits
+$query = "SELECT * FROM produits";
+$stmt = $db->prepare($query);
+$stmt->execute();
+
+// Récupérer tous les produits
+$produits = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Afficher les produits
+foreach ($produits as $produit) {
+    echo $produit['nom'] . " - " . $produit['prix'] . "<br>";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="light">
 <head>

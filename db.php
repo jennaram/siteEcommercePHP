@@ -1,13 +1,24 @@
 <?php
-$host = 'localhost'; // Serveur MySQL
-$dbname = 'techpulse2'; // Nom de la base de données
-$username = 'root'; // Utilisateur MySQL (par défaut sous XAMPP)
-$password = ''; // Mot de passe (vide par défaut sous XAMPP)
+// Définir les constantes de connexion à la base de données
+define('DB_HOST', 'localhost');   // Hôte de la base de données (souvent localhost)
+define('DB_USER', 'root');        // Nom d'utilisateur de la base de données
+define('DB_PASSWORD', '');        // Mot de passe de la base de données
+define('DB_NAME', 'techpulse2'); // Nom de la base de données
 
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Erreur de connexion : " . $e->getMessage());
+// Créer une fonction pour établir la connexion à la base de données
+function getDBConnection() {
+    try {
+        // Créer une instance de PDO (PHP Data Objects) pour la connexion à la base de données
+        $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8', DB_USER, DB_PASSWORD);
+
+        // Définir le mode d'erreur de PDO pour lancer des exceptions en cas d'erreur
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        
+        // Retourner l'objet PDO
+        return $pdo;
+    } catch (PDOException $e) {
+        // Si une exception est lancée (erreur de connexion), afficher un message d'erreur
+        die("Erreur de connexion à la base de données : " . $e->getMessage());
+    }
 }
 ?>
