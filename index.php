@@ -1,4 +1,22 @@
 <?php include 'header.php'; ?>
+
+<?php
+// Inclure le fichier de connexion à la base de données
+include 'db.php';
+
+// Récupérer la connexion à la base de données
+$pdo = getDBConnection();
+
+// Requête SQL pour récupérer les 3 meilleures ventes
+$sql = "SELECT p.id_produits, p.nom, p.prix, p.description, p.images, m.nom_marque 
+        FROM produits p
+        JOIN marques m ON p.id_marques = m.id_marque
+        ORDER BY p.nombre_ventes DESC
+        LIMIT 3";
+$stmt = $pdo->query($sql);
+$bestSellers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="light">
 <head>
@@ -157,6 +175,34 @@
         </form>
     </div>
 
+    <!-- Section des meilleures ventes -->
+<div class="content-section-wrapper">
+    <div class="container content-section">
+        <h1>Nos meilleures ventes</h1>
+        <div class="row">
+            <?php foreach ($bestSellers as $product) : ?>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 position-relative">
+                        <!-- Badge Top ventes -->
+                        <div class="position-absolute top-0 start-0 m-2">
+                            <span class="badge bg-danger">
+                                <i class="bi bi-award"></i> Top ventes
+                            </span>
+                        </div>
+                        <img src="images/<?= htmlspecialchars($product['images']) ?>" class="card-img-top" alt="<?= htmlspecialchars($product['nom']) ?>">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= htmlspecialchars($product['nom']) ?></h5>
+                            <p class="card-text"><?= htmlspecialchars($product['description']) ?></p>
+                            <p class="card-text"><strong>Marque :</strong> <?= htmlspecialchars($product['nom_marque']) ?></p>
+                            <p class="card-text"><strong>Prix :</strong> <?= number_format($product['prix'], 2, ',', ' ') ?> €</p>
+                            <a href="#" class="btn btn-primary">Voir le produit</a>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>
     
 
 
