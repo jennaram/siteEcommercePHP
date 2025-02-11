@@ -1,8 +1,5 @@
-<?php 
-include 'header.php';
-require_once 'includes/db.php'; // Connexion à la base de données
-session_start(); // Démarrer la session pour récupérer l'id de l'utilisateur connecté 
-?>
+<?php include 'header.php';?>
+ 
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="light">
 <head>
