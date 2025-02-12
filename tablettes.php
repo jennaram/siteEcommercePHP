@@ -202,10 +202,10 @@ $tablettes = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- Section des tablettes -->
 
     <div class="content-section-wrapper">
-        <div class="container content-section">
-            <h1>Nos tablettes</h1>
-            <div class="row">
-               <?php if (!empty($tablettes)) : ?>
+    <div class="container content-section">
+        <h1>Nos tablettes</h1>
+        <div class="row">
+            <?php if (!empty($tablettes)) : ?>
                 <?php foreach ($tablettes as $tablette) : ?>
                     <div class="col-md-4 mb-4">
                         <div class="card h-100">
@@ -218,18 +218,18 @@ $tablettes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <a href="produit.php?id=<?= htmlspecialchars($tablette['id_produits']) ?>" class="btn btn-primary">Voir le produit</a>
                                 <!-- Nouveau bouton "Ajouter au panier" -->
                                 <a href="ajouter_panier.php?id=<?= htmlspecialchars($tablette['id_produits']) ?>" class="btn btn-success mt-2">Ajouter au panier</a>
-
                             </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else : ?>
-                    <div class="col-12">
-                        <p class="text-center"><?= $noProductsMessage ?? 'Aucune tablette trouvée.' ?></p>
-                    </div>
-                <?php endif; ?>
-            </div>
-        </div>
-    </div>
+                        </div> <!-- Fermeture de la div card -->
+                    </div> <!-- Fermeture de la div col-md-4 -->
+                <?php endforeach; ?>
+            <?php else : ?>
+                <div class="col-12">
+                    <p class="text-center"><?= $noProductsMessage ?? 'Aucune tablette trouvée.' ?></p>
+                </div>
+            <?php endif; ?>
+        </div> <!-- Fermeture de la div row -->
+    </div> <!-- Fermeture de la div container content-section -->
+</div> <!-- Fermeture de la div content-section-wrapper -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
