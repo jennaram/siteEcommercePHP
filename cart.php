@@ -38,14 +38,20 @@ if (!$id_utilisateur) {
     if (isset($_GET['supprimer'])) {
         $id_produit = $_GET['supprimer'];
         
-        // Vérifier si la quantité est supérieure à 1
-        if ($_SESSION['panier'][$id_produit]['quantite'] > 1) {
-            $_SESSION['panier'][$id_produit]['quantite']--; // Diminuer la quantité de 1
-        } else {
-            unset($_SESSION['panier'][$id_produit]); // Supprimer le produit totalement
-        }
-
+        unset($_SESSION['panier'][$id_produit]); // Supprimer le produit totalement
         $_SESSION['panier'] = array_values($_SESSION['panier']); // Réindexer l'array
+    }
+
+    // Gestion de la modification de la quantité
+    if (isset($_POST['modifier_quantite']) && isset($_POST['quantite'])) {
+        $id_produit = $_POST['modifier_quantite'];
+        $quantite = $_POST['quantite'];
+
+        // Si le produit existe dans le panier
+        if (isset($_SESSION['panier'][$id_produit])) {
+            // Mettre à jour la quantité
+            $_SESSION['panier'][$id_produit]['quantite'] = $quantite;
+        }
     }
 }
 
@@ -63,6 +69,7 @@ if ($id_utilisateur) {
     $panier = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 ?>
+
 <?php include 'header.php'; ?>
 
 <!DOCTYPE html>
@@ -95,9 +102,18 @@ if ($id_utilisateur) {
                                         <h5 class="card-title"><?= htmlspecialchars($produit['nom']) ?></h5>
                                         <p class="card-text"><?= htmlspecialchars($produit['description']) ?></p>
                                         <p class="h4 mb-0"><?= number_format($produit['prix'], 2, ',', ' ') ?> €</p>
+                                        
+                                        <form method="POST" action="cart.php" class="d-flex align-items-center">
+                                            <!-- Champ quantité -->
+                                            <input type="number" name="quantite" value="<?= $produit['quantite'] ?>" min="1" class="form-control w-25 me-2">
+                                            <button type="submit" class="btn btn-primary" name="modifier_quantite" value="<?= $id_produit ?>">Modifier</button>
+                                        </form>
+
                                         <small class="text-muted">Quantité: <?= $produit['quantite'] ?></small>
+                                        
+                                        <!-- Bouton Supprimer -->
                                         <div class="d-flex justify-content-between mt-3">
-                                            <button class="btn btn-outline-danger delete-product" data-id="<?= $id_produit ?>">Supprimer</button>
+                                            <a href="cart.php?supprimer=<?= $id_produit ?>" class="btn btn-outline-danger">Supprimer</a>
                                         </div>
                                     </div>
                                 </div>
