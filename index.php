@@ -188,6 +188,34 @@ $bestSellers = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
     </div>
+     <!-- Section des meilleures ventes -->
+<div class="content-section-wrapper">
+    <div class="container content-section">
+        <h1>Nos meilleures ventes</h1>
+        <div class="row">
+            <?php foreach ($bestSellers as $product) : ?>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 position-relative">
+                        <!-- Badge Top ventes -->
+                        <div class="position-absolute top-0 start-0 m-2">
+                            <span class="badge bg-danger">
+                                <i class="bi bi-award"></i> Top ventes
+                            </span>
+                        </div>
+                        <img src="images/<?= htmlspecialchars($product['images']) ?>" class="card-img-top" alt="<?= htmlspecialchars($product['nom']) ?>">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= htmlspecialchars($product['nom']) ?></h5>
+                            <p class="card-text"><?= htmlspecialchars($product['description']) ?></p>
+                            <p class="card-text"><strong>Marque :</strong> <?= htmlspecialchars($product['nom_marque']) ?></p>
+                            <p class="card-text"><strong>Prix :</strong> <?= number_format($product['prix'], 2, ',', ' ') ?> €</p>
+                            <a href="produit.php?id=<?= htmlspecialchars($product['id_produits']) ?>" class="btn btn-primary">Voir le produit</a>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>
 
     <!-- Filtres de recherche -->
     <div class="container mt-4">
@@ -240,7 +268,7 @@ $bestSellers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <p class="card-text"><strong>Marque :</strong> <?= htmlspecialchars($product['nom_marque']) ?></p>
                                     <p class="card-text"><strong>Type :</strong> <?= htmlspecialchars($product['type_produit']) ?></p>
                                     <p class="card-text"><strong>Prix :</strong> <?= number_format($product['prix'], 2, ',', ' ') ?> €</p>
-                                    <a href="#" class="btn btn-primary">Voir le produit</a>
+                                    <a href="produit.php?id=<?= htmlspecialchars($product['id_produits']) ?>" class="btn btn-primary">Voir le produit</a>
                                 </div>
                             </div>
                         </div>
@@ -254,34 +282,7 @@ $bestSellers = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>  
 
-    <!-- Section des meilleures ventes -->
-<div class="content-section-wrapper">
-    <div class="container content-section">
-        <h1>Nos meilleures ventes</h1>
-        <div class="row">
-            <?php foreach ($bestSellers as $product) : ?>
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100 position-relative">
-                        <!-- Badge Top ventes -->
-                        <div class="position-absolute top-0 start-0 m-2">
-                            <span class="badge bg-danger">
-                                <i class="bi bi-award"></i> Top ventes
-                            </span>
-                        </div>
-                        <img src="images/<?= htmlspecialchars($product['images']) ?>" class="card-img-top" alt="<?= htmlspecialchars($product['nom']) ?>">
-                        <div class="card-body">
-                            <h5 class="card-title"><?= htmlspecialchars($product['nom']) ?></h5>
-                            <p class="card-text"><?= htmlspecialchars($product['description']) ?></p>
-                            <p class="card-text"><strong>Marque :</strong> <?= htmlspecialchars($product['nom_marque']) ?></p>
-                            <p class="card-text"><strong>Prix :</strong> <?= number_format($product['prix'], 2, ',', ' ') ?> €</p>
-                            <a href="#" class="btn btn-primary">Voir le produit</a>
-                        </div>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</div>
+   
     
 
 
