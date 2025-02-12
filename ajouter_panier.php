@@ -7,7 +7,29 @@ include 'db.php';
 // Récupérer la connexion à la base de données
 $pdo = getDBConnection();
 
-// Vérifier si l'ID du produit est passé dans l'URL
+// Si l'action est "supprimer", procéder à la suppression
+if (isset($_GET['action']) && $_GET['action'] == 'supprimer' && isset($_GET['idProduit'])) {
+    $productIdToDelete = $_GET['idProduit'];
+
+    // Vérifier si le panier existe dans la session
+    if (isset($_SESSION['panier'])) {
+        // Parcourir le panier pour trouver le produit à supprimer
+        foreach ($_SESSION['panier'] as $key => $item) {
+            if ($item['id'] == $productIdToDelete) {
+                // Supprimer l'élément du panier
+                unset($_SESSION['panier'][$key]);
+                $_SESSION['panier'] = array_values($_SESSION['panier']); // Réindexer l'array
+                break;
+            }
+        }
+    }
+
+    // Rediriger vers la page du panier
+    header('Location: cart.php');
+    exit();
+}
+
+// Vérifier si l'ID du produit est passé dans l'URL pour l'ajouter au panier
 if (isset($_GET['id'])) {
     $productId = $_GET['id'];
 
