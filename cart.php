@@ -67,6 +67,28 @@ if ($id_utilisateur) {
 
     // Récupérer les produits du panier
     $panier = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Suppression d'un produit pour un utilisateur connecté
+    if (isset($_GET['supprimer'])) {
+        $id_produit = $_GET['supprimer'];
+
+        // Requête pour supprimer le produit du panier en base de données
+        $sql = "DELETE FROM details_panier WHERE id_users = :id_utilisateur AND id_produits = :id_produit";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':id_utilisateur' => $id_utilisateur,
+            ':id_produit' => $id_produit
+        ]);
+
+        // Mettre à jour le panier en session
+        $sql = "SELECT p.id_produits, p.nom, p.prix, dp.quantite, p.description, p.images
+                FROM details_panier dp
+                JOIN produits p ON dp.id_produits = p.id_produits
+                WHERE dp.id_users = :id_utilisateur";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':id_utilisateur' => $id_utilisateur]);
+        $panier = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>
 
@@ -147,7 +169,8 @@ if ($id_utilisateur) {
                             <span>Gratuit</span>
                         </div>
                         <?php if (!$id_utilisateur): ?>
-                            <a href="connexion.php" class="btn btn-success w-100 mb-3">Se connecter ou s'inscrire</a>
+                            <!-- Lien vers la page de connexion / inscription -->
+                            <a href="user.php?rediriger=panier" class="btn btn-success w-100 mb-3">Se connecter ou s'inscrire</a>
                         <?php else: ?>
                             <button class="btn btn-success w-100 mb-3">Passer à la commande</button>
                         <?php endif; ?>
@@ -166,36 +189,6 @@ if ($id_utilisateur) {
     <?php include 'footer.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
-    <!-- Script pour supprimer le produit -->
-    <script>
-        $(document).ready(function() {
-            // Lorsque le bouton "Supprimer" est cliqué
-            $(".delete-product").click(function() {
-                var productId = $(this).data("id");  // Récupérer l'ID du produit à supprimer
-
-                // Envoyer la requête AJAX pour supprimer le produit
-                $.ajax({
-                    url: "cart.php",  // La page à laquelle envoyer la requête
-                    type: "GET",      // Type de requête HTTP (GET)
-                    data: {
-                        supprimer: productId  // Paramètre à envoyer : l'ID du produit à supprimer
-                    },
-                    success: function(response) {
-                        // Si la suppression est réussie, recharger le panier mis à jour
-                        location.reload();  // Recharger la page pour afficher la version mise à jour du panier
-                    },
-                    error: function(xhr, status, error) {
-                        // Si erreur, afficher un message
-                        alert("Une erreur est survenue. Veuillez réessayer.");
-                    }
-                });
-            });
-        });
-    </script>
 
 </body>
 </html>
