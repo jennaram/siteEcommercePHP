@@ -1,4 +1,5 @@
 <?php
+session_start(); // Démarrez la session au début du fichier
 include 'db.php';
 
 // Vérifier si l'ID est présent dans l'URL
@@ -34,6 +35,27 @@ if (!$produit) {
 $prixFinal = ($showPromo && $produit['promos'] > 0)
     ? $produit['prix'] * (1 - $produit['promos']/100)
     : $produit['prix'];
+
+// Récupérer les commentaires associés au produit
+$stmt = $pdo->prepare("
+    SELECT c.*, u.nom, u.prenom 
+    FROM commentaires c
+    JOIN users u ON c.id_users = u.id_users
+    WHERE c.id_produits = :id_produit
+    ORDER BY c.date_creation DESC
+");
+$stmt->execute([':id_produit' => $id]); // Utiliser $id au lieu de $id_produit
+$commentaires = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Vérifier si l'utilisateur est connecté
+$utilisateur_connecte = isset($_SESSION['id_users']);
+
+// Si l'utilisateur essaie de soumettre un commentaire sans être connecté
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$utilisateur_connecte) {
+    // Rediriger vers la page de connexion avec un paramètre pour revenir à cette page
+    header("Location: user.php?redirect=produit.php?id=" . $id);
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -116,6 +138,58 @@ $prixFinal = ($showPromo && $produit['promos'] > 0)
             </div>
         </div>
     </div>
+
+    <!-- Section des commentaires -->
+    <div class="mt-5">
+        <h3>Commentaires des utilisateurs</h3>
+        <?php if (empty($commentaires)) : ?>
+            <p>Aucun commentaire pour ce produit.</p>
+        <?php else : ?>
+            <?php foreach ($commentaires as $commentaire) : ?>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <?= htmlspecialchars($commentaire['prenom'] . ' ' . $commentaire['nom']) ?>
+                            <small class="text-muted">
+                                (Noté : <?= htmlspecialchars($commentaire['notation']) ?>/5)
+                            </small>
+                        </h5>
+                        <p class="card-text"><?= htmlspecialchars($commentaire['messages']) ?></p>
+                        <p class="text-muted">
+                            <small>
+                                Posté le <?= date('d/m/Y à H:i', strtotime($commentaire['date_creation'])) ?>
+                            </small>
+                        </p>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+
+    <!-- Formulaire de commentaire -->
+    <?php if ($utilisateur_connecte) : ?>
+        <div class="container mt-5">
+            <h3>Laisser un commentaire</h3>
+            <form method="POST" action="ajouter_commentaire.php">
+                <input type="hidden" name="id_produit" value="<?= $id ?>">
+                <div class="mb-3">
+                    <label for="notation" class="form-label">Note (sur 5)</label>
+                    <input type="number" name="notation" class="form-control" min="1" max="5" required>
+                </div>
+                <div class="mb-3">
+                    <label for="message" class="form-label">Votre commentaire</label>
+                    <textarea name="message" class="form-control" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+            </form>
+        </div>
+    <?php else : ?>
+        <div class="container mt-5">
+            <div class="alert alert-info">
+                Vous devez <a href="user.php?redirect=produit.php?id=<?= $id ?>">vous connecter</a> pour laisser un commentaire.
+            </div>
+        </div>
+    <?php endif; ?>
 
     <?php include 'footer.php'; ?>
 
