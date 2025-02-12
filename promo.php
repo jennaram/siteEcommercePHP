@@ -215,7 +215,7 @@ $promoProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 </p>
                             </div>
                             
-                            <a href="#" class="btn btn-primary mt-3">Voir le produit</a>
+                            <a href="produit.php?id=<?= htmlspecialchars($product['id_produits']) ?>&promo=1" class="btn btn-primary mt-3">Voir le produit</a>
                         </div>
                     </div>
                 </div>

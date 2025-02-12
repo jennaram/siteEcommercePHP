@@ -187,7 +187,7 @@ $ordinateurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <h5 class="card-title"><?= htmlspecialchars($ordinateur['nom']) ?></h5>
                                 <p class="card-text"><?= htmlspecialchars($ordinateur['description']) ?></p>
                                 <p class="card-text"><strong>Prix :</strong> <?= number_format($ordinateur['prix'], 2, ',', ' ') ?> €</p>
-                                <a href="#" class="btn btn-primary">Voir le produit</a>
+                                <a href="produit.php?id=<?= htmlspecialchars($ordinateur['id_produits']) ?>" class="btn btn-primary">Voir le produit</a>
                             </div>
                         </div>
                     </div>
