@@ -227,6 +227,13 @@ $bestSellers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <option value="Apple" <?= $brand === 'Apple' ? 'selected' : '' ?>>Apple</option>
                         <option value="Samsung" <?= $brand === 'Samsung' ? 'selected' : '' ?>>Samsung</option>
                         <option value="Dell" <?= $brand === 'Dell' ? 'selected' : '' ?>>Dell</option>
+                        <option value="Dell" <?= $brand === 'Dell' ? 'selected' : '' ?>>Xiaomi</option>
+                        <option value="Dell" <?= $brand === 'Dell' ? 'selected' : '' ?>>Asus</option>
+                        <option value="Dell" <?= $brand === 'Dell' ? 'selected' : '' ?>>HP</option>
+                        <option value="Dell" <?= $brand === 'Dell' ? 'selected' : '' ?>>Lenovo</option>
+                        <option value="Dell" <?= $brand === 'Dell' ? 'selected' : '' ?>>Microsoft</option>
+                        <option value="Dell" <?= $brand === 'Dell' ? 'selected' : '' ?>>Huawei</option>
+                        <option value="Dell" <?= $brand === 'Dell' ? 'selected' : '' ?>>Sony</option>
                         <!-- Ajoutez d'autres marques ici -->
                     </select>
                 </div>
@@ -241,13 +248,17 @@ $bestSellers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <select name="type" class="form-select">
                         <option value="">Tous les types</option>
                         <option value="Smartphone" <?= $type === 'Smartphone' ? 'selected' : '' ?>>Smartphones</option>
-                        <option value="Ordinateur Portable" <?= $type === 'Ordinateur Portable' ? 'selected' : '' ?>>Ordinateurs portables</option>
+                        <option value="Ordinateur" <?= $type === 'Ordinateur' ? 'selected' : '' ?>>Ordinateurs</option>
                         <option value="Tablette" <?= $type === 'Tablette' ? 'selected' : '' ?>>Tablettes</option>
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <button type="submit" class="btn btn-primary w-100">Filtrer</button>
-                </div>
+    <button type="submit" class="btn btn-primary w-100">Filtrer</button>
+</div>
+<div class="col-md-3">
+    <button type="button" id="resetFilters" class="btn btn-secondary w-100">Réinitialiser</button>
+</div>
+
             </div>
         </form>
     </div>
@@ -314,6 +325,12 @@ $bestSellers = $stmt->fetchAll(PDO::FETCH_ASSOC);
             });
         });
     </script>
+    <script>
+    document.getElementById('resetFilters').addEventListener('click', function () {
+        window.location.href = window.location.pathname;
+    });
+</script>
+
 </body>
 
 </html>

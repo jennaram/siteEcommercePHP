@@ -6,19 +6,52 @@ include 'db.php';
 // Récupérer la connexion à la base de données
 $pdo = getDBConnection();
 
-// Définir l'ID du type de produit "Smartphone"
-$id_type_smartphone = 3; // Remplacez par l'ID correct de votre table `type_produits`
+// Récupérer les filtres depuis l'URL
+$brand = $_GET['brand'] ?? '';
+$sort = $_GET['sort'] ?? '';
 
-// Requête SQL pour récupérer les smartphones
+// Requête SQL de base pour récupérer les smartphones
 $sql = "SELECT p.id_produits, p.nom, p.prix, p.description, p.images, m.nom_marque 
         FROM produits p
         JOIN marques m ON p.id_marques = m.id_marque
-        WHERE p.id_type_produits = :id_type_smartphone";
-$stmt = $pdo->prepare($sql);
-$stmt->execute([':id_type_smartphone' => $id_type_smartphone]);
-$smartphones = $stmt->fetchAll(PDO::FETCH_ASSOC);
-?>
+        WHERE p.id_type_produits = 2"; // 2 est l'ID pour "Smartphone"
 
+// Ajouter les filtres à la requête SQL
+if (!empty($brand)) {
+    $sql .= " AND m.nom_marque = :brand";
+}
+
+// Ajouter le tri à la requête SQL
+switch ($sort) {
+    case 'price_asc':
+        $sql .= " ORDER BY p.prix ASC";
+        break;
+    case 'price_desc':
+        $sql .= " ORDER BY p.prix DESC";
+        break;
+    case 'best_sellers':
+        $sql .= " ORDER BY p.nombre_ventes DESC";
+        break;
+    default:
+        // Pas de tri par défaut, on pourrait trier par nom: $sql .= " ORDER BY p.nom ASC";
+        break;
+}
+
+// Préparer et exécuter la requête SQL
+$stmt = $pdo->prepare($sql);
+
+if (!empty($brand)) {
+    $stmt->bindValue(':brand', $brand);
+}
+
+$stmt->execute();
+$smartphones = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Si aucun produit n'est trouvé, afficher un message
+if (empty($smartphones)) {
+    $noProductsMessage = "Aucun smartphone trouvé pour cette sélection.";
+}
+?>
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="light">
 <head>
@@ -145,18 +178,21 @@ $smartphones = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- Paragraphe supplémentaire -->
     <div class="content-section-wrapper">
         <div class="container content-section">
-            <h1>Nos tablettes iPad et Android</h1>
+            <h1>Nos smartphones</h1>
+            
             <!-- Filtres de recherche -->
             <div class="container mt-4">
-                <form method="GET" action="index.php">
+                <form method="GET" action="smartphones.php">
                     <div class="row">
                         <div class="col-md-3">
                             <select name="brand" class="form-select">
                                 <option value="">Toutes les marques</option>
-                                <option value="Apple">Apple</option>
-                                <option value="Samsung">Samsung</option>
-                                <option value="Dell">Dell</option>
-                                <!-- Ajoutez d'autres marques ici -->
+                                <option value="Apple" <?= $brand === 'Apple' ? 'selected' : '' ?>>Apple</option>
+                                <option value="Samsung" <?= $brand === 'Samsung' ? 'selected' : '' ?>>Samsung</option>
+                                <option value="Xiaomi" <?= $brand === 'Xiaomi' ? 'selected' : '' ?>>Xiaomi</option>
+                                <option value="Asus" <?= $brand === 'Asus' ? 'selected' : '' ?>>Asus</option>
+                                <option value="Huawei" <?= $brand === 'Huawei' ? 'selected' : '' ?>>Huawei</option>
+                                <option value="Sony" <?= $brand === 'Sony' ? 'selected' : '' ?>>Sony</option>
                             </select>
                         </div>
                         <div class="col-md-3">
@@ -167,8 +203,13 @@ $smartphones = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <button type="submit" class="btn btn-primary w-100">Filtrer</button>
-                        </div>
+    <button type="submit" class="btn btn-primary w-100">Filtrer</button>
+</div>
+<div class="col-md-3">
+    <button type="button" id="resetFilters" class="btn btn-secondary w-100">Réinitialiser</button>
+</div>
+
+
                     </div>
                 </form>
             </div>
@@ -180,22 +221,26 @@ $smartphones = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="container content-section">
             <h1>Nos smartphones</h1>
             <div class="row">
-                <?php foreach ($smartphones as $smartphone) : ?>
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100">
-                            <img src="images/<?= htmlspecialchars($smartphone['images']) ?>" class="card-img-top" alt="<?= htmlspecialchars($smartphone['nom']) ?>">
-                            <div class="card-body">
-                                <h5 class="card-title"><?= htmlspecialchars($smartphone['nom']) ?></h5>
-                                <p class="card-text"><?= htmlspecialchars($smartphone['description']) ?></p>
-                                <p class="card-text"><strong>Prix :</strong> <?= number_format($smartphone['prix'], 2, ',', ' ') ?> €</p>
-                                <a href="produit.php?id=<?= htmlspecialchars($smartphone['id_produits']) ?>" class="btn btn-primary">Voir le produit</a>
-                                
-                                <!-- Bouton Ajouter au panier -->
-                                <a href="ajouter_panier.php?id=<?= htmlspecialchars($smartphone['id_produits']) ?>" class="btn btn-success ms-2">Ajouter au panier</a>
+                <?php if (!empty($smartphones)) : ?>
+                    <?php foreach ($smartphones as $smartphone) : ?>
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                <img src="images/<?= htmlspecialchars($smartphone['images']) ?>" class="card-img-top" alt="<?= htmlspecialchars($smartphone['nom']) ?>">
+                                <div class="card-body">
+                                    <h5 class="card-title"><?= htmlspecialchars($smartphone['nom']) ?></h5>
+                                    <p class="card-text"><?= htmlspecialchars($smartphone['description']) ?></p>
+                                    <p class="card-text"><strong>Prix :</strong> <?= number_format($smartphone['prix'], 2, ',', ' ') ?> €</p>
+                                    <a href="produit.php?id=<?= htmlspecialchars($smartphone['id_produits']) ?>" class="btn btn-primary">Voir le produit</a>
+                                    <a href="ajouter_panier.php?id=<?= htmlspecialchars($smartphone['id_produits']) ?>" class="btn btn-success ms-2">Ajouter au panier</a>
+                                </div>
                             </div>
                         </div>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <div class="col-12">
+                        <p class="text-center"><?= $noProductsMessage ?? 'Aucun smartphone trouvé.' ?></p>
                     </div>
-                <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -228,6 +273,12 @@ $smartphones = $stmt->fetchAll(PDO::FETCH_ASSOC);
             });
         });
     </script>
+    <script>
+    document.getElementById('resetFilters').addEventListener('click', function () {
+        window.location.href = window.location.pathname;
+    });
+</script>
+
 </body>
 </html>
 <?php include 'footer.php'; ?>
