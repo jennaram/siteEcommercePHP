@@ -3,6 +3,7 @@ session_start();
 include 'header.php';
 include 'db.php';
 
+
 // Vérifier si l'utilisateur est déjà connecté
 if (isset($_SESSION['id_users'])) {
     // Rediriger vers la page de redirection si elle est spécifiée
@@ -35,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['id_users'] = $user['id_users'];
             $_SESSION['nom'] = $user['nom'];
             $_SESSION['prenom'] = $user['prenom'];
+            $_SESSION['admin'] = $user['admin']; // Ajouter le statut admin à la session
 
             // Rediriger vers la page de redirection si elle est spécifiée
             if (isset($_GET['redirect'])) {
@@ -185,16 +187,16 @@ if (isset($_GET['supprimer'])) {
         }
 
         /* Ajouter un fond coloré */
-.nav-tabs .nav-link.active {
-    background-color: #f8f9fa; /* Gris clair */
-    border-bottom: none;
-}
+        .nav-tabs .nav-link.active {
+            background-color: #f8f9fa; /* Gris clair */
+            border-bottom: none;
+        }
 
-/* Ajouter une ombre */
-.nav-tabs .nav-link.active {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-bottom: none;
-}
+        /* Ajouter une ombre */
+        .nav-tabs .nav-link.active {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-bottom: none;
+        }
     </style>
 </head>
 <body>
@@ -264,8 +266,6 @@ if (isset($_GET['supprimer'])) {
         </div>
     </div>
 </div>
-
-
 
 <?php include 'footer.php'; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

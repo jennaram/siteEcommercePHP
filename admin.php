@@ -1,125 +1,55 @@
-<?php include 'header.php'; ?>
 <?php
 session_start();
-
-// Vérifier si l'utilisateur est connecté et s'il est admin
-if (!isset($_SESSION['user_id']) || !$_SESSION['admin']) {
-    header("Location: user.php"); // Rediriger vers la page de connexion
-    exit();
+if (!isset($_SESSION['id_users']) || $_SESSION['admin'] != 1) {
+    header("Location: index.php");
+    exit;
 }
+
+include 'header.php';
+include 'db.php';
 ?>
 
-<?php
+<div class="container my-5">
+    <h1 class="text-center mb-4">Page Admin</h1>
 
-include 'db.php'; // Connexion à la base de données
-
-// // Ajouter un produit
-// if (isset($_POST['add_product'])) {
-//     $name = $_POST['name'];
-//     $description = $_POST['description'];
-//     // $price = $_POST['price'];
-//     $image = $_FILES['image']['name'];
-
-//     // Vérifier si l'image a bien été uploadée
-//     if (move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/' . $image)) {
-//         // Insérer le produit dans la base de données
-//         $stmt = $pdo->prepare("INSERT INTO products (name, description, price, image) VALUES (?, ?, ?, ?)");
-//         $stmt->execute([$name, $description, $price, $image]);
-//     } else {
-//         echo "Erreur lors de l'upload de l'image.";
-//     }
-// }
-
-// // Supprimer un produit
-// if (isset($_GET['delete'])) {
-//     $id = $_GET['delete'];
-
-//     // Récupérer l'image du produit avant de le supprimer
-//     $stmt = $pdo->prepare("SELECT image FROM products WHERE id = ?");
-//     $stmt->execute([$id]);
-//     $product = $stmt->fetch();
-//     $imagePath = 'uploads/' . $product['image'];
-
-//     // Supprimer le produit de la base de données
-//     $stmt = $pdo->prepare("DELETE FROM products WHERE id = ?");
-//     $stmt->execute([$id]);
-
-//     // Supprimer l'image du serveur si elle existe
-//     if (file_exists($imagePath)) {
-//         unlink($imagePath);
-//     }
-// }
-
-// // Récupérer tous les produits
-// $stmt = $pdo->query("SELECT * FROM products");
-// $products = $stmt->fetchAll();
-// ?>
-
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page Admin - Gestion des Produits</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Gestion des Produits</h2>
-
-    <!-- Formulaire pour ajouter un produit -->
-    <div class="mb-4">
-        <h4>Ajouter un Nouveau Produit</h4>
-        <form action="admin.php" method="POST" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="name" class="form-label">Nom du Produit</label>
-                <input type="text" class="form-control" id="name" name="name" required>
-            </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" name="description" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="price" class="form-label">Prix (€)</label>
-                <input type="number" class="form-control" id="price" name="price" step="0.01" required>
-            </div>
-            <div class="mb-3">
-                <label for="image" class="form-label">Image</label>
-                <input type="file" class="form-control" id="image" name="image" required>
-            </div>
-            <button type="submit" name="add_product" class="btn btn-primary">Ajouter le produit</button>
-        </form>
-    </div>
-
-    <!-- Liste des produits -->
-    <h4>Liste des Produits</h4>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Image</th>
-                <th>Nom</th>
-                <th>Description</th>
-                <th>Prix</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($products as $product): ?>
-                <tr>
-                    <td><img src="uploads/<?php echo htmlspecialchars($product['image']); ?>" alt="Image" width="100"></td>
-                    <td><?php echo htmlspecialchars($product['name']); ?></td>
-                    <td><?php echo htmlspecialchars($product['description']); ?></td>
-                    <td><?php echo number_format($product['price'], 2, ',', ''); ?> €</td>
-                    <td>
-                        <a href="admin.php?delete=<?php echo $product['id']; ?>" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?');">Supprimer</a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+    <form method="POST" action="add_product.php">
+        <div class="mb-3">
+            <label for="nom" class="form-label">Nom du produit</label>
+            <input type="text" name="nom" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="prix" class="form-label">Prix</label>
+            <input type="number" step="0.01" name="prix" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea name="description" class="form-control" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="id_marques" class="form-label">Marque</label>
+            <select name="id_marques" class="form-control" required>
+                <?php
+                $pdo = getDBConnection();
+                $stmt = $pdo->query("SELECT * FROM marques");
+                while ($marque = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    echo "<option value='{$marque['id_marque']}'>{$marque['nom_marque']}</option>";
+                }
+                ?>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="id_type_produits" class="form-label">Type de produit</label>
+            <select name="id_type_produits" class="form-control" required>
+                <?php
+                $stmt = $pdo->query("SELECT * FROM type_produits");
+                while ($type = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    echo "<option value='{$type['id_type_produits']}'>{$type['nom']}</option>";
+                }
+                ?>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Ajouter le produit</button>
+    </form>
 </div>
+
 <?php include 'footer.php'; ?>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>

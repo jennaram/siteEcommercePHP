@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="light">
 <head>
@@ -85,30 +88,38 @@
                     </div>
                 </form>
 
-                <!-- Icônes utilisateur et panier -->
                 <div class="d-flex align-items-center">
-                    <a class="nav-link me-3" href="user.php">
-                        <i class="bi bi-person fs-5"></i>
-                    </a>
-                    <a class="nav-link me-3" href="cart.php">
-                        <i class="bi bi-cart3 fs-5"></i>
-                        <!-- Badge avec le nombre de produits dans le panier -->
-                        <?php 
-                        // Calculer le nombre total de produits dans le panier
-                        $quantite_totale = 0;
-                        if (isset($_SESSION['panier']) && is_array($_SESSION['panier'])) {
-                            foreach ($_SESSION['panier'] as $produit) {
-                                $quantite_totale += $produit['quantite'];
-                            }
-                        }
-                        if ($quantite_totale > 0): ?>
-                            <span class="badge bg-danger"><?= $quantite_totale ?></span>
-                        <?php endif; ?>
-                    </a>
-                    <a class="nav-link me-3" href="logout.php">
-                        <i class="bi bi-box-arrow-right fs-5"></i>
-                    </a>
-                </div>
+    <?php if (isset($_SESSION['id_users'])) : ?>
+        <!-- Lien vers le profil utilisateur -->
+        <a class="nav-link me-3" href="user.php">
+            <i class="bi bi-person fs-5"></i>
+        </a>
+        <!-- Lien vers le panier -->
+        <a class="nav-link me-3" href="cart.php">
+            <i class="bi bi-cart3 fs-5"></i>
+            <!-- Badge avec le nombre de produits dans le panier -->
+            <?php
+            $quantite_totale = 0;
+            if (isset($_SESSION['panier']) && is_array($_SESSION['panier'])) {
+                foreach ($_SESSION['panier'] as $produit) {
+                    $quantite_totale += $produit['quantite'];
+                }
+            }
+            if ($quantite_totale > 0) : ?>
+                <span class="badge bg-danger"><?= $quantite_totale ?></span>
+            <?php endif; ?>
+        </a>
+        <!-- Lien de déconnexion -->
+        <a class="nav-link me-3" href="logout.php">
+            <i class="bi bi-box-arrow-right fs-5"></i>
+        </a>
+    <?php else : ?>
+        <!-- Lien de connexion si l'utilisateur n'est pas connecté -->
+        <a class="nav-link me-3" href="user.php">
+            <i class="bi bi-person fs-5"></i> 
+        </a>
+    <?php endif; ?>
+</div>
 
                 <!-- Bouton de bascule dark/light -->
                 <div class="form-check form-switch ms-2">
