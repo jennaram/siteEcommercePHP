@@ -187,7 +187,10 @@ $tablettes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <h5 class="card-title"><?= htmlspecialchars($tablette['nom']) ?></h5>
                                 <p class="card-text"><?= htmlspecialchars($tablette['description']) ?></p>
                                 <p class="card-text"><strong>Prix :</strong> <?= number_format($tablette['prix'], 2, ',', ' ') ?> €</p>
+                                <!-- Bouton Voir le produit -->
                                 <a href="produit.php?id=<?= htmlspecialchars($tablette['id_produits']) ?>" class="btn btn-primary">Voir le produit</a>
+                                <!-- Nouveau bouton "Ajouter au panier" -->
+                                <a href="ajouter_panier.php?id=<?= htmlspecialchars($tablette['id_produits']) ?>" class="btn btn-success mt-2">Ajouter au panier</a>
                             </div>
                         </div>
                     </div>
