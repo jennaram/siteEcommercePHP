@@ -1,4 +1,4 @@
-<?php
+<?php 
 // Inclure le fichier de connexion à la base de données
 include 'db.php';
 
@@ -37,7 +37,21 @@ if (!$id_utilisateur) {
     // Pour la suppression d'un produit du panier
     if (isset($_GET['supprimer'])) {
         $id_produit = $_GET['supprimer'];
-        unset($_SESSION['panier'][$id_produit]);
+        
+        unset($_SESSION['panier'][$id_produit]); // Supprimer le produit totalement
+        $_SESSION['panier'] = array_values($_SESSION['panier']); // Réindexer l'array
+    }
+
+    // Gestion de la modification de la quantité
+    if (isset($_POST['modifier_quantite']) && isset($_POST['quantite'])) {
+        $id_produit = $_POST['modifier_quantite'];
+        $quantite = $_POST['quantite'];
+
+        // Si le produit existe dans le panier
+        if (isset($_SESSION['panier'][$id_produit])) {
+            // Mettre à jour la quantité
+            $_SESSION['panier'][$id_produit]['quantite'] = $quantite;
+        }
     }
 }
 
@@ -55,6 +69,7 @@ if ($id_utilisateur) {
     $panier = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 ?>
+
 <?php include 'header.php'; ?>
 
 <!DOCTYPE html>
@@ -87,9 +102,18 @@ if ($id_utilisateur) {
                                         <h5 class="card-title"><?= htmlspecialchars($produit['nom']) ?></h5>
                                         <p class="card-text"><?= htmlspecialchars($produit['description']) ?></p>
                                         <p class="h4 mb-0"><?= number_format($produit['prix'], 2, ',', ' ') ?> €</p>
+                                        
+                                        <form method="POST" action="cart.php" class="d-flex align-items-center">
+                                            <!-- Champ quantité -->
+                                            <input type="number" name="quantite" value="<?= $produit['quantite'] ?>" min="1" class="form-control w-25 me-2">
+                                            <button type="submit" class="btn btn-primary" name="modifier_quantite" value="<?= $id_produit ?>">Modifier</button>
+                                        </form>
+
                                         <small class="text-muted">Quantité: <?= $produit['quantite'] ?></small>
+                                        
+                                        <!-- Bouton Supprimer -->
                                         <div class="d-flex justify-content-between mt-3">
-                                            <a href="panier.php?supprimer=<?= $id_produit ?>" class="btn btn-outline-danger">Supprimer</a>
+                                            <a href="cart.php?supprimer=<?= $id_produit ?>" class="btn btn-outline-danger">Supprimer</a>
                                         </div>
                                     </div>
                                 </div>
@@ -112,7 +136,6 @@ if ($id_utilisateur) {
                                 <?php 
                                 $total = 0;
                                 foreach ($_SESSION['panier'] as $id_produit => $produit) {
-                                    // Logique pour récupérer les prix dans le panier
                                     $total += $produit['prix'] * $produit['quantite'];
                                 }
                                 echo number_format($total, 2, ',', ' ') . " €"; 
@@ -123,7 +146,6 @@ if ($id_utilisateur) {
                             <span>Livraison</span>
                             <span>Gratuit</span>
                         </div>
-                        <!-- Si l'utilisateur n'est pas connecté, il doit se connecter -->
                         <?php if (!$id_utilisateur): ?>
                             <a href="connexion.php" class="btn btn-success w-100 mb-3">Se connecter ou s'inscrire</a>
                         <?php else: ?>
@@ -144,6 +166,36 @@ if ($id_utilisateur) {
     <?php include 'footer.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Script pour supprimer le produit -->
+    <script>
+        $(document).ready(function() {
+            // Lorsque le bouton "Supprimer" est cliqué
+            $(".delete-product").click(function() {
+                var productId = $(this).data("id");  // Récupérer l'ID du produit à supprimer
+
+                // Envoyer la requête AJAX pour supprimer le produit
+                $.ajax({
+                    url: "cart.php",  // La page à laquelle envoyer la requête
+                    type: "GET",      // Type de requête HTTP (GET)
+                    data: {
+                        supprimer: productId  // Paramètre à envoyer : l'ID du produit à supprimer
+                    },
+                    success: function(response) {
+                        // Si la suppression est réussie, recharger le panier mis à jour
+                        location.reload();  // Recharger la page pour afficher la version mise à jour du panier
+                    },
+                    error: function(xhr, status, error) {
+                        // Si erreur, afficher un message
+                        alert("Une erreur est survenue. Veuillez réessayer.");
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
 </html>

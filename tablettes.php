@@ -200,19 +200,25 @@ $tablettes = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <!-- Section des tablettes -->
-    <div class="container mt-4">
-        <div class="row">
-        <?php if (!empty($tablettes)) : ?>
-            <?php foreach ($tablettes as $tablette) : ?>
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <img src="images/<?= htmlspecialchars($tablette['images']) ?>" class="card-img-top" alt="<?= htmlspecialchars($tablette['nom']) ?>">
-                        <div class="card-body">
-                            <h5 class="card-title"><?= htmlspecialchars($tablette['nom']) ?></h5>
-                            <p class="card-text"><?= htmlspecialchars($tablette['description']) ?></p>
-                            <p class="card-text"><strong>Prix :</strong> <?= number_format($tablette['prix'], 2, ',', ' ') ?> €</p>
-                            <a href="produit.php?id=<?= htmlspecialchars($tablette['id_produits']) ?>" class="btn btn-primary">Voir le produit</a>
-                            </div>
+
+    <div class="content-section-wrapper">
+        <div class="container content-section">
+            <h1>Nos tablettes</h1>
+            <div class="row">
+               <?php if (!empty($tablettes)) : ?>
+                <?php foreach ($tablettes as $tablette) : ?>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img src="images/<?= htmlspecialchars($tablette['images']) ?>" class="card-img-top" alt="<?= htmlspecialchars($tablette['nom']) ?>">
+                            <div class="card-body">
+                                <h5 class="card-title"><?= htmlspecialchars($tablette['nom']) ?></h5>
+                                <p class="card-text"><?= htmlspecialchars($tablette['description']) ?></p>
+                                <p class="card-text"><strong>Prix :</strong> <?= number_format($tablette['prix'], 2, ',', ' ') ?> €</p>
+                                <!-- Bouton Voir le produit -->
+                                <a href="produit.php?id=<?= htmlspecialchars($tablette['id_produits']) ?>" class="btn btn-primary">Voir le produit</a>
+                                <!-- Nouveau bouton "Ajouter au panier" -->
+                                <a href="ajouter_panier.php?id=<?= htmlspecialchars($tablette['id_produits']) ?>" class="btn btn-success mt-2">Ajouter au panier</a>
+
                             </div>
                         </div>
                     <?php endforeach; ?>
