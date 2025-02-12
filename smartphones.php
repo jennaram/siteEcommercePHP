@@ -18,6 +18,7 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute([':id_type_smartphone' => $id_type_smartphone]);
 $smartphones = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="light">
 <head>
@@ -127,12 +128,12 @@ $smartphones = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="promo-banner py-4">
         <div class="container">
             <div class="row align-items-center">
-            <div class="col-md-6 text-start">
-                <h1 class="fw-bold" style="font-size: 1.8rem; white-space: nowrap;">Nos derniers smartphones !</h1>
-                <p class="lead" style="font-size: 1.1rem; white-space: nowrap;">Profitez de nos offres exclusives sur une large sélection de produits.</p>
-                <a href="promo.php" class="btn btn-lg" style="background-color: #FDD835; border-color: #FDD835; color: black;">
-                    Découvrir nos offres
-                </a>
+                <div class="col-md-6 text-start">
+                    <h1 class="fw-bold" style="font-size: 1.8rem; white-space: nowrap;">Nos derniers smartphones !</h1>
+                    <p class="lead" style="font-size: 1.1rem; white-space: nowrap;">Profitez de nos offres exclusives sur une large sélection de produits.</p>
+                    <a href="promo.php" class="btn btn-lg" style="background-color: #FDD835; border-color: #FDD835; color: black;">
+                        Découvrir nos offres
+                    </a>
                 </div>
                 <div class="col-md-6 text-end">
                     <img src="images/iPhone15-Pro-Max-All-Colors .png" alt="smartphones" class="img-fluid rounded" style="max-width: 40%; height: auto;">
@@ -141,40 +142,36 @@ $smartphones = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 
-     
-
     <!-- Paragraphe supplémentaire -->
     <div class="content-section-wrapper">
         <div class="container content-section">
             <h1>Nos tablettes iPad et Android</h1>
             <!-- Filtres de recherche -->
-     <div class="container mt-4">
-        <form method="GET" action="index.php">
-            <div class="row">
-                <div class="col-md-3">
-                    <select name="brand" class="form-select">
-                        <option value="">Toutes les marques</option>
-                        <option value="Apple">Apple</option>
-                        <option value="Samsung">Samsung</option>
-                        <option value="Dell">Dell</option>
-                        <!-- Ajoutez d'autres marques ici -->
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <select name="sort" class="form-select">
-                        <option value="price_asc">Prix croissant</option>
-                        <option value="price_desc">Prix décroissant</option>
-                        <option value="best_sellers">Meilleures ventes</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <button type="submit" class="btn btn-primary w-100">Filtrer</button>
-                </div>
+            <div class="container mt-4">
+                <form method="GET" action="index.php">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <select name="brand" class="form-select">
+                                <option value="">Toutes les marques</option>
+                                <option value="Apple">Apple</option>
+                                <option value="Samsung">Samsung</option>
+                                <option value="Dell">Dell</option>
+                                <!-- Ajoutez d'autres marques ici -->
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select name="sort" class="form-select">
+                                <option value="price_asc">Prix croissant</option>
+                                <option value="price_desc">Prix décroissant</option>
+                                <option value="best_sellers">Meilleures ventes</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-primary w-100">Filtrer</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
-        </div>
-    </div>
-    </div>
         </div>
     </div>
 
@@ -192,6 +189,9 @@ $smartphones = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <p class="card-text"><?= htmlspecialchars($smartphone['description']) ?></p>
                                 <p class="card-text"><strong>Prix :</strong> <?= number_format($smartphone['prix'], 2, ',', ' ') ?> €</p>
                                 <a href="produit.php?id=<?= htmlspecialchars($smartphone['id_produits']) ?>" class="btn btn-primary">Voir le produit</a>
+                                
+                                <!-- Bouton Ajouter au panier -->
+                                <a href="ajouter_panier.php?id=<?= htmlspecialchars($smartphone['id_produits']) ?>" class="btn btn-success ms-2">Ajouter au panier</a>
                             </div>
                         </div>
                     </div>

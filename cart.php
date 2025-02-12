@@ -2,25 +2,60 @@
 // Inclure le fichier de connexion à la base de données
 include 'db.php';
 
+// Démarrer la session pour gérer le panier
+session_start();
+
 // Récupérer la connexion à la base de données
 $pdo = getDBConnection();
 
-// Supposons que l'ID de l'utilisateur soit stocké dans la session
-// Remplace cette valeur par l'ID réel de l'utilisateur
-$id_utilisateur = 1; // Utilisateur de test (à remplacer par l'ID de l'utilisateur connecté)
+// Si l'utilisateur est connecté, on récupère son ID
+$id_utilisateur = isset($_SESSION['id_utilisateur']) ? $_SESSION['id_utilisateur'] : null;
 
-// Requête SQL pour récupérer les produits du panier
-$sql = "SELECT p.id_produits, p.nom, p.prix, dp.quantite, p.description, p.images
-        FROM details_panier dp
-        JOIN produits p ON dp.id_produits = p.id_produits
-        WHERE dp.id_users = :id_utilisateur";
-$stmt = $pdo->prepare($sql);
-$stmt->execute([':id_utilisateur' => $id_utilisateur]);
+// Si l'utilisateur n'est pas connecté, on gère le panier via la session
+if (!$id_utilisateur) {
+    // Si le panier n'existe pas encore, on le crée
+    if (!isset($_SESSION['panier'])) {
+        $_SESSION['panier'] = [];
+    }
 
-// Récupérer les résultats
-$panier = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Ajouter un produit au panier (exemple)
+    if (isset($_POST['ajouter_au_panier'])) {
+        $id_produit = $_POST['id_produit'];
+        $quantite = $_POST['quantite'];
+
+        // Si le produit existe déjà dans le panier, on met à jour la quantité
+        if (isset($_SESSION['panier'][$id_produit])) {
+            $_SESSION['panier'][$id_produit]['quantite'] += $quantite;
+        } else {
+            $_SESSION['panier'][$id_produit] = [
+                'id' => $id_produit,
+                'quantite' => $quantite
+            ];
+        }
+    }
+
+    // Pour la suppression d'un produit du panier
+    if (isset($_GET['supprimer'])) {
+        $id_produit = $_GET['supprimer'];
+        unset($_SESSION['panier'][$id_produit]);
+    }
+}
+
+// Si l'utilisateur est connecté, on récupère son panier depuis la base de données
+if ($id_utilisateur) {
+    // Requête SQL pour récupérer les produits du panier de l'utilisateur
+    $sql = "SELECT p.id_produits, p.nom, p.prix, dp.quantite, p.description, p.images
+            FROM details_panier dp
+            JOIN produits p ON dp.id_produits = p.id_produits
+            WHERE dp.id_users = :id_utilisateur";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':id_utilisateur' => $id_utilisateur]);
+
+    // Récupérer les produits du panier
+    $panier = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 ?>
-<?php include 'header.php'; ?> <!-- Inclure l'entête -->
+<?php include 'header.php'; ?>
 
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="light">
@@ -40,8 +75,8 @@ $panier = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <h1 class="h3 mb-4">Votre Panier</h1>
 
                 <!-- Affichage des produits dans le panier -->
-                <?php if (count($panier) > 0): ?>
-                    <?php foreach ($panier as $produit): ?>
+                <?php if (isset($_SESSION['panier']) && count($_SESSION['panier']) > 0): ?>
+                    <?php foreach ($_SESSION['panier'] as $id_produit => $produit): ?>
                         <div class="card mb-4">
                             <div class="card-body">
                                 <div class="row align-items-center">
@@ -54,8 +89,7 @@ $panier = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <p class="h4 mb-0"><?= number_format($produit['prix'], 2, ',', ' ') ?> €</p>
                                         <small class="text-muted">Quantité: <?= $produit['quantite'] ?></small>
                                         <div class="d-flex justify-content-between mt-3">
-                                            <a href="#" class="btn btn-outline-secondary">Modifier</a>
-                                            <a href="#" class="btn btn-outline-danger">Supprimer</a>
+                                            <a href="panier.php?supprimer=<?= $id_produit ?>" class="btn btn-outline-danger">Supprimer</a>
                                         </div>
                                     </div>
                                 </div>
@@ -77,7 +111,8 @@ $panier = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <span>
                                 <?php 
                                 $total = 0;
-                                foreach ($panier as $produit) {
+                                foreach ($_SESSION['panier'] as $id_produit => $produit) {
+                                    // Logique pour récupérer les prix dans le panier
                                     $total += $produit['prix'] * $produit['quantite'];
                                 }
                                 echo number_format($total, 2, ',', ' ') . " €"; 
@@ -88,7 +123,12 @@ $panier = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <span>Livraison</span>
                             <span>Gratuit</span>
                         </div>
-                        <button class="btn btn-success w-100 mb-3">Passer à la commande</button>
+                        <!-- Si l'utilisateur n'est pas connecté, il doit se connecter -->
+                        <?php if (!$id_utilisateur): ?>
+                            <a href="connexion.php" class="btn btn-success w-100 mb-3">Se connecter ou s'inscrire</a>
+                        <?php else: ?>
+                            <button class="btn btn-success w-100 mb-3">Passer à la commande</button>
+                        <?php endif; ?>
                         <div class="text-center payment-icons">
                             <img src="images/visa.png" alt="Visa" style="height: 30px; margin: 0 5px;">
                             <img src="images/mastercard.png" alt="Mastercard" style="height: 30px; margin: 0 5px;">
@@ -101,7 +141,7 @@ $panier = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <!-- Footer -->
-    <?php include 'footer.php'; ?> <!-- Inclure le pied de page -->
+    <?php include 'footer.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
