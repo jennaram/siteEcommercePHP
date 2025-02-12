@@ -40,6 +40,8 @@ if (!$id_utilisateur) {
         
         unset($_SESSION['panier'][$id_produit]); // Supprimer le produit totalement
         $_SESSION['panier'] = array_values($_SESSION['panier']); // Réindexer l'array
+        header("Location: cart.php"); // Rediriger pour voir les changements
+        exit();
     }
 
     // Gestion de la modification de la quantité
@@ -51,6 +53,8 @@ if (!$id_utilisateur) {
         if (isset($_SESSION['panier'][$id_produit])) {
             // Mettre à jour la quantité
             $_SESSION['panier'][$id_produit]['quantite'] = $quantite;
+            header("Location: cart.php"); // Rediriger pour voir les changements
+            exit();
         }
     }
 }
@@ -126,14 +130,12 @@ if ($id_utilisateur) {
                                         <p class="h4 mb-0"><?= number_format($produit['prix'], 2, ',', ' ') ?> €</p>
                                         
                                         <form method="POST" action="cart.php" class="d-flex align-items-center">
-                                            <!-- Champ quantité -->
                                             <input type="number" name="quantite" value="<?= $produit['quantite'] ?>" min="1" class="form-control w-25 me-2">
                                             <button type="submit" class="btn btn-primary" name="modifier_quantite" value="<?= $id_produit ?>">Modifier</button>
                                         </form>
 
                                         <small class="text-muted">Quantité: <?= $produit['quantite'] ?></small>
                                         
-                                        <!-- Bouton Supprimer -->
                                         <div class="d-flex justify-content-between mt-3">
                                             <a href="cart.php?supprimer=<?= $id_produit ?>" class="btn btn-outline-danger">Supprimer</a>
                                         </div>
@@ -169,7 +171,6 @@ if ($id_utilisateur) {
                             <span>Gratuit</span>
                         </div>
                         <?php if (!$id_utilisateur): ?>
-                            <!-- Lien vers la page de connexion / inscription -->
                             <a href="user.php?rediriger=panier" class="btn btn-success w-100 mb-3">Se connecter ou s'inscrire</a>
                         <?php else: ?>
                             <button class="btn btn-success w-100 mb-3">Passer à la commande</button>
