@@ -41,11 +41,11 @@
     ?>
 
     <!-- Formulaire de contact -->
-    <form action="submit_contact.php" method="POST" class="mx-auto" style="max-width: 600px;">
-        <!-- Champ Nom -->
-        <div class="mb-3">
-            <label for="name" class="form-label">Nom</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Votre nom" required>
+    <form id="contactForm" action="submit_contact.php" method="POST" class="mx-auto" style="max-width: 600px;">
+    <!-- Champ Nom -->
+    <div class="mb-3">
+            <label for="nom" class="form-label">Nom</label>
+            <input type="text" class="form-control" id="nom" name="nom" placeholder="Votre nom" required>
         </div>
 
         <!-- Champ E-mail -->
@@ -64,25 +64,9 @@
         <div class="text-center">
             <button type="submit" class="btn btn-primary">Envoyer</button>
         </div>
-
-        <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="successModalLabel">Message envoyé</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Votre message a été envoyé avec succès.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-            </div>
-        </div>
-    </div>
-</div>
     </form>
 </div>
+
 <?php include 'footer.php'; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Script pour le mode sombre -->
@@ -109,31 +93,31 @@
     });
 </script>
 <script>
-    document.getElementById('contactForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const formData = new FormData(this);
-
-        fetch('submit_contact.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.text())
-        .then(data => {
-            if (data === "Votre message a été envoyé avec succès.") {
-                var myModal = new bootstrap.Modal(document.getElementById('successModal'));
-                myModal.show();
-                this.reset();
-            } else {
-                alert(data); // Affiche l'erreur du côté PHP
-            }
-        })
-        .catch(error => {
-            console.error('Erreur:', error);
-            alert("Une erreur s'est produite lors de l'envoi du message.");
-        });
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    
+    fetch('submit_contact.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        console.log('Réponse reçue:', data); // Pour déboguer
+        if (data.includes('success')) { // Modification ici
+            window.location.href = 'merci.php';
+        } else {
+            alert(data);
+        }
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+        alert("Une erreur s'est produite lors de l'envoi du message.");
     });
+});
 </script>
+
 
 </body>
 </html>
