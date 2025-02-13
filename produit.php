@@ -66,35 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$utilisateur_connecte) {
     <title><?= htmlspecialchars($produit['nom']) ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <style>
-        .product-details {
-            padding: 20px;
-        }
-        .product-details img {
-            max-width: 50%;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-            margin-bottom: 20px;
-        }
-        .promo-badge {
-            margin-bottom: 10px;
-        }
-        .original-price {
-            margin-right: 10px;
-        }
-        .promo-price {
-
-        }
-        .price-info {
-            display: flex;
-            align-items: center;
-        }
-        .promo-icon {
-            margin-left: 5px;
-            color: red;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <?php include 'header.php'; ?>

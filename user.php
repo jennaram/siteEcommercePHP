@@ -127,77 +127,7 @@ if (isset($_GET['supprimer'])) {
     <title>Connexion / Inscription</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        /* Styles globaux pour le mode sombre */
-        [data-bs-theme="dark"] {
-            background-color: #212529; /* Fond sombre pour toute la page */
-            color: white; /* Texte blanc pour toute la page */
-        }
-
-        /* Styles pour les titres et paragraphes en mode sombre */
-        [data-bs-theme="dark"] h1,
-        [data-bs-theme="dark"] h2,
-        [data-bs-theme="dark"] h3,
-        [data-bs-theme="dark"] h4,
-        [data-bs-theme="dark"] h5,
-        [data-bs-theme="dark"] h6,
-        [data-bs-theme="dark"] p {
-            color: white; /* Texte blanc pour les titres et paragraphes */
-        }
-
-        /* Styles pour les liens en mode sombre */
-        [data-bs-theme="dark"] a {
-            color: #0d6efd; /* Couleur des liens en mode sombre */
-        }
-
-        [data-bs-theme="dark"] a:hover {
-            color: #0b5ed7; /* Couleur des liens au survol en mode sombre */
-        }
-
-        /* Styles pour les champs de formulaire en mode sombre */
-        [data-bs-theme="dark"] .form-control {
-            background-color: #343a40; /* Fond sombre pour les champs */
-            color: white; /* Texte blanc pour les champs */
-            border-color: #6c757d; /* Bordure sombre */
-        }
-
-        [data-bs-theme="dark"] .form-control::placeholder {
-            color: #bbb; /* Placeholder gris clair */
-        }
-
-        /* Styles pour les boutons en mode sombre */
-        [data-bs-theme="dark"] .btn-primary {
-            background-color: #0d6efd; /* Bouton primaire en mode sombre */
-            border-color: #0d6efd;
-        }
-
-        [data-bs-theme="dark"] .btn-primary:hover {
-            background-color: #0b5ed7; /* Bouton primaire au survol */
-            border-color: #0b5ed7;
-        }
-
-        /* Centrer le formulaire */
-        .form-container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            background-color: var(--bs-body-bg);
-        }
-
-        /* Ajouter un fond coloré */
-        .nav-tabs .nav-link.active {
-            background-color: #f8f9fa; /* Gris clair */
-            border-bottom: none;
-        }
-
-        /* Ajouter une ombre */
-        .nav-tabs .nav-link.active {
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border-bottom: none;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="container my-5">

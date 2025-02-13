@@ -11,41 +11,7 @@ session_start();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <style>
-        /* Styles pour le mode sombre */
-        [data-bs-theme="dark"] {
-            background-color: #212529;
-            color: white;
-        }
-
-        [data-bs-theme="dark"] .navbar {
-            background-color: #343a40 !important;
-        }
-
-        [data-bs-theme="dark"] .nav-link {
-            color: white !important;
-        }
-
-        [data-bs-theme="dark"] .form-control {
-            background-color: #495057;
-            color: white;
-            border-color: #6c757d;
-        }
-
-        [data-bs-theme="dark"] .form-control::placeholder {
-            color: #bbb;
-        }
-
-        [data-bs-theme="dark"] .btn-outline-secondary {
-            border-color: white;
-            color: white;
-        }
-
-        [data-bs-theme="dark"] .btn-outline-secondary:hover {
-            background-color: white;
-            color: black;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light" id="navbar">

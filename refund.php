@@ -7,63 +7,7 @@
     <title>Retours</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <style>
-        /* Styles personnalisés (facultatif) */
-        body {
-            font-family: sans-serif;
-        }
-        .container {
-            max-width: 960px; /* Ajuster la largeur maximale du conteneur */
-        }
-        .lead {
-            font-size: 1.2rem;
-            font-weight: 300;
-        }
-        .list-style-icon li {
-            position: relative;
-            padding-left: 25px; /* Espacement pour l'icône */
-        }
-        .list-style-icon li::before {
-            content: "\2022"; /* Utiliser un caractère de puce (vous pouvez le remplacer par une icône Bootstrap) */
-            position: absolute;
-            left: 0;
-        }
-
-        .promo-banner {
-            background-color: #A6C8D1;
-            color: black;
-            padding: 2rem 0; /* Augmenter le padding vertical */
-        }
-
-        .promo-banner h1 {
-            font-size: 2.5rem; /* Augmenter la taille du titre */
-            font-weight: bold;
-            margin-bottom: 0.5rem; /* Ajouter un peu d'espace en dessous du titre */
-        }
-
-        .promo-banner p.lead {
-            font-size: 1.25rem; /* Augmenter la taille du slogan */
-        }
-
-        /* Styles pour le mode sombre */
-        [data-bs-theme="dark"] {
-            background-color: #212529; /* Couleur de fond sombre pour la page */
-            color: white; /* Couleur de texte claire pour la page */
-        }
-
-        [data-bs-theme="dark"] .promo-banner {
-            background-color: #343a40; /* Couleur de fond sombre pour le promo-banner */
-            color: white; /* Couleur de texte claire pour le promo-banner */
-        }
-
-        [data-bs-theme="dark"] .container {
-            background-color: #343a40; /* Couleur de fond sombre pour le container */
-        }
-
-        [data-bs-theme="dark"] footer {
-            background-color: #343a40; /* Couleur de fond sombre pour le footer */
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 

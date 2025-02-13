@@ -1,19 +1,278 @@
+body {
+    font-family: sans-serif;
+}
+.container {
+    max-width: 960px; /* Ajuster la largeur maximale du conteneur */
+}
+.lead {
+    font-size: 1.2rem;
+    font-weight: 300;
+}
+.list-style-icon li {
+    position: relative;
+    padding-left: 25px; /* Espacement pour l'icône */
+}
+.list-style-icon li::before {
+    content: "\2022"; /* Utiliser un caractère de puce (vous pouvez le remplacer par une icône Bootstrap) */
+    position: absolute;
+    left: 0;
+}
 
-    .promo-banner {
-        background-color: #0d6efd; /* Couleur de fond Bootstrap primary */
-        color: white;
-        padding: 60px 0;
-    }
 
-    .promo-banner h1 {
-        font-size: 2.5rem;
-        font-weight: bold;
-    }
+.promo-banner {
+    background-color: #A6C8D1;
+    color: black;
+    padding: 2rem 0; /* Augmenter le padding vertical */
+}
 
-    .promo-banner .btn {
-        margin-top: 20px;
-        font-size: 1.2rem;
-        padding: 10px 30px;
-    }
+.promo-banner h1 {
+    font-size: 2.5rem; /* Augmenter la taille du titre */
+    font-weight: bold;
+    margin-bottom: 0.5rem; /* Ajouter un peu d'espace en dessous du titre */
+}
 
+.promo-banner p.lead {
+    font-size: 1.25rem; /* Augmenter la taille du slogan */
+}
+
+/* Styles pour le mode sombre */
+[data-bs-theme="dark"] {
+background-color: #212529; /* Couleur de fond sombre pour la page */
+color: white; /* Couleur de texte claire pour la page */
+}
+
+[data-bs-theme="dark"] .promo-banner {
+background-color: #343a40; /* Couleur de fond sombre pour le promo-banner */
+color: white; /* Couleur de texte claire pour le promo-banner */
+}
+
+[data-bs-theme="dark"] .container {
+background-color: #343a40; /* Couleur de fond sombre pour le container */
+}
+
+[data-bs-theme="dark"] footer {
+background-color: #343a40; /* Couleur de fond sombre pour le footer */
+}
+
+
+ /* Styles globaux pour le mode sombre */
+ [data-bs-theme="dark"] {
+    background-color: #212529; /* Fond sombre pour toute la page */
+    color: white; /* Texte blanc pour toute la page */
+}
+
+/* Styles pour les titres et paragraphes en mode sombre */
+[data-bs-theme="dark"] h1,
+[data-bs-theme="dark"] h2,
+[data-bs-theme="dark"] h3,
+[data-bs-theme="dark"] h4,
+[data-bs-theme="dark"] h5,
+[data-bs-theme="dark"] h6,
+[data-bs-theme="dark"] p {
+    color: white; /* Texte blanc pour les titres et paragraphes */
+}
+
+/* Styles pour les liens en mode sombre */
+[data-bs-theme="dark"] a {
+    color: #0d6efd; /* Couleur des liens en mode sombre */
+}
+
+[data-bs-theme="dark"] a:hover {
+    color: #0b5ed7; /* Couleur des liens au survol en mode sombre */
+}
+
+/* Styles pour les champs de formulaire en mode sombre */
+[data-bs-theme="dark"] .form-control {
+    background-color: #343a40; /* Fond sombre pour les champs */
+    color: white; /* Texte blanc pour les champs */
+    border-color: #6c757d; /* Bordure sombre */
+}
+
+[data-bs-theme="dark"] .form-control::placeholder {
+    color: #bbb; /* Placeholder gris clair */
+}
+
+/* Styles pour les boutons en mode sombre */
+[data-bs-theme="dark"] .btn-primary {
+    background-color: #0d6efd; /* Bouton primaire en mode sombre */
+    border-color: #0d6efd;
+}
+
+[data-bs-theme="dark"] .btn-primary:hover {
+    background-color: #0b5ed7; /* Bouton primaire au survol */
+    border-color: #0b5ed7;
+}
+
+/* Centrer le formulaire */
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: var(--bs-body-bg);
+}
+
+/* Ajouter un fond coloré */
+.nav-tabs .nav-link.active {
+    background-color: #f8f9fa; /* Gris clair */
+    border-bottom: none;
+}
+
+/* Ajouter une ombre */
+.nav-tabs .nav-link.active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-bottom: none;
+}
+
+.product-details {
+    padding: 20px;
+}
+.product-details img {
+    max-width: 50%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+.promo-badge {
+    margin-bottom: 10px;
+}
+.original-price {
+    margin-right: 10px;
+}
+.promo-price {
+
+}
+.price-info {
+    display: flex;
+    align-items: center;
+}
+.promo-icon {
+    margin-left: 5px;
+    color: red;
+}
+
+html, body {
+    height: 100%; /* Utiliser 100% pour html et body */
+    margin: 0;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* S'assurer que le body couvre toute la hauteur de la vue */
+  }
+
+  .content {
+    flex: 1 0 auto; /* Clé : Permettre au contenu de croître, mais pas de rétrécir en dessous de la taille du contenu */
+  }
+
+  .footer {
+    background-color: #A6C8D1;
+    color: #fff;
+    padding: 20px 0;
+    width: 100%;
     
+  }
+
+  .footer a {
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .footer a:hover {
+    text-decoration: underline;
+  }
+
+  .footer .footer-section ul li {
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-section {
+padding: 1.5rem 0;
+margin-bottom: 1rem;
+}
+
+  .footer-section h5 {
+    margin-bottom: 20px;
+  }
+
+  .codingfactory-logo {
+    width: 150px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .linkedin-icon {
+    font-size: 30px;
+    color: #0077b5;
+    margin: 10px;
+  }
+
+  .linkedin-icon:hover {
+    color: #006097;
+  }
+
+  .linkedin-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+  }
+
+  .footer-main-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1000px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .footer-2025 {
+  text-align: center; 
+  width: 100%;
+  padding: 1rem;
+  margin-top: 20px;
+}
+
+  /* Styles pour les petits écrans */
+  @media (max-width: 768px) 
+    .footer-main-content {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .footer-section {
+      padding: 1rem 0;
+    }
+
+    .codingfactory-logo {
+      width: 120px; /* Réduire la taille du logo */
+    }
+
+    .linkedin-container {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .linkedin-icon {
+      font-size: 24px; /* Réduire la taille des icônes */
+    }
+
+    @media (max-width: 768px) {
+  .footer-2025 {
+      margin-top: 15px;
+      padding: 0.75rem;
+  }
+}
+
+    @media (max-width: 576px) {
+  .footer-2025 {
+      margin-top: 10px;
+      padding: 0.5rem;
+      font-size: 0.9rem;
+  }
+}
