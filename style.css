@@ -410,3 +410,8 @@ tbody tr {
     margin-bottom: 10px; /* Ajoute un léger espace entre les lignes */
     display: table-row;
 }
+
+.badge {
+    font-size: 0.75em;
+    padding: 0.25em 0.5em;
+}

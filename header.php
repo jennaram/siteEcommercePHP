@@ -59,9 +59,14 @@
     <a class="nav-link me-1" href="user.php">
         <i class="bi bi-person fs-5"></i>
     </a>
-    <a class="nav-link me-1" href="cart.php">
-        <i class="bi bi-cart3 fs-5"></i>
-    </a>
+    <a class="nav-link me-1 position-relative" href="cart.php">
+    <i class="bi bi-cart3 fs-5"></i>
+    <?php if (isset($_SESSION['panier']) && !empty($_SESSION['panier'])): ?>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            <?= array_sum(array_column($_SESSION['panier'], 'quantite')) ?>
+        </span>
+    <?php endif; ?>
+</a>
     <a class="nav-link me-1" href="logout.php">
         <i class="bi bi-box-arrow-right fs-5"></i>
     </a>
