@@ -7,9 +7,13 @@ include 'db.php';
 // Récupérer la connexion à la base de données
 $pdo = getDBConnection();
 
+if (!$pdo) {
+    die("Erreur de connexion à la base de données.");
+}
+
 // Si l'action est "supprimer", procéder à la suppression
 if (isset($_GET['action']) && $_GET['action'] == 'supprimer' && isset($_GET['idProduit'])) {
-    $productIdToDelete = $_GET['idProduit'];
+    $productIdToDelete = intval($_GET['idProduit']); // Nettoyer l'entrée
 
     // Vérifier si le panier existe dans la session
     if (isset($_SESSION['panier'])) {
@@ -31,7 +35,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'supprimer' && isset($_GET['idP
 
 // Vérifier si l'ID du produit est passé dans l'URL pour l'ajouter au panier
 if (isset($_GET['id'])) {
-    $productId = $_GET['id'];
+    $productId = intval($_GET['id']); // Nettoyer l'entrée
 
     // Récupérer les informations du produit à partir de la base de données
     $sql = "SELECT * FROM produits WHERE id_produits = :id";
