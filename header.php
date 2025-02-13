@@ -44,33 +44,35 @@ session_start();
                     </li>
                 </ul>
 
-                <!-- Barre de recherche -->
-                <form class="d-flex me-3" action="search.php" method="GET">
-                    <div class="input-group">
-                        <input class="form-control" type="search" name="query" placeholder="Rechercher" aria-label="Search" required>
-                        <button class="btn btn-outline-secondary" type="submit">
-                            <i class="bi bi-search"></i>
-                        </button>
-                    </div>
-                </form>
+                <div class="search-container me-3">
+    <form class="search-form" action="search.php" method="GET">
+        <input type="text" class="search-input" name="q" placeholder="Rechercher...">
+        <button type="button" class="search-toggle btn btn-link">
+            <i class="bi bi-search fs-5"></i>
+        </button>
+    </form>
+</div>
 
-                <!-- Icônes utilisateur et panier -->
-                <div class="d-flex align-items-center">
-                    <a class="nav-link me-3" href="user.php">
-                        <i class="bi bi-person fs-5"></i>
-                    </a>
-                    <a class="nav-link me-3" href="cart.php">
-                        <i class="bi bi-cart3 fs-5"></i>
-                    </a>
-                    <a class="nav-link me-3" href="logout.php">
-                        <i class="bi bi-box-arrow-right fs-5"></i>
-                    </a>
-                   <?php if (isset($_SESSION['user_id'])): ?> 
-        <a class="nav-link me-3 text-danger" href="logout.php">
+
+                
+
+               <!-- Icônes utilisateur et panier -->
+<div class="d-flex align-items-center">
+    <a class="nav-link me-1" href="user.php">
+        <i class="bi bi-person fs-5"></i>
+    </a>
+    <a class="nav-link me-1" href="cart.php">
+        <i class="bi bi-cart3 fs-5"></i>
+    </a>
+    <a class="nav-link me-1" href="logout.php">
+        <i class="bi bi-box-arrow-right fs-5"></i>
+    </a>
+    <?php if (isset($_SESSION['user_id'])): ?> 
+        <a class="nav-link me-2 text-danger" href="logout.php">
             <i class="bi bi-box-arrow-right fs-5"></i>
         </a>
     <?php endif; ?>
-                    </div>
+</div>
 
                     <!-- Bouton de bascule dark/light -->
                     <div class="form-check form-switch ms-2">
@@ -117,5 +119,25 @@ session_start();
             });
         });
     </script>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchToggle = document.querySelector('.search-toggle');
+    const searchInput = document.querySelector('.search-input');
+
+    searchToggle.addEventListener('click', function() {
+        searchInput.classList.toggle('active');
+        if (searchInput.classList.contains('active')) {
+            searchInput.focus();
+        }
+    });
+
+    // Fermer la recherche si on clique en dehors
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('.search-container')) {
+            searchInput.classList.remove('active');
+        }
+    });
+});
+</script>
 </body>
 </html>
