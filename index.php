@@ -1,5 +1,17 @@
-<?php include 'header.php'; ?>
+<?php
+session_start();
+include 'header.php'; ?>
+<?php
 
+
+// Afficher le message de validation s'il existe
+if (isset($_SESSION['message'])) {
+    echo '<div class="alert alert-success">' . $_SESSION['message'] . '</div>';
+    unset($_SESSION['message']); // Supprimer le message après l'affichage
+}
+
+
+?>
 <?php
 // Inclure le fichier de connexion à la base de données
 include 'db.php';

@@ -1,21 +1,17 @@
 <?php
-error_reporting(E_ALL);  // Affiche toutes les erreurs
-ini_set('display_errors', 1);  // Affiche les erreurs à l'écran
-
-// Connexion à la base de données
+// Fonction pour se connecter à la base de données
 function getDBConnection() {
-    $host = 'localhost'; // Remplace avec tes valeurs
-    $dbname = 'techpulse2'; // Change avec le nom réel de ta base de données
-    $username = 'root';
-    $password = '';
+    $host = 'localhost';
+    $dbname = 'techpulse2';  // Remplacez par votre base de données
+    $username = 'root';  // Remplacez par votre nom d'utilisateur DB
+    $password = '';  // Remplacez par votre mot de passe DB
 
     try {
         $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $pdo;
     } catch (PDOException $e) {
-        echo "Erreur de connexion : " . $e->getMessage();
-        return null;
+        die("Erreur de connexion à la base de données : " . $e->getMessage());
     }
 }
 ?>
