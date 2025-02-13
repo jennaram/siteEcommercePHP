@@ -45,8 +45,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['prenom'] = $user['prenom'];
             $_SESSION['admin'] = $user['admin']; // Ajouter le statut admin à la session
 
-            // Message de validation
-            $_SESSION['message'] = "Connexion réussie ! Bienvenue, " . $user['prenom'] . ".";
+            // Redirection vers la page admin si l'utilisateur est un admin
+            if ($_SESSION['admin'] == 1) {
+                header("Location: admin.php");
+                exit;
+            }
+
+            // Sinon, rediriger vers la page d'accueil par défaut
             header("Location: index.php");
             exit;
         } else {
