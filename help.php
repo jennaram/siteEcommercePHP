@@ -11,21 +11,20 @@
 </head>
 <body>
 <div class="promo-banner" id="promoBanner">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-12 text-center">
-                    <h1 class="fw-bold">Besoin d'aide ?</h1>
-                    <p class="lead">Connectez-vous pour obtenir de l'assistance sur votre commande</p>
-                    <a href="user.php" class="btn btn-lg" style="background-color: #FDD835; border-color: #FDD835; color: black;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-12 text-center">
+                <h1 class="fw-bold">Besoin d'aide ?</h1>
+                <p class="lead">Connectez-vous pour obtenir de l'assistance sur votre commande</p>
+                <a href="user.php" class="btn btn-lg" style="background-color: #FDD835; border-color: #FDD835; color: black;">
                     Espace client
                 </a>
-                </div>
             </div>
         </div>
     </div>
+</div>
 
 <div class="container my-5">
-   
     <!-- Accordéon Bootstrap -->
     <div class="accordion" id="helpAccordion">
         <!-- Section Aide & Assistance -->
@@ -60,8 +59,8 @@
             </div>
         </div>
 
-       <!-- Section Retours et remboursements -->
-       <div class="accordion-item">
+        <!-- Section Retours et remboursements -->
+        <div class="accordion-item">
             <h2 class="accordion-header" id="headingThree">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                     Retours et remboursements
@@ -80,5 +79,12 @@
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+<script>document.querySelectorAll('.accordion-button').forEach(button => {
+    button.addEventListener('click', () => {
+        const target = document.querySelector(button.getAttribute('data-bs-target'));
+        if (target.classList.contains('show')) {
+            target.classList.remove('show');
+        }
+    });
+});</script>
 <?php include 'footer.php'; ?>
