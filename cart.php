@@ -11,7 +11,6 @@ if (!isset($_SESSION['panier']) || empty($_SESSION['panier'])) {
 $panier = $_SESSION['panier'];
 $total = 0;
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -25,49 +24,83 @@ $total = 0;
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-8">
-                <h2>Votre Panier</h2>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Produit</th>
-                            <th>Quantité</th>
-                            <th>Prix unitaire</th>
-                            <th>Total</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($panier as $id => $item): ?>
-                            <tr>
-                                <td>
-                                    <img src="images/<?= htmlspecialchars($item['image']) ?>" alt="<?= htmlspecialchars($item['nom']) ?>" width="50">
-                                    <?= htmlspecialchars($item['nom']) ?>
-                                </td>
-                                <td>
-                                <form method="POST" action="modifier_quantite.php">
-    <input type="number" name="quantite" value="<?= htmlspecialchars($item['quantite']) ?>" min="1">
-    <input type="hidden" name="id" value="<?= htmlspecialchars($id) ?>">
-    <button type="submit" class="btn btn-sm btn-primary">Modifier</button>
-</form>
-                                </td>
-                                <td><?= number_format($item['prix'], 2, ',', ' ') ?> €</td>
-                                <td><?= number_format($item['prix'] * $item['quantite'], 2, ',', ' ') ?> €</td>
-                                <td>
-                                    <a href="supprimer_produit.php?id=<?= htmlspecialchars($id) ?>" class="btn btn-sm btn-danger">Supprimer</a>
-                                </td>
-                            </tr>
-                            <?php $total += $item['prix'] * $item['quantite']; ?>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-                <a href="vider_panier.php" class="btn btn-danger">Vider le panier</a>
+                <div class="card shadow-sm">
+                    <div class="card-header" style="background-color: #A6C8D1; color: #000;">
+                        <h2 class="h5 mb-0">Votre Panier</h2>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Produit</th>
+                                    <th>Quantité</th>
+                                    <th>Prix unitaire</th>
+                                    <th>Total</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($panier as $id => $item): ?>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/<?= htmlspecialchars($item['image']) ?>" alt="<?= htmlspecialchars($item['nom']) ?>" width="50" class="mr-3">
+                                                <span><?= htmlspecialchars($item['nom']) ?></span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <form method="POST" action="modifier_quantite.php" class="d-flex align-items-center">
+                                                <input type="number" name="quantite" value="<?= htmlspecialchars($item['quantite']) ?>" min="1" class="form-control form-control-sm w-50 mr-2">
+                                                <input type="hidden" name="id" value="<?= htmlspecialchars($id) ?>">
+                                                <button type="submit" class="btn btn-sm" style="background-color: #A6C8D1; color: #000;">Modifier</button>
+                                            </form>
+                                        </td>
+                                        <td><?= number_format($item['prix'], 2, ',', ' ') ?> €</td>
+                                        <td><?= number_format($item['prix'] * $item['quantite'], 2, ',', ' ') ?> €</td>
+                                        <td>
+                                            <a href="supprimer_produit.php?id=<?= htmlspecialchars($id) ?>" class="btn btn-sm btn-danger">Supprimer</a>
+                                        </td>
+                                    </tr>
+                                    <?php $total += $item['prix'] * $item['quantite']; ?>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer bg-light">
+                        <a href="vider_panier.php" class="btn btn-danger">Vider le panier</a>
+                    </div>
+                </div>
             </div>
             <div class="col-md-4">
-                <h2>Récapitulatif</h2>
-                <p>Sous-total: <?= number_format($total, 2, ',', ' ') ?> €</p>
-                <p>Livraison: Gratuite</p>
-                <p>Total: <?= number_format($total, 2, ',', ' ') ?> €</p>
-                <a href="commander.php" class="btn btn-success">Passer la commande</a>
+                <div class="card shadow-sm">
+                    <div class="card-header" style="background-color: #A6C8D1; color: #000;">
+                        <h2 class="h5 mb-0">Récapitulatif</h2>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Sous-total
+                                <span class="font-weight-bold"><?= number_format($total, 2, ',', ' ') ?> €</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Livraison
+                                <span class="text-success font-weight-bold">Gratuite</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Total
+                                <span class="font-weight-bold"><?= number_format($total, 2, ',', ' ') ?> €</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-footer bg-light">
+                        <a href="commander.php" class="btn btn-block btn-lg" style="background-color: #A6C8D1; color: #000; border-color: #A6C8D1;">Passer la commande</a>
+                        <div class="d-flex justify-content-center mt-3">
+                            <img src="images/visa.png" alt="Visa" width="50" class="mx-2">
+                            <img src="images/masterCard.png" alt="MasterCard" width="50" class="mx-2">
+                            <img src="images/paypal.png" alt="PayPal" width="50" class="mx-2">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

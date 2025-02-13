@@ -395,3 +395,18 @@ margin-bottom: 1rem;
     background-color: #28a745;
     border-color: #28a745;
 }
+
+.form-control-sm {
+    width: 60px; /* Réduit la taille des champs de quantité */
+    padding: 3px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+.btn-modifier {
+    padding: 3px 8px;
+    font-size: 0.8rem;
+}
+tbody tr {
+    margin-bottom: 10px; /* Ajoute un léger espace entre les lignes */
+    display: table-row;
+}
