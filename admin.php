@@ -9,7 +9,10 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== 1) {
 
 include 'db.php'; // Inclure le fichier de connexion à la base de données
 
-// Recherche des produits
+// Initialiser la connexion à la base de données
+$pdo = getDBConnection();
+
+// Gestion des produits
 $produits = [];
 $searchProduit = '';
 if (isset($_POST['search_produit'])) {
@@ -21,20 +24,6 @@ if (isset($_POST['search_produit'])) {
     $stmt = $pdo->prepare("SELECT * FROM produits LIMIT 10");
     $stmt->execute();
     $produits = $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
-// Recherche des utilisateurs
-$users = [];
-$searchUser = '';
-if (isset($_POST['search_user'])) {
-    $searchUser = $_POST['search_user'];
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE nom LIKE :nom OR prenom LIKE :prenom LIMIT 10");
-    $stmt->execute([':nom' => '%' . $searchUser . '%', ':prenom' => '%' . $searchUser . '%']);
-    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} else {
-    $stmt = $pdo->prepare("SELECT * FROM users LIMIT 10");
-    $stmt->execute();
-    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 // Ajouter un produit
@@ -49,7 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
     $promos = $_POST['promos'] ?? '';
 
     if ($tmp_image) {
-        $image_path = 'uploads/' . $image;
+        // Utiliser le dossier 'images/'
+        $image_path = 'images/' . $image;
         move_uploaded_file($tmp_image, $image_path);
     } else {
         $image_path = '';
@@ -72,24 +62,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
     $message = "Produit ajouté avec succès!";
 }
 
+// Supprimer un produit
+if (isset($_GET['delete_product'])) {
+    $id_produit = $_GET['delete_product'];
+    $stmt = $pdo->prepare("DELETE FROM produits WHERE id_produits = :id_produit");
+    $stmt->execute([':id_produit' => $id_produit]);
+    header("Location: admin.php"); // Recharger la page après suppression
+    exit();
+}
+
+// Gestion des utilisateurs
+$users = [];
+$searchUser = '';
+if (isset($_POST['search_user'])) {
+    $searchUser = $_POST['search_user'];
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE nom LIKE :nom OR prenom LIKE :prenom LIMIT 10");
+    $stmt->execute([':nom' => '%' . $searchUser . '%', ':prenom' => '%' . $searchUser . '%']);
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} else {
+    $stmt = $pdo->prepare("SELECT * FROM users LIMIT 10");
+    $stmt->execute();
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Supprimer un utilisateur
+if (isset($_GET['delete_user'])) {
+    $id_user = $_GET['delete_user'];
+    $stmt = $pdo->prepare("DELETE FROM users WHERE id_users = :id_user");
+    $stmt->execute([':id_user' => $id_user]);
+    header("Location: admin.php"); // Recharger la page après suppression
+    exit();
+}
+
 // Ajouter une promotion
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_promo'])) {
     $id_produit = $_POST['id_produit'] ?? '';
     $nom_promo = $_POST['nom_promo'] ?? '';
 
-    // Insertion de la promotion
-    $stmt = $pdo->prepare("
-        UPDATE produits SET promos = :nom_promo WHERE id_produits = :id_produit
-    ");
+    // Mise à jour de la promotion
+    $stmt = $pdo->prepare("UPDATE produits SET promos = :nom_promo WHERE id_produits = :id_produit");
     $stmt->execute([
         ':nom_promo' => $nom_promo,
         ':id_produit' => $id_produit,
     ]);
     $messagePromo = "Promotion ajoutée avec succès!";
 }
-
 ?>
-
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="light">
 <head>
@@ -100,14 +118,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_promo'])) {
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Barre de navigation avec bouton de déconnexion -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Admin Panel</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="btn btn-danger" href="index.php">Quitter l'admin</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <div class="container my-5">
         <h1 class="text-center mb-4">Gestion des Produits et des Utilisateurs</h1>
+
+        <!-- Section Gestion des Produits -->
+        <h2>Gestion des Produits</h2>
 
         <!-- Barre de recherche pour les produits -->
         <form method="POST" action="admin.php" class="mb-4">
             <input type="text" name="search_produit" class="form-control" placeholder="Rechercher un produit par nom" value="<?= $searchProduit ?>">
         </form>
 
+        <!-- Liste des Produits -->
         <h3>Liste des Produits</h3>
         <table class="table table-bordered mb-4">
             <thead>
@@ -116,6 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_promo'])) {
                     <th>Nom</th>
                     <th>Prix</th>
                     <th>Image</th>
+                    <th>Promotion</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -126,17 +166,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_promo'])) {
                         <td><?= $produit['nom'] ?></td>
                         <td><?= $produit['prix'] ?> €</td>
                         <td>
-                            <?php if ($produit['images']) : ?>
-                                <img src="<?= $produit['images'] ?>" alt="Image" style="width: 100px; height: 100px;">
+                            <?php if (!empty($produit['images'])) : ?>
+                                <img src="images/<?= $produit['images'] ?>" alt="Image du produit" style="width: 100px; height: 100px;">
                             <?php else : ?>
-                                <p>Aucune image</p>
+                                <p>Aucune image disponible</p>
                             <?php endif; ?>
                         </td>
+                        <td><?= $produit['promos'] ?? 'Aucune' ?></td>
                         <td>
-                            <form method="POST" action="admin_modifier_produit.php">
-                                <input type="hidden" name="id_produit" value="<?= $produit['id_produits'] ?>">
-                                <button type="submit" class="btn btn-warning">Modifier</button>
-                            </form>
+                            <a href="admin_modifier_produit.php?id=<?= $produit['id_produits'] ?>" class="btn btn-warning">Modifier</a>
+                            <a href="admin.php?delete_product=<?= $produit['id_produits'] ?>" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">Supprimer</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -189,22 +228,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_promo'])) {
         <form method="POST" action="admin.php" class="mb-4">
             <input type="hidden" name="add_promo" value="1">
             <div class="mb-3">
-                <label for="id_produit" class="form-label">Sélectionner un produit</label>
-                <select name="id_produit" class="form-control" required>
-                    <?php foreach ($produits as $produit) : ?>
-                        <option value="<?= $produit['id_produits'] ?>"><?= $produit['nom'] ?></option>
-                    <?php endforeach; ?>
-                </select>
+                <label for="id_produit" class="form-label">ID Produit</label>
+                <input type="number" name="id_produit" class="form-control" required>
             </div>
             <div class="mb-3">
                 <label for="nom_promo" class="form-label">Nom de la promotion</label>
                 <input type="text" name="nom_promo" class="form-control" required>
             </div>
-            <button type="submit" class="btn btn-primary">Ajouter Promotion</button>
+            <button type="submit" class="btn btn-success">Ajouter Promotion</button>
         </form>
 
-    </div>
+        <!-- Section Gestion des Utilisateurs -->
+        <h2>Gestion des Utilisateurs</h2>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Barre de recherche pour les utilisateurs -->
+        <form method="POST" action="admin.php" class="mb-4">
+            <input type="text" name="search_user" class="form-control" placeholder="Rechercher un utilisateur par nom ou prénom" value="<?= $searchUser ?>">
+        </form>
+
+        <!-- Liste des Utilisateurs -->
+        <h3>Liste des Utilisateurs</h3>
+        <table class="table table-bordered mb-4">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($users as $user) : ?>
+                    <tr>
+                        <td><?= $user['id_users'] ?></td>
+                        <td><?= $user['nom'] ?> <?= $user['prenom'] ?></td>
+                        <td><?= $user['email'] ?></td>
+                        <td>
+                            <a href="admin_modifier_user.php?id=<?= $user['id_users'] ?>" class="btn btn-warning">Modifier</a>
+                            <a href="admin.php?delete_user=<?= $user['id_users'] ?>" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')">Supprimer</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
