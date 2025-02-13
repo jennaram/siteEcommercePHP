@@ -88,45 +88,31 @@ session_start();
                     </div>
                 </form>
 
+                <!-- Icônes utilisateur et panier -->
                 <div class="d-flex align-items-center">
-    <?php if (isset($_SESSION['id_users'])) : ?>
-        <!-- Lien vers le profil utilisateur -->
-        <a class="nav-link me-3" href="user.php">
-            <i class="bi bi-person fs-5"></i>
-        </a>
-        <!-- Lien vers le panier -->
-        <a class="nav-link me-3" href="cart.php">
-            <i class="bi bi-cart3 fs-5"></i>
-            <!-- Badge avec le nombre de produits dans le panier -->
-            <?php
-            $quantite_totale = 0;
-            if (isset($_SESSION['panier']) && is_array($_SESSION['panier'])) {
-                foreach ($_SESSION['panier'] as $produit) {
-                    $quantite_totale += $produit['quantite'];
-                }
-            }
-            if ($quantite_totale > 0) : ?>
-                <span class="badge bg-danger"><?= $quantite_totale ?></span>
-            <?php endif; ?>
-        </a>
-        <!-- Lien de déconnexion -->
-        <a class="nav-link me-3" href="logout.php">
+                    <a class="nav-link me-3" href="user.php">
+                        <i class="bi bi-person fs-5"></i>
+                    </a>
+                    <a class="nav-link me-3" href="cart.php">
+                        <i class="bi bi-cart3 fs-5"></i>
+                    </a>
+                    <a class="nav-link me-3" href="logout.php">
+                        <i class="bi bi-box-arrow-right fs-5"></i>
+                    </a>
+                   <?php if (isset($_SESSION['user_id'])): ?> 
+        <a class="nav-link me-3 text-danger" href="logout.php">
             <i class="bi bi-box-arrow-right fs-5"></i>
         </a>
-    <?php else : ?>
-        <!-- Lien de connexion si l'utilisateur n'est pas connecté -->
-        <a class="nav-link me-3" href="user.php">
-            <i class="bi bi-person fs-5"></i> 
-        </a>
     <?php endif; ?>
-</div>
+                    </div>
 
-                <!-- Bouton de bascule dark/light -->
-                <div class="form-check form-switch ms-2">
-                    <input class="form-check-input" type="checkbox" role="switch" id="darkModeSwitch">
-                    <label class="form-check-label" for="darkModeSwitch">
-                        <i class="bi bi-moon-stars"></i>
-                    </label>
+                    <!-- Bouton de bascule dark/light -->
+                    <div class="form-check form-switch ms-2">
+                        <input class="form-check-input" type="checkbox" role="switch" id="darkModeSwitch">
+                        <label class="form-check-label" for="darkModeSwitch">
+                            <i class="bi bi-moon-stars"></i>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
