@@ -320,3 +320,16 @@ margin-bottom: 1rem;
     border-color: #495057;
     color: #fff;
 }
+
+.card {
+    margin-bottom: 20px;
+}
+.card-img {
+    max-width: 150px;
+    height: auto;
+}
+.total-section {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+}
