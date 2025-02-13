@@ -115,7 +115,7 @@ $bestSellers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <p class="card-text"><strong>Marque :</strong> <?= htmlspecialchars($product['nom_marque']) ?></p>
                             <p class="card-text"><strong>Prix :</strong> <?= number_format($product['prix'], 2, ',', ' ') ?> €</p>
                             <a href="produit.php?id=<?= htmlspecialchars($product['id_produits']) ?>" class="btn btn-primary">Voir le produit</a>
-                            <a href="ajouter_panier.php?id=<?= htmlspecialchars($smartphone['id_produits']) ?>" class="btn btn-success ms-2">Ajouter au panier</a>
+                            <a href="ajouter_panier.php?id=<?= htmlspecialchars($product['id_produits']) ?>" class="btn btn-success ms-2">Ajouter au panier</a>
                         </div>
                     </div>
                 </div>
@@ -187,7 +187,7 @@ $bestSellers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <p class="card-text"><strong>Type :</strong> <?= htmlspecialchars($product['type_produit']) ?></p>
                                     <p class="card-text"><strong>Prix :</strong> <?= number_format($product['prix'], 2, ',', ' ') ?> €</p>
                                     <a href="produit.php?id=<?= htmlspecialchars($product['id_produits']) ?>" class="btn btn-primary">Voir le produit</a>
-                                    <a href="ajouter_panier.php?id=<?= htmlspecialchars($smartphone['id_produits']) ?>" class="btn btn-success ms-2">Ajouter au panier</a>
+                                    <a href="ajouter_panier.php?id=<?= htmlspecialchars($product['id_produits']) ?>" class="btn btn-success ms-2">Ajouter au panier</a>
                                 </div>
                             </div>
                         </div>

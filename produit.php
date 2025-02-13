@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$utilisateur_connecte) {
                         <?php endif; ?>
                     </div>
 
-                    <button class="btn btn-primary mt-3">Ajouter au panier</button>
+                    <a href="ajouter_panier.php?id=<?= htmlspecialchars($product['id_produits']) ?>" class="btn btn-success ms-2">Ajouter au panier</a>
                 </div>
             </div>
         </div>

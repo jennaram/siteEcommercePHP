@@ -124,7 +124,7 @@ $tablettes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <!-- Bouton Voir le produit -->
                                 <a href="produit.php?id=<?= htmlspecialchars($tablette['id_produits']) ?>" class="btn btn-primary">Voir le produit</a>
                                 <!-- Nouveau bouton "Ajouter au panier" -->
-                                <a href="ajouter_panier.php?id=<?= htmlspecialchars($tablette['id_produits']) ?>" class="btn btn-success mt-2">Ajouter au panier</a>
+                                <a href="ajouter_panier.php?id=<?= htmlspecialchars($tablette['id_produits']) ?>" class="btn btn-success ms-2">Ajouter au panier</a>
                             </div>
                         </div> <!-- Fermeture de la div card -->
                     </div> <!-- Fermeture de la div col-md-4 -->

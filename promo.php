@@ -169,7 +169,7 @@ $promoProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 </div>
                                 
                                 <a href="produit.php?id=<?= htmlspecialchars($product['id_produits']) ?>&promo=1" class="btn btn-primary mt-3">Voir le produit</a>
-                                <a href="ajouter_panier.php?id=<?= htmlspecialchars($smartphone['id_produits']) ?>" class="btn btn-success ms-2">Ajouter au panier</a>
+                                <a href="ajouter_panier.php?id=<?= htmlspecialchars($product['id_produits']) ?>" class="btn btn-success ms-2">Ajouter au panier</a>
                             </div>
                         </div>
                     </div>
