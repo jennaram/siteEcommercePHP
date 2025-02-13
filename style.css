@@ -18,12 +18,30 @@ body {
     left: 0;
 }
 
-
+.page-laptop .promo-banner {
+    background-color: #BEA6D1; /* Couleur spécifique pour la page laptop */
+}
 .promo-banner {
     background-color: #A6C8D1;
     color: black;
     padding: 2rem 0; /* Augmenter le padding vertical */
 }
+
+/* Couleur pour la page des smartphones */
+.page-smartphones .promo-banner {
+    background-color: #FFCCBC; /* Couleur spécifique pour la page smartphones */
+}
+
+/* Couleur pour la page des tablettes */
+.page-tablettes .promo-banner {
+    background-color: #C2D1A6; /* Couleur spécifique pour la page tablettes */
+}
+
+/* Couleur pour la page des tablettes */
+.page-index .promo-banner {
+    background-color: #D1B0A6; /* Couleur spécifique pour la page tablettes */
+}
+
 
 .promo-banner h1 {
     font-size: 2.5rem; /* Augmenter la taille du titre */
@@ -61,6 +79,52 @@ background-color: #343a40; /* Couleur de fond sombre pour le footer */
     color: white; /* Texte blanc pour toute la page */
 }
 
+[data-bs-theme="dark"] .navbar {
+    background-color: #343a40;
+    color: white;
+}
+
+[data-bs-theme="dark"] .footer {
+    background-color: #343a40;
+    color: white;
+}
+
+[data-bs-theme="dark"] .card {
+    background-color: #343a40;
+    color: white;
+    border-color: #495057;
+}
+
+[data-bs-theme="dark"] .table {
+    color: white;
+    background-color: #343a40;
+}
+
+[data-bs-theme="dark"] .table th,
+[data-bs-theme="dark"] .table td {
+    border-color: #495057;
+}
+
+[data-bs-theme="dark"] .btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+[data-bs-theme="dark"] .btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0b5ed7;
+}
+
+[data-bs-theme="dark"] .form-control {
+    background-color: #343a40;
+    color: white;
+    border-color: #6c757d;
+}
+
+[data-bs-theme="dark"] .form-control::placeholder {
+    color: #bbb;
+}
+
 /* Styles pour les titres et paragraphes en mode sombre */
 [data-bs-theme="dark"] h1,
 [data-bs-theme="dark"] h2,
@@ -96,6 +160,13 @@ background-color: #343a40; /* Couleur de fond sombre pour le footer */
 [data-bs-theme="dark"] .btn-primary {
     background-color: #0d6efd; /* Bouton primaire en mode sombre */
     border-color: #0d6efd;
+    color: white;
+}
+
+[data-bs-theme="dark"] .btn-secondary {
+    background-color: #0d6efd; /* Bouton primaire en mode sombre */
+    border-color: #0d6efd;
+    color: white;
 }
 
 [data-bs-theme="dark"] .btn-primary:hover {
@@ -380,8 +451,20 @@ margin-bottom: 1rem;
 
 .btn-primary {
     color: #fff;
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: #A6C8D1;
+    border-color: #A6C8D1;
+}
+
+.btn-secondary {
+    color: #fff;
+    background-color: #BEA6D1;
+    border-color: #BEA6D1;
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #D1B0A6;
+    border-color: #D1B0A6;
 }
 
 .btn-danger {

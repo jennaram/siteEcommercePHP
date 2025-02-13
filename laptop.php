@@ -49,7 +49,7 @@ $ordinateurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="page-laptop">
     <!-- Bandeau promotionnel -->
     <div class="promo-banner py-4">
         <div class="container">

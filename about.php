@@ -84,22 +84,29 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+       document.addEventListener("DOMContentLoaded", function () {
     const darkModeSwitch = document.getElementById('darkModeSwitch');
+    const navbar = document.getElementById('navbar');
 
+    // Appliquer le bon thème au chargement
     if (localStorage.getItem('darkMode') === 'true') {
         document.documentElement.setAttribute('data-bs-theme', 'dark');
-        // ... (autres modifications pour le mode sombre)
+        navbar.classList.replace('navbar-light', 'navbar-dark');
+        navbar.classList.replace('bg-light', 'bg-dark');
+        darkModeSwitch.checked = true;
     }
 
+    // Gestion du changement de mode
     darkModeSwitch.addEventListener('change', function () {
         if (this.checked) {
             document.documentElement.setAttribute('data-bs-theme', 'dark');
-            // ... (autres modifications pour le mode sombre)
+            navbar.classList.replace('navbar-light', 'navbar-dark');
+            navbar.classList.replace('bg-light', 'bg-dark');
             localStorage.setItem('darkMode', 'true');
         } else {
             document.documentElement.setAttribute('data-bs-theme', 'light');
-            // ... (autres modifications pour le mode clair)
+            navbar.classList.replace('navbar-dark', 'navbar-light');
+            navbar.classList.replace('bg-dark', 'bg-light');
             localStorage.setItem('darkMode', 'false');
         }
     });

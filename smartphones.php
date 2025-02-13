@@ -62,7 +62,7 @@ if (empty($smartphones)) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="page-smartphones">
     <!-- Bandeau promotionnel -->
     <div class="promo-banner py-4">
         <div class="container">

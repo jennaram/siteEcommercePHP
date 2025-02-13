@@ -50,7 +50,7 @@ $tablettes = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="style.css">
     
 </head>
-<body>
+<body class="page-tablettes">
     <!-- Bandeau promotionnel -->
     <div class="promo-banner py-4">
         <div class="container">
