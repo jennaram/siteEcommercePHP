@@ -90,9 +90,14 @@ if (session_status() === PHP_SESSION_NONE) {
                             <i class="bi bi-person fs-5"></i>
                         </a>
                     <?php endif; ?>
-                    <a class="nav-link me-3" href="cart.php">
-                        <i class="bi bi-cart3 fs-5"></i>
-                    </a>
+                    <a class="nav-link me-3 position-relative" href="cart.php">
+    <i class="bi bi-cart3 fs-5"></i>
+    <?php if (isset($_SESSION['panier']) && !empty($_SESSION['panier'])): ?>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            <?= array_sum(array_column($_SESSION['panier'], 'quantite')) ?>
+        </span>
+    <?php endif; ?>
+</a>
                 </div>
 
                 <!-- Bouton Connexion / Déconnexion -->
@@ -101,7 +106,17 @@ if (session_status() === PHP_SESSION_NONE) {
                 </a>
             </div>
         </div>
+
+        <!-- Bouton de bascule dark/light -->
+<div class="form-check form-switch ms-2">
+    <input class="form-check-input" type="checkbox" role="switch" id="darkModeSwitch">
+    <label class="form-check-label" for="darkModeSwitch">
+        <i class="bi bi-moon-stars"></i>
+    </label>
+</div>
     </nav>
+
+
 
     <!-- Scripts Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
