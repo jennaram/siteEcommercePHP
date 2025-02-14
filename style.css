@@ -27,6 +27,24 @@ body {
     padding: 2rem 0; /* Augmenter le padding vertical */
 }
 
+.product-image {
+    max-width: 100%; /* L'image ne dépassera pas la largeur de son conteneur */
+    height: auto; /* Conserve le ratio de l'image */
+    width: 100px; /* Largeur fixe pour toutes les images */
+    height: 100px; /* Hauteur fixe pour toutes les images */
+    object-fit: cover; /* Assure que l'image couvre la zone définie sans déformation */
+    border-radius: 10px; /* Optionnel: Ajoute des coins arrondis */
+    margin: 0 auto; /* Centre l'image dans son conteneur */
+    display: block; /* Assure que l'image est un bloc pour centrage */
+}
+
+.product-image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%; /* Assure que le conteneur prend toute la hauteur disponible */
+}
+
 /* Couleur pour la page des smartphones */
 .page-smartphones .promo-banner {
     background-color: #FFCCBC; /* Couleur spécifique pour la page smartphones */
@@ -488,4 +506,18 @@ tbody tr {
 .badge {
     font-size: 0.75em;
     padding: 0.25em 0.5em;
+}
+
+@media (max-width: 768px) {
+    .product-image {
+        width: 200px; /* Réduire la taille de l'image sur les petits écrans */
+        height: 200px;
+    }
+}
+
+@media (max-width: 576px) {
+    .product-image {
+        width: 150px; /* Réduire encore plus la taille de l'image sur les très petits écrans */
+        height: 150px;
+    }
 }

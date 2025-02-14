@@ -73,9 +73,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$utilisateur_connecte) {
 
     <div class="container mt-5">
         <div class="row">
-            <div class="col-md-6">
-                <img src="images/<?= htmlspecialchars($produit['images']) ?>" alt="<?= htmlspecialchars($produit['nom']) ?>">
-            </div>
+        <div class="col-md-6">
+    <img src="images/<?= htmlspecialchars($produit['images']) ?>" 
+         alt="<?= htmlspecialchars($produit['nom']) ?>" 
+         class="img-fluid" 
+         style="max-width: 300px; height: auto;"> <!-- Styles inline pour forcer la taille -->
+</div>
             <div class="col-md-6">
                 <div class="product-details">
                     <h1><?= htmlspecialchars($produit['nom']) ?></h1>
