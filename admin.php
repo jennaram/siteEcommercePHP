@@ -85,6 +85,36 @@ if (isset($_POST['search_user'])) {
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+// Ajouter un utilisateur ou admin
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_user'])) {
+    $nom = $_POST['nom'] ?? '';
+    $prenom = $_POST['prenom'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hasher le mot de passe
+    $is_admin = isset($_POST['is_admin']) ? 1 : 0;
+
+    // Vérifier si l'email existe déjà
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE email = :email");
+    $stmt->execute([':email' => $email]);
+    if ($stmt->fetchColumn() > 0) {
+        $messageUser = "Cet email existe déjà!";
+    } else {
+        // Insertion de l'utilisateur
+        $stmt = $pdo->prepare("
+            INSERT INTO users (nom, prenom, email, password, admin)
+            VALUES (:nom, :prenom, :email, :password, :admin)
+        ");
+        $stmt->execute([
+            ':nom' => $nom,
+            ':prenom' => $prenom,
+            ':email' => $email,
+            ':password' => $password,
+            ':admin' => $is_admin
+        ]);
+        $messageUser = "Utilisateur ajouté avec succès!";
+    }
+}
+
 // Supprimer un utilisateur
 if (isset($_GET['delete_user'])) {
     $id_user = $_GET['delete_user'];
@@ -254,6 +284,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_promo'])) {
                     <th>ID</th>
                     <th>Nom</th>
                     <th>Email</th>
+                    <th>Type</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -263,6 +294,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_promo'])) {
                         <td><?= $user['id_users'] ?></td>
                         <td><?= $user['nom'] ?> <?= $user['prenom'] ?></td>
                         <td><?= $user['email'] ?></td>
+                        <td><?= $user['admin'] == 1 ? 'Administrateur' : 'Utilisateur' ?></td>
                         <td>
                             <a href="admin_modifier_user.php?id=<?= $user['id_users'] ?>" class="btn btn-warning">Modifier</a>
                             <a href="admin.php?delete_user=<?= $user['id_users'] ?>" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')">Supprimer</a>
@@ -271,6 +303,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_promo'])) {
                 <?php endforeach; ?>
             </tbody>
         </table>
+
+        <!-- Ajouter un utilisateur -->
+        <h3>
+        <!-- Ajouter un utilisateur -->
+        <h3>Ajouter un utilisateur</h3>
+        <?php if (isset($messageUser)) : ?>
+            <div class="alert alert-success"><?= $messageUser ?></div>
+        <?php endif; ?>
+        <form method="POST" action="admin.php" class="mb-4">
+            <input type="hidden" name="add_user" value="1">
+            <div class="mb-3">
+                <label for="nom" class="form-label">Nom</label>
+                <input type="text" name="nom" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="prenom" class="form-label">Prénom</label>
+                <input type="text" name="prenom" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Mot de passe</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
+            <div class="mb-3 form-check">
+                <input type="checkbox" name="is_admin" class="form-check-input" id="is_admin">
+                <label class="form-check-label" for="is_admin">Compte administrateur</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Ajouter Utilisateur</button>
+        </form>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
