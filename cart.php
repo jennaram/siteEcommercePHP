@@ -11,8 +11,10 @@ if (!isset($_SESSION['panier']) || empty($_SESSION['panier'])) {
 $panier = $_SESSION['panier'];
 $total = 0;
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,6 +22,7 @@ $total = 0;
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="container mt-5">
         <div class="row">
@@ -44,30 +47,38 @@ $total = 0;
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <img src="images/<?= htmlspecialchars($item['image']) ?>" alt="<?= htmlspecialchars($item['nom']) ?>" width="50" class="mr-3">
+                                                <img src="images/<?= htmlspecialchars($item['image']) ?>"
+                                                    alt="<?= htmlspecialchars($item['nom']) ?>" width="50"
+                                                    class="mr-3">
                                                 <span><?= htmlspecialchars($item['nom']) ?></span>
                                             </div>
                                         </td>
                                         <td>
-                                        <form method="POST" action="modifier_quantite.php" class="d-flex align-items-center">
-    <input type="number" name="quantite" value="<?= htmlspecialchars($item['quantite']) ?>" min="1" class="form-control form-control-sm w-50 mr-2">
-    <input type="hidden" name="id" value="<?= htmlspecialchars($id) ?>">
-    <button type="submit" class="btn btn-sm" style="background-color: #A6C8D1; color: #000;">Modifier</button>
-</form>
+                                            <form method="POST" action="modifier_quantite.php"
+                                                class="d-flex align-items-center">
+                                                <input type="number" name="quantite"
+                                                    value="<?= htmlspecialchars($item['quantite']) ?>" min="1"
+                                                    class="form-control form-control-sm w-50 mr-2">
+                                                <input type="hidden" name="id" value="<?= htmlspecialchars($id) ?>">
+                                                <button type="submit" class="btn btn-sm"
+                                                    style="background-color: #A6C8D1; color: #000;">Modifier</button>
+                                            </form>
                                         </td>
                                         <td><?= number_format($item['prix'], 2, ',', ' ') ?> €</td>
-                                        <td><?= number_format($item['prix'] * $item['quantite'], 2, ',', ' ') ?> €</td>
+                                        <td><?= number_format($item['prix_final'] * $item['quantite'], 2, ',', ' ') ?>
+                                            €</td>
                                         <td>
-                                        <a href="supprimer_produit.php?id=<?= htmlspecialchars($id) ?>" class="btn btn-sm btn-danger">Supprimer</a>
+                                            <a href="supprimer_produit.php?id=<?= htmlspecialchars($id) ?>"
+                                                class="btn btn-sm btn-danger">Supprimer</a>
                                         </td>
                                     </tr>
-                                    <?php $total += $item['prix'] * $item['quantite']; ?>
+                                    <?php $total += $item['prix_final'] * $item['quantite']; ?>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
                     <div class="card-footer bg-light">
-                    <a href="vider_panier.php" class="btn btn-danger">Vider le panier</a>
+                        <a href="vider_panier.php" class="btn btn-danger">Vider le panier</a>
                     </div>
                 </div>
             </div>
@@ -93,7 +104,9 @@ $total = 0;
                         </ul>
                     </div>
                     <div class="card-footer bg-light">
-                        <a href="commander.php" class="btn btn-block btn-lg" style="background-color: #A6C8D1; color: #000; border-color: #A6C8D1;">Passer la commande</a>
+                        <a href="commander.php" class="btn btn-block btn-lg"
+                            style="background-color: #A6C8D1; color: #000; border-color: #A6C8D1;">Passer la
+                            commande</a>
                         <div class="d-flex justify-content-center mt-3">
                             <img src="images/visa.png" alt="Visa" width="50" class="mx-2">
                             <img src="images/masterCard.png" alt="MasterCard" width="50" class="mx-2">
@@ -106,4 +119,5 @@ $total = 0;
     </div>
     <?php include 'footer.php'; ?>
 </body>
+
 </html>
