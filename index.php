@@ -109,7 +109,7 @@ $bestSellers = $stmt->fetchAll(PDO::FETCH_ASSOC);
      <!-- Section des meilleures ventes -->
      <div class="content-section-wrapper">
     <div class="container content-section">
-        <h1>Nos meilleures ventes</h1>
+        <h2>Nos meilleures ventes</h2>
         <div class="row">
             <?php foreach ($bestSellers as $product) : ?>
                 <div class="col-md-4 mb-4">

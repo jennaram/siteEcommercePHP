@@ -86,7 +86,7 @@ $promoProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- Paragraphe supplémentaire -->
     <div class="content-section-wrapper">
         <div class="container content-section">
-            <h1>Des promotions jusqu'à -30% ! </h1>
+            <h2>Des promotions jusqu'à -30% ! </h2>
             
             <!-- Filtres de recherche -->
 <div class="container mt-4">

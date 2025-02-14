@@ -56,7 +56,7 @@ $tablettes = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6 text-start">
-                    <h1 class="fw-bold">Nos dernières tablettes !</h1>
+                <h1 class="fw-bold" style="font-size: 1.8rem; white-space: nowrap;">Nos dernières tablettes !</h1>
                     <p class="lead">Profitez de nos offres exclusives sur une large sélection de produits.</p>
                     <a href="promo.php" class="btn btn-lg" style="background-color: #FDD835; color: black;">
                         Découvrir nos offres
@@ -70,7 +70,7 @@ $tablettes = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <!-- Filtres de recherche -->
-    <div class="container mt-4">
+    <div class="container mt-4 mb-5">
         <form method="GET" action="tablettes.php">
             <div class="row">
                 <div class="col-md-3">
@@ -110,7 +110,7 @@ $tablettes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <div class="content-section-wrapper">
     <div class="container content-section">
-        <h1>Nos tablettes</h1>
+        
         <div class="row">
             <?php if (!empty($tablettes)) : ?>
                 <?php foreach ($tablettes as $tablette) : ?>

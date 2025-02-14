@@ -55,7 +55,7 @@ $ordinateurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6 text-start">
-                    <h1 class="fw-bold">Nos derniers ordinateurs portables !</h1>
+                <h1 class="fw-bold" style="font-size: 1.8rem; white-space: nowrap;">Nos derniers ordinateurs portables !</h1>
                     <p class="lead">Profitez de nos offres exclusives sur une large sélection de produits.</p>
                     <a href="promo.php" class="btn btn-lg" style="background-color: #FDD835; color: black;">
                         Découvrir nos offres

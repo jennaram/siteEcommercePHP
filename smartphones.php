@@ -81,13 +81,9 @@ if (empty($smartphones)) {
         </div>
     </div>
 
-    <!-- Paragraphe supplémentaire -->
-    <div class="content-section-wrapper">
-        <div class="container content-section">
-            <h1>Nos smartphones</h1>
-            
-            <!-- Filtres de recherche -->
-            <div class="container mt-4">
+    
+                    <!-- Filtres de recherche -->
+            <div class="container mt-4 mb-5">
                 <form method="GET" action="smartphones.php">
                     <div class="row">
                         <div class="col-md-3">
@@ -119,13 +115,12 @@ if (empty($smartphones)) {
                     </div>
                 </form>
             </div>
-        </div>
-    </div>
-
+           </div>
+       
     <!-- Section des smartphones -->
     <div class="content-section-wrapper">
         <div class="container content-section">
-            <h1>Nos smartphones</h1>
+            
             <div class="row">
                 <?php if (!empty($smartphones)) : ?>
                     <?php foreach ($smartphones as $smartphone) : ?>
