@@ -521,3 +521,10 @@ tbody tr {
         height: 150px;
     }
 }
+
+/* Ajoutez ce style pour garantir que le footer prend toute la largeur */
+.footer-full-width {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}

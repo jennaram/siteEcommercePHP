@@ -69,7 +69,7 @@ $ordinateurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <!-- Filtres de recherche -->
-    <div class="container mt-4">
+    <div class="container mt-4 mb-5">
         <form method="GET" action="laptop.php">
             <div class="row">
                 <div class="col-md-3">
@@ -108,7 +108,7 @@ $ordinateurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- Section des ordinateurs -->
     <div class="content-section-wrapper">
     <div class="container content-section">
-        <h2>Nos meilleures ventes</h2>
+        
         <div class="row">
             <?php foreach ($ordinateurs as $product) : ?>
                 <div class="col-md-4 mb-4">

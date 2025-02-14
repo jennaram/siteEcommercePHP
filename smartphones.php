@@ -120,7 +120,7 @@ if (empty($smartphones)) {
     <!-- Section des smartphones -->
     <div class="content-section-wrapper">
     <div class="container content-section">
-        <h2>Nos meilleures ventes</h2>
+      
         <div class="row">
             <?php foreach ($smartphones as $product) : ?>
                 <div class="col-md-4 mb-4">

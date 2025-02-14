@@ -110,7 +110,7 @@ $tablettes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <div class="content-section-wrapper">
     <div class="container content-section">
-        <h2>Nos meilleures ventes</h2>
+        
         <div class="row">
             <?php foreach ($tablettes as $product) : ?>
                 <div class="col-md-4 mb-4">
