@@ -179,24 +179,30 @@ $promoProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     </p>
                                 </div>
                                 
-                                <a href="produit.php?id=<?= htmlspecialchars($product['id_produits']) ?>&promo=1" class="btn btn-primary mt-3">Voir le produit</a>
-                                <a href="ajouter_panier.php?id=<?= htmlspecialchars($product['id_produits']) ?>" class="btn btn-success ms-2">Ajouter au panier</a>
+                                <!-- Boutons avec classes btn-sm et fs-6 -->
+                                <div class="d-grid gap-2 mt-3">
+                                    <a href="produit.php?id=<?= htmlspecialchars($product['id_produits']) ?>&promo=1" 
+                                       class="btn btn-primary btn-sm fs-6">
+                                        Voir le produit
+                                    </a>
+                                    <a href="ajouter_panier.php?id=<?= htmlspecialchars($product['id_produits']) ?>" 
+                                       class="btn btn-success btn-sm fs-6">
+                                        Ajouter au panier
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 <?php endforeach; ?>
-                <?php else : ?>
-                    <div class="col-12">
-                        <p class="text-center"><?= $noProductsMessage ?? 'Aucune produit trouvé.' ?></p>
-                    </div>
-                <?php endif; ?>
-            </div>
+            <?php else : ?>
+                <div class="col-12">
+                    <p class="text-center"><?= $noProductsMessage ?? 'Aucun produit trouvé.' ?></p>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
+</div>
 
-            </div>
-        </div>
-    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>

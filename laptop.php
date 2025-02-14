@@ -106,34 +106,42 @@ $ordinateurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <!-- Section des ordinateurs -->
-    <div class="container mt-4">
+    <div class="content-section-wrapper">
+    <div class="container content-section">
+        <h2>Nos meilleures ventes</h2>
         <div class="row">
-        <?php if (!empty($ordinateurs)) : ?>
-            <?php foreach ($ordinateurs as $ordinateur) : ?>
+            <?php foreach ($ordinateurs as $product) : ?>
                 <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                    <img src="images/<?= htmlspecialchars($ordinateur['images']) ?>" 
-     alt="<?= htmlspecialchars($product['nom']) ?>" 
-     class="img-fluid product-image" 
-     style="max-width: 300px; height: auto;">
+                    <div class="card h-100 position-relative">
+                        
+                        <img src="images/<?= htmlspecialchars($product['images']) ?>" 
+                             alt="<?= htmlspecialchars($product['nom']) ?>" 
+                             class="img-fluid product-image" 
+                             style="max-width: 300px; height: auto;">
                         <div class="card-body">
-                            <h5 class="card-title"><?= htmlspecialchars($ordinateur['nom']) ?></h5>
-                            <p class="card-text"><?= htmlspecialchars($ordinateur['description']) ?></p>
-                            <p class="card-text"><strong>Prix :</strong> <?= number_format($ordinateur['prix'], 2, ',', ' ') ?> €</p>
-                            <a href="produit.php?id=<?= htmlspecialchars($ordinateur['id_produits']) ?>" class="btn btn-primary">Voir le produit</a>
-                            <a href="ajouter_panier.php?id=<?= htmlspecialchars($ordinateur['id_produits']) ?>" class="btn btn-success ms-2">Ajouter au panier</a>
+                            <h5 class="card-title"><?= htmlspecialchars($product['nom']) ?></h5>
+                            <p class="card-text"><?= htmlspecialchars($product['description']) ?></p>
+                            <p class="card-text"><strong>Marque :</strong> <?= htmlspecialchars($product['nom_marque']) ?></p>
+                            <p class="card-text"><strong>Prix :</strong> <?= number_format($product['prix'], 2, ',', ' ') ?> €</p>
+                            
+                            <!-- Boutons avec classes btn-sm et fs-6 -->
+                            <div class="d-grid gap-2 mt-3">
+                                <a href="produit.php?id=<?= htmlspecialchars($product['id_produits']) ?>" 
+                                   class="btn btn-primary btn-sm fs-6">
+                                    Voir le produit
+                                </a>
+                                <a href="ajouter_panier.php?id=<?= htmlspecialchars($product['id_produits']) ?>" 
+                                   class="btn btn-success btn-sm fs-6">
+                                    Ajouter au panier
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             <?php endforeach; ?>
-            <?php else : ?>
-                    <div class="col-12">
-                        <p class="text-center"><?= $noProductsMessage ?? 'Aucune ordinateur trouvé.' ?></p>
-                    </div>
-                <?php endif; ?>
-            </div>
         </div>
     </div>
+</div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
