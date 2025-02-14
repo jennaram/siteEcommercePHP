@@ -131,7 +131,10 @@ if (empty($smartphones)) {
                     <?php foreach ($smartphones as $smartphone) : ?>
                         <div class="col-md-4 mb-4">
                             <div class="card h-100">
-                                <img src="images/<?= htmlspecialchars($smartphone['images']) ?>" class="card-img-top" alt="<?= htmlspecialchars($smartphone['nom']) ?>">
+                            <img src="images/<?= htmlspecialchars($smartphone['images']) ?>" 
+     alt="<?= htmlspecialchars($product['nom']) ?>" 
+     class="img-fluid product-image" 
+     style="max-width: 300px; height: auto;">
                                 <div class="card-body">
                                     <h5 class="card-title"><?= htmlspecialchars($smartphone['nom']) ?></h5>
                                     <p class="card-text"><?= htmlspecialchars($smartphone['description']) ?></p>

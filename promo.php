@@ -157,7 +157,10 @@ $promoProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 </span>
                             </div>
                             
-                            <img src="images/<?= htmlspecialchars($product['images']) ?>" class="card-img-top" alt="<?= htmlspecialchars($product['nom']) ?>">
+                            <img src="images/<?= htmlspecialchars($product['images']) ?>" 
+     alt="<?= htmlspecialchars($product['nom']) ?>" 
+     class="img-fluid product-image" 
+     style="max-width: 300px; height: auto;">
                             <div class="card-body">
                                 <h5 class="card-title"><?= htmlspecialchars($product['nom']) ?></h5>
                                 <p class="card-text"><?= htmlspecialchars($product['description']) ?></p>

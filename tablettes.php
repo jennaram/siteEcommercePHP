@@ -116,7 +116,10 @@ $tablettes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php foreach ($tablettes as $tablette) : ?>
                     <div class="col-md-4 mb-4">
                         <div class="card h-100">
-                            <img src="images/<?= htmlspecialchars($tablette['images']) ?>" class="card-img-top" alt="<?= htmlspecialchars($tablette['nom']) ?>">
+                        <img src="images/<?= htmlspecialchars($tablette['images']) ?>" 
+     alt="<?= htmlspecialchars($product['nom']) ?>" 
+     class="img-fluid product-image" 
+     style="max-width: 300px; height: auto;">
                             <div class="card-body">
                                 <h5 class="card-title"><?= htmlspecialchars($tablette['nom']) ?></h5>
                                 <p class="card-text"><?= htmlspecialchars($tablette['description']) ?></p>

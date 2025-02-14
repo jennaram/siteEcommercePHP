@@ -107,7 +107,7 @@ $bestSellers = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
      <!-- Section des meilleures ventes -->
-<div class="content-section-wrapper">
+     <div class="content-section-wrapper">
     <div class="container content-section">
         <h1>Nos meilleures ventes</h1>
         <div class="row">
@@ -120,7 +120,10 @@ $bestSellers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <i class="bi bi-award"></i> Top ventes
                             </span>
                         </div>
-                        <img src="images/<?= htmlspecialchars($product['images']) ?>" class="card-img-top" alt="<?= htmlspecialchars($product['nom']) ?>">
+                        <img src="images/<?= htmlspecialchars($product['images']) ?>" 
+                             alt="<?= htmlspecialchars($product['nom']) ?>" 
+                             class="img-fluid product-image" 
+                             style="max-width: 300px; height: auto;">
                         <div class="card-body">
                             <h5 class="card-title"><?= htmlspecialchars($product['nom']) ?></h5>
                             <p class="card-text"><?= htmlspecialchars($product['description']) ?></p>
@@ -191,34 +194,37 @@ $bestSellers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
   <!-- Section des produits filtrés -->
   <div class="content-section-wrapper">
-        <div class="container content-section">
-            <h1>Résultats de la recherche</h1>
-            <div class="row">
-                <?php if (count($products) > 0) : ?>
-                    <?php foreach ($products as $product) : ?>
-                        <div class="col-md-4 mb-4">
-                            <div class="card h-100">
-                                <img src="images/<?= htmlspecialchars($product['images']) ?>" class="card-img-top" alt="<?= htmlspecialchars($product['nom']) ?>">
-                                <div class="card-body">
-                                    <h5 class="card-title"><?= htmlspecialchars($product['nom']) ?></h5>
-                                    <p class="card-text"><?= htmlspecialchars($product['description']) ?></p>
-                                    <p class="card-text"><strong>Marque :</strong> <?= htmlspecialchars($product['nom_marque']) ?></p>
-                                    <p class="card-text"><strong>Type :</strong> <?= htmlspecialchars($product['type_produit']) ?></p>
-                                    <p class="card-text"><strong>Prix :</strong> <?= number_format($product['prix'], 2, ',', ' ') ?> €</p>
-                                    <a href="produit.php?id=<?= htmlspecialchars($product['id_produits']) ?>" class="btn btn-primary">Voir le produit</a>
-                                    <a href="ajouter_panier.php?id=<?= htmlspecialchars($product['id_produits']) ?>" class="btn btn-success ms-2">Ajouter au panier</a>
-                                </div>
+    <div class="container content-section">
+        <h1>Résultats de la recherche</h1>
+        <div class="row">
+            <?php if (count($products) > 0) : ?>
+                <?php foreach ($products as $product) : ?>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img src="images/<?= htmlspecialchars($product['images']) ?>" 
+                                 alt="<?= htmlspecialchars($product['nom']) ?>" 
+                                 class="img-fluid product-image" 
+                                 style="max-width: 300px; height: auto;">
+                            <div class="card-body">
+                                <h5 class="card-title"><?= htmlspecialchars($product['nom']) ?></h5>
+                                <p class="card-text"><?= htmlspecialchars($product['description']) ?></p>
+                                <p class="card-text"><strong>Marque :</strong> <?= htmlspecialchars($product['nom_marque']) ?></p>
+                                <p class="card-text"><strong>Type :</strong> <?= htmlspecialchars($product['type_produit']) ?></p>
+                                <p class="card-text"><strong>Prix :</strong> <?= number_format($product['prix'], 2, ',', ' ') ?> €</p>
+                                <a href="produit.php?id=<?= htmlspecialchars($product['id_produits']) ?>" class="btn btn-primary">Voir le produit</a>
+                                <a href="ajouter_panier.php?id=<?= htmlspecialchars($product['id_produits']) ?>" class="btn btn-success ms-2">Ajouter au panier</a>
                             </div>
                         </div>
-                    <?php endforeach; ?>
-                <?php else : ?>
-                    <div class="col-12">
-                        <p class="text-center">Aucun produit trouvé.</p>
                     </div>
-                <?php endif; ?>
-            </div>
+                <?php endforeach; ?>
+            <?php else : ?>
+                <div class="col-12">
+                    <p class="text-center">Aucun produit trouvé.</p>
+                </div>
+            <?php endif; ?>
         </div>
-    </div>  
+    </div>
+</div>
 
    
     
