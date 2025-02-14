@@ -1,8 +1,14 @@
 <?php
-session_start();
-include 'header.php';
-include 'db.php';
+// Activer l'affichage des erreurs pour le débogage
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
+// Démarrer la session
+session_start();
+
+// Inclure le fichier de connexion à la base de données
+include 'db.php';
 
 // Vérifier si l'utilisateur est déjà connecté
 if (isset($_SESSION['id_users'])) {
@@ -19,6 +25,7 @@ if (isset($_SESSION['id_users'])) {
 
 // Traitement du formulaire de connexion
 $erreur = '';
+$message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['login'])) {
         // Connexion
@@ -38,15 +45,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['prenom'] = $user['prenom'];
             $_SESSION['admin'] = $user['admin']; // Ajouter le statut admin à la session
 
-            // Rediriger vers la page de redirection si elle est spécifiée
-            if (isset($_GET['redirect'])) {
-                header("Location: " . $_GET['redirect']);
-                exit;
-            } else {
-                // Rediriger vers la page d'accueil par défaut
-                header("Location: index.php");
+            // Redirection vers la page admin si l'utilisateur est un admin
+            if ($_SESSION['admin'] == 1) {
+                header("Location: admin.php");
                 exit;
             }
+
+            // Sinon, rediriger vers la page d'accueil par défaut
+            header("Location: index.php");
+            exit;
         } else {
             // Échec de la connexion
             $erreur = "Email ou mot de passe incorrect.";
@@ -69,7 +76,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($user) {
-                $erreur = "Cet email est déjà utilisé.";
+                // Si l'utilisateur existe déjà, on le connecte directement
+                $_SESSION['id_users'] = $user['id_users'];
+                $_SESSION['nom'] = $user['nom'];
+                $_SESSION['prenom'] = $user['prenom'];
+                $_SESSION['admin'] = $user['admin'];
+
+                // Message de validation
+                $_SESSION['message'] = "Vous êtes déjà inscrit. Bienvenue, " . $user['prenom'] . " !";
+                header("Location: index.php");
+                exit;
             } else {
                 // Hasher le mot de passe
                 $mot_de_passe_hash = password_hash($mot_de_passe, PASSWORD_DEFAULT);
@@ -86,36 +102,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ':prenom' => $prenom
                 ]);
 
-                // Rediriger vers la page de connexion
-                header("Location: user.php?redirect=" . ($_GET['redirect'] ?? ''));
+                // Récupérer l'ID de l'utilisateur nouvellement créé
+                $id_users = $pdo->lastInsertId();
+
+                // Créer la session pour l'utilisateur
+                $_SESSION['id_users'] = $id_users;
+                $_SESSION['nom'] = $nom;
+                $_SESSION['prenom'] = $prenom;
+                $_SESSION['admin'] = 0; // Par défaut, l'utilisateur n'est pas admin
+
+                // Message de validation
+                $_SESSION['message'] = "Compte créé avec succès ! Bienvenue, " . $prenom . ".";
+                header("Location: index.php");
                 exit;
             }
         }
     }
-}
-
-// Vérifier si le panier est présent dans la session
-$panierExiste = isset($_SESSION['panier']) && !empty($_SESSION['panier']);
-
-if (isset($_GET['supprimer'])) {
-    $id_produit = $_GET['supprimer'];
-
-    // Supprimer du panier en session
-    if (isset($_SESSION['id_users'])) {
-        $pdo = getDBConnection();
-        $stmt = $pdo->prepare("DELETE FROM details_panier WHERE id_users = :id_utilisateur AND id_produits = :id_produit");
-        $stmt->execute([
-            ':id_utilisateur' => $_SESSION['id_users'],
-            ':id_produit' => $id_produit
-        ]);
-    } else {
-        unset($_SESSION['panier'][$id_produit]);
-        $_SESSION['panier'] = array_values($_SESSION['panier']);  // Réindexer le panier
-    }
-
-    // Redirection pour éviter de recharger la page avec les paramètres GET
-    header('Location: cart.php');
-    exit;
 }
 ?>
 
@@ -151,7 +153,7 @@ if (isset($_GET['supprimer'])) {
                 <?php if (isset($erreur)) : ?>
                     <div class="alert alert-danger"><?= $erreur ?></div>
                 <?php endif; ?>
-                <form method="POST" action="user.php<?= isset($_GET['redirect']) ? '?redirect=' . urlencode($_GET['redirect']) : '' ?>">
+                <form method="POST" action="user.php">
                     <input type="hidden" name="login" value="1">
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
@@ -172,7 +174,7 @@ if (isset($_GET['supprimer'])) {
                 <?php if (isset($erreur)) : ?>
                     <div class="alert alert-danger"><?= $erreur ?></div>
                 <?php endif; ?>
-                <form method="POST" action="user.php<?= isset($_GET['redirect']) ? '?redirect=' . urlencode($_GET['redirect']) : '' ?>">
+                <form method="POST" action="user.php">
                     <input type="hidden" name="register" value="1">
                     <div class="mb-3">
                         <label for="email_register" class="form-label">Email</label>
@@ -195,32 +197,16 @@ if (isset($_GET['supprimer'])) {
             </div>
         </div>
     </div>
+
+    <!-- Déconnexion -->
+    <?php if (isset($_SESSION['id_users'])) : ?>
+        <form action="logout.php" method="POST">
+            <button type="submit" class="btn btn-danger w-100 mt-4">Déconnexion</button>
+        </form>
+    <?php endif; ?>
 </div>
 
 <?php include 'footer.php'; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Script pour le mode sombre -->
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const darkModeSwitch = document.getElementById('darkModeSwitch');
-
-        // Appliquer le mode sombre si activé dans le localStorage
-        if (localStorage.getItem('darkMode') === 'true') {
-            document.documentElement.setAttribute('data-bs-theme', 'dark');
-            darkModeSwitch.checked = true;
-        }
-
-        // Gestion du changement de mode
-        darkModeSwitch.addEventListener('change', function () {
-            if (this.checked) {
-                document.documentElement.setAttribute('data-bs-theme', 'dark');
-                localStorage.setItem('darkMode', 'true');
-            } else {
-                document.documentElement.setAttribute('data-bs-theme', 'light');
-                localStorage.setItem('darkMode', 'false');
-            }
-        });
-    });
-</script>
 </body>
 </html>

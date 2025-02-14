@@ -1,4 +1,6 @@
-<?php session_start(); ?>
+<?php if (session_status() === PHP_SESSION_NONE) {
+    session_start(); // Démarre la session uniquement si aucune session n'est active
+} ?>
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="light">
 <head>
@@ -12,6 +14,15 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Message de notification -->
+    <?php if (isset($_SESSION['message'])): ?>
+        <div class="alert alert-success alert-dismissible fade show m-0" role="alert">
+            <?php echo $_SESSION['message']; ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <?php unset($_SESSION['message']); ?>
+    <?php endif; ?>
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light" id="navbar">
         <div class="container">
             <!-- Logo -->
@@ -78,7 +89,38 @@
                     <label class="form-check-label" for="darkModeSwitch">
                         <i class="bi bi-moon-stars"></i>
                     </label>
+                    <?php if (isset($_SESSION['id_users'])): ?>
+                        <!-- Utilisateur connecté -->
+                        <div class="dropdown me-3">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle fs-5"></i>
+                                <span class="ms-1"><?php echo htmlspecialchars($_SESSION['prenom']); ?></span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                                <li><a class="dropdown-item" href="profile.php"><i class="bi bi-person me-2"></i>Mon profil</a></li>
+                                <li><a class="dropdown-item" href="orders.php"><i class="bi bi-box me-2"></i>Mes commandes</a></li>
+                                <?php if (isset($_SESSION['admin']) && $_SESSION['admin'] == 1): ?>
+                                    <li><a class="dropdown-item" href="admin.php"><i class="bi bi-gear me-2"></i>Administration</a></li>
+                                <?php endif; ?>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="logout.php"><i class="bi bi-box-arrow-right me-2"></i>Déconnexion</a></li>
+                            </ul>
+                        </div>
+                    <?php else: ?>
+                        <!-- Utilisateur non connecté -->
+                        <a class="nav-link me-3" href="user.php">
+                            <i class="bi bi-person fs-5"></i>
+                        </a>
+                    <?php endif; ?>
+                    <a class="nav-link me-3" href="cart.php">
+                        <i class="bi bi-cart3 fs-5"></i>
+                    </a>
                 </div>
+
+                <!-- Bouton Connexion / Déconnexion -->
+                <a class="btn btn-primary ms-2" href="<?php echo isset($_SESSION['id_users']) ? 'logout.php' : 'user.php'; ?>">
+                    <?php echo isset($_SESSION['id_users']) ? 'Déconnexion' : 'Connexion'; ?>
+                </a>
             </div>
         </div>
     </nav>
