@@ -31,12 +31,12 @@ if (!empty($searchQuery)) {
                     prix AS price,
                     images
                 FROM produits 
-                WHERE 
-                    MATCH(nom, description) AGAINST(:search IN BOOLEAN MODE)
+                WHERE nom LIKE :search OR description LIKE :search
+                    
                 LIMIT 20"; // Limite des résultats
 
         $stmt = $pdo->prepare($sql);
-        $stmt->bindValue(':search', $searchTerm, PDO::PARAM_STR);
+        $stmt->bindValue(':search', "%$searchTerm%", PDO::PARAM_STR);
         $stmt->execute();
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
