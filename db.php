@@ -10,12 +10,13 @@ function getDBConnection() {
     $password = '';
 
     try {
-        $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $pdo;
     } catch (PDOException $e) {
-        echo "Erreur de connexion : " . $e->getMessage();
-        return null;
+        error_log("Erreur de connexion à la base de données : " . $e->getMessage());
+        header("Location: error.php"); // Redirige vers une page d'erreur
+        exit();
     }
 }
 ?>

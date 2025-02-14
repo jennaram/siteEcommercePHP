@@ -1,5 +1,5 @@
 <?php
-session_start(); // Démarrez la session au début du fichier
+
 include 'db.php';
 
 // Vérifier si l'ID est présent dans l'URL
@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$utilisateur_connecte) {
                         <?php endif; ?>
                     </div>
 
-                    <a href="ajouter_panier.php?id=<?= htmlspecialchars($product['id_produits']) ?>" class="btn btn-success ms-2">Ajouter au panier</a>
+                    <a href="ajouter_panier.php?id=<?= htmlspecialchars($produit['id_produits']) ?>" class="btn btn-success ms-2">Ajouter au panier</a>
                 </div>
             </div>
         </div>

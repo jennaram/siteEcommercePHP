@@ -49,16 +49,16 @@ $total = 0;
                                             </div>
                                         </td>
                                         <td>
-                                            <form method="POST" action="modifier_quantite.php" class="d-flex align-items-center">
-                                                <input type="number" name="quantite" value="<?= htmlspecialchars($item['quantite']) ?>" min="1" class="form-control form-control-sm w-50 mr-2">
-                                                <input type="hidden" name="id" value="<?= htmlspecialchars($id) ?>">
-                                                <button type="submit" class="btn btn-sm" style="background-color: #A6C8D1; color: #000;">Modifier</button>
-                                            </form>
+                                        <form method="POST" action="modifier_quantite.php" class="d-flex align-items-center">
+    <input type="number" name="quantite" value="<?= htmlspecialchars($item['quantite']) ?>" min="1" class="form-control form-control-sm w-50 mr-2">
+    <input type="hidden" name="id" value="<?= htmlspecialchars($id) ?>">
+    <button type="submit" class="btn btn-sm" style="background-color: #A6C8D1; color: #000;">Modifier</button>
+</form>
                                         </td>
                                         <td><?= number_format($item['prix'], 2, ',', ' ') ?> €</td>
                                         <td><?= number_format($item['prix'] * $item['quantite'], 2, ',', ' ') ?> €</td>
                                         <td>
-                                            <a href="supprimer_produit.php?id=<?= htmlspecialchars($id) ?>" class="btn btn-sm btn-danger">Supprimer</a>
+                                        <a href="supprimer_produit.php?id=<?= htmlspecialchars($id) ?>" class="btn btn-sm btn-danger">Supprimer</a>
                                         </td>
                                     </tr>
                                     <?php $total += $item['prix'] * $item['quantite']; ?>
@@ -67,7 +67,7 @@ $total = 0;
                         </table>
                     </div>
                     <div class="card-footer bg-light">
-                        <a href="vider_panier.php" class="btn btn-danger">Vider le panier</a>
+                    <a href="vider_panier.php" class="btn btn-danger">Vider le panier</a>
                     </div>
                 </div>
             </div>

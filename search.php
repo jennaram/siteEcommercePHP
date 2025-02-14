@@ -1,43 +1,46 @@
 <?php
-// Connexion à la base de données
-require_once 'config/db.php'; // Assurez-vous d'avoir un fichier de configuration pour la BD
+// Activer l'affichage des erreurs
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-// Récupération de la requête
+// Inclure le fichier de connexion à la base de données
+require_once 'db.php';
+
+// Récupérer la connexion à la base de données
+$pdo = getDBConnection();
+if (!$pdo) {
+    die("Impossible de se connecter à la base de données.");
+}
+
+// Récupération de la requête de recherche
 $searchQuery = isset($_GET['query']) ? trim($_GET['query']) : '';
+
+// Initialisation des variables
+$results = [];
+$error = null;
 
 if (!empty($searchQuery)) {
     try {
-        // Préparation de la requête SQL pour chercher dans différentes tables
+        // Préparation de la requête SQL avec FULLTEXT
+        $searchTerm = $searchQuery; // Utilisation directe de la valeur
         $sql = "SELECT 
-                    'product' as type,
-                    id,
-                    name as title,
+                    id_produits AS id,
+                    nom AS title,
                     description,
-                    price
-                FROM products 
+                    prix AS price,
+                    images
+                FROM produits 
                 WHERE 
-                    name LIKE :search 
-                    OR description LIKE :search
-                UNION
-                SELECT 
-                    'category' as type,
-                    id,
-                    name as title,
-                    description,
-                    NULL as price
-                FROM categories 
-                WHERE 
-                    name LIKE :search
-                    OR description LIKE :search
+                    MATCH(nom, description) AGAINST(:search IN BOOLEAN MODE)
                 LIMIT 20"; // Limite des résultats
 
         $stmt = $pdo->prepare($sql);
-        $searchTerm = "%{$searchQuery}%";
-        $stmt->bindParam(':search', $searchTerm, PDO::PARAM_STR);
+        $stmt->bindValue(':search', $searchTerm, PDO::PARAM_STR);
         $stmt->execute();
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    } catch(PDOException $e) {
+    } catch (PDOException $e) {
         // Gestion des erreurs
         error_log("Erreur de recherche : " . $e->getMessage());
         $error = "Une erreur est survenue lors de la recherche.";
@@ -54,13 +57,15 @@ if (!empty($searchQuery)) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <?php include 'includes/header.php'; // Inclure votre header ?>
+    <?php include 'header.php'; // Inclure votre header ?>
 
     <div class="container my-4">
         <h1>Résultats de recherche pour "<?php echo htmlspecialchars($searchQuery); ?>"</h1>
 
         <?php if (isset($error)): ?>
             <div class="alert alert-danger"><?php echo $error; ?></div>
+        <?php elseif (empty($searchQuery)): ?>
+            <div class="alert alert-info">Veuillez entrer un terme de recherche.</div>
         <?php elseif (empty($results)): ?>
             <div class="alert alert-info">Aucun résultat trouvé pour votre recherche.</div>
         <?php else: ?>
@@ -68,17 +73,14 @@ if (!empty($searchQuery)) {
                 <?php foreach ($results as $result): ?>
                     <div class="col">
                         <div class="card h-100">
+                            <img src="<?php echo htmlspecialchars($result['images']); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($result['title']); ?>">
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo htmlspecialchars($result['title']); ?></h5>
                                 <p class="card-text"><?php echo htmlspecialchars($result['description']); ?></p>
-                                <?php if ($result['type'] === 'product' && isset($result['price'])): ?>
-                                    <p class="card-text">
-                                        <strong>Prix : </strong><?php echo number_format($result['price'], 2, ',', ' '); ?> €
-                                    </p>
-                                    <a href="product.php?id=<?php echo $result['id']; ?>" class="btn btn-primary">Voir le produit</a>
-                                <?php elseif ($result['type'] === 'category'): ?>
-                                    <a href="category.php?id=<?php echo $result['id']; ?>" class="btn btn-secondary">Voir la catégorie</a>
-                                <?php endif; ?>
+                                <p class="card-text">
+                                    <strong>Prix : </strong><?php echo number_format($result['price'], 2, ',', ' '); ?> €
+                                </p>
+                                <a href="product.php?id=<?php echo $result['id']; ?>" class="btn btn-primary">Voir le produit</a>
                             </div>
                         </div>
                     </div>
@@ -87,7 +89,7 @@ if (!empty($searchQuery)) {
         <?php endif; ?>
     </div>
 
-    <?php include 'includes/footer.php'; // Inclure votre footer ?>
+    <?php include 'footer.php'; // Inclure votre footer ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

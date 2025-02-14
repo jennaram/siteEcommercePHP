@@ -89,50 +89,58 @@ $promoProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <h1>Des promotions jusqu'à -30% ! </h1>
             
             <!-- Filtres de recherche -->
-            <div class="container mt-4">
-                <form method="GET" action="promo.php">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <select name="brand" class="form-select">
-                                <option value="">Toutes les marques</option>
-                                <option value="Apple" <?= $brand === 'Apple' ? 'selected' : '' ?>>Apple</option>
-                                <option value="Samsung" <?= $brand === 'Samsung' ? 'selected' : '' ?>>Samsung</option>
-                                <option value="Dell" <?= $brand === 'Dell' ? 'selected' : '' ?>>Dell</option>
-                                <option value="Xiaomi" <?= $brand === 'Xiaomi' ? 'selected' : '' ?>>Xiaomi</option>
-                                <option value="Asus" <?= $brand === 'Asus' ? 'selected' : '' ?>>Asus</option>
-                                <option value="HP" <?= $brand === 'HP' ? 'selected' : '' ?>>HP</option>
-                                <option value="Lenovo" <?= $brand === 'Lenovo' ? 'selected' : '' ?>>Lenovo</option>
-                                <option value="Microsoft" <?= $brand === 'Microsoft' ? 'selected' : '' ?>>Microsoft</option>
-                                <option value="Huawei" <?= $brand === 'Huawei' ? 'selected' : '' ?>>Huawei</option>
-                                <option value="Sony" <?= $brand === 'Sony' ? 'selected' : '' ?>>Sony</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <select name="sort" class="form-select">
-                                <option value="price_asc" <?= $sort === 'price_asc' ? 'selected' : '' ?>>Prix croissant</option>
-                                <option value="price_desc" <?= $sort === 'price_desc' ? 'selected' : '' ?>>Prix décroissant</option>
-                                <option value="best_sellers" <?= $sort === 'best_sellers' ? 'selected' : '' ?>>Meilleures ventes</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <select name="type" class="form-select">
-                                <option value="">Tous les types</option>
-                                <option value="Smartphone" <?= $type === 'Smartphone' ? 'selected' : '' ?>>Smartphones</option>
-                                <option value="Ordinateur" <?= $type === 'Ordinateur' ? 'selected' : '' ?>>Ordinateurs</option>
-                                <option value="Tablette" <?= $type === 'Tablette' ? 'selected' : '' ?>>Tablettes</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-    <button type="submit" class="btn btn-primary w-100">Filtrer</button>
-</div>
-<div class="col-md-3">
-    <button type="button" id="resetFilters" class="btn btn-secondary w-100">Réinitialiser</button>
-</div>
-                    </div>
-                </form>
+<div class="container mt-4">
+    <form method="GET" action="promo.php">
+        <div class="row gx-2 gy-2"> <!-- Ajout de gx-2 et gy-2 pour l'espacement -->
+            <!-- Filtre par marque -->
+            <div class="col-md-2"> <!-- Réduire la largeur des colonnes -->
+                <select name="brand" class="form-select">
+                    <option value="">Toutes les marques</option>
+                    <option value="Apple" <?= $brand === 'Apple' ? 'selected' : '' ?>>Apple</option>
+                    <option value="Samsung" <?= $brand === 'Samsung' ? 'selected' : '' ?>>Samsung</option>
+                    <option value="Dell" <?= $brand === 'Dell' ? 'selected' : '' ?>>Dell</option>
+                    <option value="Xiaomi" <?= $brand === 'Xiaomi' ? 'selected' : '' ?>>Xiaomi</option>
+                    <option value="Asus" <?= $brand === 'Asus' ? 'selected' : '' ?>>Asus</option>
+                    <option value="HP" <?= $brand === 'HP' ? 'selected' : '' ?>>HP</option>
+                    <option value="Lenovo" <?= $brand === 'Lenovo' ? 'selected' : '' ?>>Lenovo</option>
+                    <option value="Microsoft" <?= $brand === 'Microsoft' ? 'selected' : '' ?>>Microsoft</option>
+                    <option value="Huawei" <?= $brand === 'Huawei' ? 'selected' : '' ?>>Huawei</option>
+                    <option value="Sony" <?= $brand === 'Sony' ? 'selected' : '' ?>>Sony</option>
+                </select>
+            </div>
+
+            <!-- Filtre par ordre de tri -->
+            <div class="col-md-2"> <!-- Réduire la largeur des colonnes -->
+                <select name="sort" class="form-select">
+                    <option value="price_asc" <?= $sort === 'price_asc' ? 'selected' : '' ?>>Prix croissant</option>
+                    <option value="price_desc" <?= $sort === 'price_desc' ? 'selected' : '' ?>>Prix décroissant</option>
+                    <option value="best_sellers" <?= $sort === 'best_sellers' ? 'selected' : '' ?>>Meilleures ventes</option>
+                </select>
+            </div>
+
+            <!-- Filtre par type de produit -->
+            <div class="col-md-2"> <!-- Réduire la largeur des colonnes -->
+                <select name="type" class="form-select">
+                    <option value="">Tous les types</option>
+                    <option value="Smartphone" <?= $type === 'Smartphone' ? 'selected' : '' ?>>Smartphones</option>
+                    <option value="Ordinateur" <?= $type === 'Ordinateur' ? 'selected' : '' ?>>Ordinateurs</option>
+                    <option value="Tablette" <?= $type === 'Tablette' ? 'selected' : '' ?>>Tablettes</option>
+                </select>
+            </div>
+
+            <!-- Bouton Filtrer -->
+            <div class="col-md-2"> <!-- Réduire la largeur des colonnes -->
+                <button type="submit" class="btn btn-primary w-100">Filtrer</button>
+            </div>
+
+            <!-- Bouton Réinitialiser -->
+            <div class="col-md-2"> <!-- Réduire la largeur des colonnes -->
+                <button type="button" id="resetFilters" class="btn btn-secondary w-100">Réinitialiser</button>
             </div>
         </div>
-    </div>
+    </form>
+</div>
+      
 
     <!-- Section des produits en promotion -->
     <div class="content-section-wrapper mt-4">

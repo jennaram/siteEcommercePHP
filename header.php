@@ -1,4 +1,4 @@
-<?php session_start();?>
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="light">
 <head>
@@ -42,24 +42,22 @@
                     </li>
                 </ul>
 
+                <!-- Barre de recherche -->
                 <div class="search-container me-3">
-    <form class="search-form" action="search.php" method="GET">
-        <input type="text" class="search-input" name="q" placeholder="Rechercher...">
-        <button type="button" class="search-toggle btn btn-link">
-            <i class="bi bi-search fs-5"></i>
-        </button>
-    </form>
-</div>
+                    <form class="search-form" action="search.php" method="GET">
+                        <input type="text" class="search-input" name="query" placeholder="Rechercher...">
+                        <button type="submit" class="search-toggle btn btn-link">
+                            <i class="bi bi-search fs-5"></i>
+                        </button>
+                    </form>
+                </div>
 
-
-                
-
-               <!-- Icônes utilisateur et panier -->
-<div class="d-flex align-items-center">
-    <a class="nav-link me-1" href="user.php">
-        <i class="bi bi-person fs-5"></i>
-    </a>
-    <a class="nav-link me-1 position-relative" href="cart.php">
+                <!-- Icônes utilisateur et panier -->
+                <div class="d-flex align-items-center">
+                    <a class="nav-link me-1" href="user.php">
+                        <i class="bi bi-person fs-5"></i>
+                    </a>
+                    <a class="nav-link me-1 position-relative" href="cart.php">
     <i class="bi bi-cart3 fs-5"></i>
     <?php if (isset($_SESSION['panier']) && !empty($_SESSION['panier'])): ?>
         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -67,23 +65,19 @@
         </span>
     <?php endif; ?>
 </a>
-    <a class="nav-link me-1" href="logout.php">
-        <i class="bi bi-box-arrow-right fs-5"></i>
-    </a>
-    <?php if (isset($_SESSION['user_id'])): ?> 
-        <a class="nav-link me-2 text-danger" href="logout.php">
-            <i class="bi bi-box-arrow-right fs-5"></i>
-        </a>
-    <?php endif; ?>
-</div>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <a class="nav-link me-2 text-danger" href="logout.php">
+                            <i class="bi bi-box-arrow-right fs-5"></i>
+                        </a>
+                    <?php endif; ?>
+                </div>
 
-                    <!-- Bouton de bascule dark/light -->
-                    <div class="form-check form-switch ms-2">
-                        <input class="form-check-input" type="checkbox" role="switch" id="darkModeSwitch">
-                        <label class="form-check-label" for="darkModeSwitch">
-                            <i class="bi bi-moon-stars"></i>
-                        </label>
-                    </div>
+                <!-- Bouton de bascule dark/light -->
+                <div class="form-check form-switch ms-2">
+                    <input class="form-check-input" type="checkbox" role="switch" id="darkModeSwitch">
+                    <label class="form-check-label" for="darkModeSwitch">
+                        <i class="bi bi-moon-stars"></i>
+                    </label>
                 </div>
             </div>
         </div>
@@ -122,25 +116,29 @@
             });
         });
     </script>
+
+    <!-- Script pour la barre de recherche -->
     <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const searchToggle = document.querySelector('.search-toggle');
-    const searchInput = document.querySelector('.search-input');
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchToggle = document.querySelector('.search-toggle');
+            const searchInput = document.querySelector('.search-input');
 
-    searchToggle.addEventListener('click', function() {
-        searchInput.classList.toggle('active');
-        if (searchInput.classList.contains('active')) {
-            searchInput.focus();
-        }
-    });
+            // Activer/désactiver la barre de recherche
+            searchToggle.addEventListener('click', function(event) {
+                event.preventDefault(); // Empêche la soumission du formulaire
+                searchInput.classList.toggle('active');
+                if (searchInput.classList.contains('active')) {
+                    searchInput.focus(); // Focus sur le champ de recherche
+                }
+            });
 
-    // Fermer la recherche si on clique en dehors
-    document.addEventListener('click', function(event) {
-        if (!event.target.closest('.search-container')) {
-            searchInput.classList.remove('active');
-        }
-    });
-});
-</script>
+            // Fermer la barre de recherche si on clique en dehors
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.search-container')) {
+                    searchInput.classList.remove('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
