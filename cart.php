@@ -1,6 +1,15 @@
 <?php
 session_start();
+
+// Activer la mise en tampon de sortie
+ob_start();
+
 include 'header.php';
+
+// Activer l'affichage des erreurs
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 if (!isset($_SESSION['panier']) || empty($_SESSION['panier'])) {
     echo "<p>Votre panier est vide.</p>";
@@ -10,11 +19,28 @@ if (!isset($_SESSION['panier']) || empty($_SESSION['panier'])) {
 
 $panier = $_SESSION['panier'];
 $total = 0;
+
+// Vérifier si l'utilisateur est connecté avant de passer commande
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['passer_commande'])) {
+    if (!isset($_SESSION['id_users'])) {
+        // Rediriger vers la page de connexion avec une redirection vers le panier
+        header("Location: user.php?redirect=" . urlencode("cart.php"));
+        ob_end_clean(); // Nettoyer le tampon de sortie
+        exit;
+    } else {
+        // Rediriger vers la page de confirmation de commande
+        header("Location: merci_commande.php");
+        ob_end_clean(); // Nettoyer le tampon de sortie
+        exit;
+    }
+}
+
+// Vider le tampon de sortie et envoyer les en-têtes
+ob_end_flush();
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +48,6 @@ $total = 0;
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
     <div class="container mt-5">
         <div class="row">
@@ -104,9 +129,11 @@ $total = 0;
                         </ul>
                     </div>
                     <div class="card-footer bg-light">
-                        <a href="commander.php" class="btn btn-block btn-lg"
-                            style="background-color: #A6C8D1; color: #000; border-color: #A6C8D1;">Passer la
-                            commande</a>
+                        <form method="POST" action="cart.php">
+                            <button type="submit" name="passer_commande" class="btn btn-block btn-lg"
+                                style="background-color: #A6C8D1; color: #000; border-color: #A6C8D1;">Passer la
+                                commande</button>
+                        </form>
                         <div class="d-flex justify-content-center mt-3">
                             <img src="images/visa.png" alt="Visa" width="50" class="mx-2">
                             <img src="images/masterCard.png" alt="MasterCard" width="50" class="mx-2">
@@ -119,5 +146,4 @@ $total = 0;
     </div>
     <?php include 'footer.php'; ?>
 </body>
-
 </html>

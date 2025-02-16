@@ -12,9 +12,10 @@ include 'db.php';
 
 // Vérifier si l'utilisateur est déjà connecté
 if (isset($_SESSION['id_users'])) {
-    // Rediriger vers la page de redirection si elle est spécifiée
+    // Vérifier la réception du paramètre redirect
     if (isset($_GET['redirect'])) {
-        header("Location: " . $_GET['redirect']);
+        // Rediriger vers la page de redirection si elle est spécifiée
+        header("Location: " . htmlspecialchars($_GET['redirect']));
         exit;
     } else {
         // Rediriger vers la page d'accueil par défaut
@@ -45,15 +46,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['prenom'] = $user['prenom'];
             $_SESSION['admin'] = $user['admin']; // Ajouter le statut admin à la session
 
-            // Redirection vers la page admin si l'utilisateur est un admin
-            if ($_SESSION['admin'] == 1) {
-                header("Location: admin.php");
+            // Vérifier la redirection après connexion
+            if (isset($_GET['redirect'])) {
+                header("Location: " . htmlspecialchars($_GET['redirect']));
+                exit;
+            } else {
+                // Sinon, rediriger vers la page d'accueil par défaut
+                header("Location: index.php");
                 exit;
             }
-
-            // Sinon, rediriger vers la page d'accueil par défaut
-            header("Location: index.php");
-            exit;
         } else {
             // Échec de la connexion
             $erreur = "Email ou mot de passe incorrect.";
@@ -113,8 +114,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 // Message de validation
                 $_SESSION['message'] = "Compte créé avec succès ! Bienvenue, " . $prenom . ".";
-                header("Location: index.php");
-                exit;
+
+                // Vérifier la redirection après inscription
+                if (isset($_GET['redirect'])) {
+                    header("Location: " . htmlspecialchars($_GET['redirect']));
+                    exit;
+                } else {
+                    // Sinon, rediriger vers la page d'accueil par défaut
+                    header("Location: index.php");
+                    exit;
+                }
             }
         }
     }
@@ -153,7 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php if (isset($erreur)) : ?>
                     <div class="alert alert-danger"><?= $erreur ?></div>
                 <?php endif; ?>
-                <form method="POST" action="user.php">
+                <form method="POST" action="user.php<?= isset($_GET['redirect']) ? '?redirect=' . urlencode($_GET['redirect']) : '' ?>">
                     <input type="hidden" name="login" value="1">
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
@@ -174,7 +183,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php if (isset($erreur)) : ?>
                     <div class="alert alert-danger"><?= $erreur ?></div>
                 <?php endif; ?>
-                <form method="POST" action="user.php">
+                <form method="POST" action="user.php<?= isset($_GET['redirect']) ? '?redirect=' . urlencode($_GET['redirect']) : '' ?>">
                     <input type="hidden" name="register" value="1">
                     <div class="mb-3">
                         <label for="email_register" class="form-label">Email</label>
