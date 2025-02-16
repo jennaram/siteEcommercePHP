@@ -215,40 +215,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_promo'])) {
         <!-- Ajouter un produit -->
         <h3>Ajouter un produit</h3>
         <?php if (isset($message)) : ?>
-            <div class="alert alert-success"><?= $message ?></div>
-        <?php endif; ?>
+    <div class="alert alert-success"><?= $message ?></div>
+<?php endif; ?>
         <form method="POST" action="admin.php" enctype="multipart/form-data" class="mb-4">
-            <input type="hidden" name="add_product" value="1">
-            <div class="mb-3">
-                <label for="nom" class="form-label">Nom du produit</label>
-                <input type="text" name="nom" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="prix" class="form-label">Prix</label>
-                <input type="number" step="0.01" name="prix" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea name="description" class="form-control" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="image" class="form-label">Image du produit</label>
-                <input type="file" name="image" class="form-control" accept="image/*" required>
-            </div>
-            <div class="mb-3">
-                <label for="id_marques" class="form-label">Marque</label>
-                <input type="text" name="id_marques" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="id_type_produits" class="form-label">Type de produit</label>
-                <input type="text" name="id_type_produits" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="promos" class="form-label">Promotion</label>
-                <input type="text" name="promos" class="form-control" placeholder="Entrez la promotion">
-            </div>
-            <button type="submit" class="btn btn-primary">Ajouter Produit</button>
-        </form>
+    <input type="hidden" name="add_product" value="1">
+    <div class="mb-3">
+        <label for="nom" class="form-label">Nom du produit</label>
+        <input type="text" name="nom" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="prix" class="form-label">Prix</label>
+        <input type="number" step="0.01" name="prix" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea name="description" class="form-control" required></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="image" class="form-label">Image du produit</label>
+        <input type="file" name="image" class="form-control" accept="image/*" required>
+    </div>
+    <div class="mb-3">
+        <label for="id_marques" class="form-label">Marque</label>
+        <input type="text" name="id_marques" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="id_type_produits" class="form-label">Type de produit</label>
+        <input type="text" name="id_type_produits" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="promos" class="form-label">Promotion</label>
+        <input type="text" name="promos" class="form-control" placeholder="Entrez la promotion">
+    </div>
+    <button type="submit" class="btn btn-primary">Ajouter Produit</button>
+</form>
+
 
         <!-- Ajouter une promotion -->
         <h3>Ajouter une promotion</h3>
@@ -256,17 +257,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_promo'])) {
             <div class="alert alert-success"><?= $messagePromo ?></div>
         <?php endif; ?>
         <form method="POST" action="admin.php" class="mb-4">
-            <input type="hidden" name="add_promo" value="1">
-            <div class="mb-3">
-                <label for="id_produit" class="form-label">ID Produit</label>
-                <input type="number" name="id_produit" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="nom_promo" class="form-label">Nom de la promotion</label>
-                <input type="text" name="nom_promo" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-success">Ajouter Promotion</button>
-        </form>
+    <input type="hidden" name="add_promo" value="1">
+    <div class="mb-3">
+        <label for="id_produit" class="form-label">ID Produit</label>
+        <input type="number" name="id_produit" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="nom_promo" class="form-label">Nom de la promotion</label>
+        <input type="text" name="nom_promo" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-success">Ajouter Promotion</button>
+</form>
 
         <!-- Section Gestion des Utilisateurs -->
         <h2>Gestion des Utilisateurs</h2>
@@ -312,29 +313,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_promo'])) {
             <div class="alert alert-success"><?= $messageUser ?></div>
         <?php endif; ?>
         <form method="POST" action="admin.php" class="mb-4">
-            <input type="hidden" name="add_user" value="1">
-            <div class="mb-3">
-                <label for="nom" class="form-label">Nom</label>
-                <input type="text" name="nom" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="prenom" class="form-label">Prénom</label>
-                <input type="text" name="prenom" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" name="email" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Mot de passe</label>
-                <input type="password" name="password" class="form-control" required>
-            </div>
-            <div class="mb-3 form-check">
-                <input type="checkbox" name="is_admin" class="form-check-input" id="is_admin">
-                <label class="form-check-label" for="is_admin">Compte administrateur</label>
-            </div>
-            <button type="submit" class="btn btn-primary">Ajouter Utilisateur</button>
-        </form>
+    <input type="hidden" name="add_user" value="1">
+    <div class="mb-3">
+        <label for="nom" class="form-label">Nom</label>
+        <input type="text" name="nom" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="prenom" class="form-label">Prénom</label>
+        <input type="text" name="prenom" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" name="email" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Mot de passe</label>
+        <input type="password" name="password" class="form-control" required>
+    </div>
+    <div class="mb-3 form-check">
+        <input type="checkbox" name="is_admin" class="form-check-input" id="is_admin">
+        <label class="form-check-label" for="is_admin">Compte administrateur</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Ajouter Utilisateur</button>
+</form>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

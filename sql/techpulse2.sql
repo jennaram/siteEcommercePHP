@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1
--- Généré le : ven. 14 fév. 2025 à 09:43
--- Version du serveur : 10.4.32-MariaDB
--- Version de PHP : 8.2.12
+-- Hôte : localhost
+-- Généré le : dim. 16 fév. 2025 à 17:18
+-- Version du serveur : 10.4.28-MariaDB
+-- Version de PHP : 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -50,7 +50,10 @@ INSERT INTO `commentaires` (`id_commentaires`, `id_users`, `id_produits`, `notat
 (7, 7, 7, 4, '2025-02-11 10:56:51', 'Produit de bonne qualité, mais il y a quelques problèmes de compatibilité.'),
 (8, 8, 8, 3, '2025-02-11 10:56:51', 'Bien, mais l\'écran pourrait être de meilleure qualité.'),
 (9, 9, 9, 5, '2025-02-11 10:56:51', 'Très bon téléphone, très fluide et l\'appareil photo est top !'),
-(10, 10, 10, 2, '2025-02-11 10:56:51', 'Décevant, il y a des bugs récurrents et la performance n\'est pas au niveau.');
+(10, 10, 10, 2, '2025-02-11 10:56:51', 'Décevant, il y a des bugs récurrents et la performance n\'est pas au niveau.'),
+(11, 23, 10, 1, '2025-02-16 14:07:51', 'aa'),
+(12, 23, 10, 3, '2025-02-16 14:08:09', 'très bon produit'),
+(13, 23, 1, 2, '2025-02-16 14:08:37', 'J&#039;adore, très performant');
 
 -- --------------------------------------------------------
 
@@ -79,7 +82,9 @@ INSERT INTO `contacts` (`id_contact`, `nom`, `email`, `message`) VALUES
 (7, 'Marc Lefevre', 'marc.lefevre@example.com', 'Pouvez-vous m\'aider avec le suivi de ma commande ?'),
 (8, 'Julie Moreau', 'julie.moreau@example.com', 'Je voudrais connaître les options de paiement disponibles.'),
 (9, 'Antoine Petit', 'antoine.petit@example.com', 'Le produit que j\'ai acheté est endommagé, que faire ?'),
-(10, 'Nathalie Dubois', 'nathalie.dubois@example.com', 'Je souhaite annuler ma commande, merci de me dire comment procéder.');
+(10, 'Nathalie Dubois', 'nathalie.dubois@example.com', 'Je souhaite annuler ma commande, merci de me dire comment procéder.'),
+(11, 'jenna', 'jenna.ramia@gmail.com', 'gyuguyi'),
+(12, 'jenna', 'jenna.ramia@gmail.com', 'gugui');
 
 -- --------------------------------------------------------
 
@@ -109,6 +114,27 @@ INSERT INTO `details_panier` (`id_details_panier`, `quantite`, `id_users`, `id_p
 (8, 3, 8, 8),
 (9, 2, 9, 9),
 (10, 6, 10, 10);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `favoris`
+--
+
+CREATE TABLE `favoris` (
+  `id_favoris` int(11) NOT NULL,
+  `id_users` int(11) NOT NULL,
+  `id_produits` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `favoris`
+--
+
+INSERT INTO `favoris` (`id_favoris`, `id_users`, `id_produits`) VALUES
+(1, 24, 10),
+(2, 24, 9),
+(3, 23, 10);
 
 -- --------------------------------------------------------
 
@@ -238,7 +264,9 @@ INSERT INTO `users` (`id_users`, `email`, `mot_de_passe`, `nom`, `prenom`, `tele
 (20, 'c@hotmail.fr', '$2y$10$jYio6jG0d01EqN6G9lxcz.xgxqjPzw4eTqOpNRuV1pyl6KN5mnqmm', 'martin', 'jean', '', '', '', '', '', 0),
 (21, 'p@hotmail.fr', '$2y$10$WW8aG801UMHLCLEN7PNix.GVTueeAPZRRN7ywo79.4M9Nv8AwvMky', 'le grand', 'paul', '', '', '', '', '', 0),
 (22, 'd@hotmail.fr', '$2y$10$CrJhcdYoB/i5gcf3OmXMqu5yfAFRHo8QNmfHqFbBI6TE88kJvB./y', 'trump', 'donald', '', '', '', '', '', 0),
-(23, 'x@hotmail.fr', '$2y$10$P4WikgFpc7ibQleXv.TBc.ani9MZE6HkvrKFuXDbh3NrbFTelU71O', 'a', 'b', '', '', '', '', '', 1);
+(23, 'x@hotmail.fr', '$2y$10$P4WikgFpc7ibQleXv.TBc.ani9MZE6HkvrKFuXDbh3NrbFTelU71O', 'a', 'b', '', '', '', '', '', 1),
+(24, 'f@gmail.com', '$2y$10$KDP2JeKwdXjq9WknGGR.yupEZ67OJr09DYOy62sSzjofoJlvD1LWy', 'ff', 'bb', '', '', '', '', '', 0),
+(25, 'jenna.ramia@yahoo.fr', '$2y$10$Iks1O9cZ/L93WD4rMhbOKOBrPPJUIvFlyh9uuJwA/kUtxdLSe4ibe', 'Jenna', 'Ramia', '', '', '', '', '', 0);
 
 --
 -- Index pour les tables déchargées
@@ -263,6 +291,14 @@ ALTER TABLE `contacts`
 --
 ALTER TABLE `details_panier`
   ADD PRIMARY KEY (`id_details_panier`),
+  ADD KEY `id_users` (`id_users`),
+  ADD KEY `id_produits` (`id_produits`);
+
+--
+-- Index pour la table `favoris`
+--
+ALTER TABLE `favoris`
+  ADD PRIMARY KEY (`id_favoris`),
   ADD KEY `id_users` (`id_users`),
   ADD KEY `id_produits` (`id_produits`);
 
@@ -300,19 +336,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `commentaires`
 --
 ALTER TABLE `commentaires`
-  MODIFY `id_commentaires` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_commentaires` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT pour la table `contacts`
 --
 ALTER TABLE `contacts`
-  MODIFY `id_contact` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_contact` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT pour la table `details_panier`
 --
 ALTER TABLE `details_panier`
   MODIFY `id_details_panier` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT pour la table `favoris`
+--
+ALTER TABLE `favoris`
+  MODIFY `id_favoris` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `marques`
@@ -336,7 +378,7 @@ ALTER TABLE `type_produits`
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_users` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id_users` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- Contraintes pour les tables déchargées
@@ -356,6 +398,13 @@ ALTER TABLE `details_panier`
   ADD CONSTRAINT `details_panier_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `users` (`id_users`),
   ADD CONSTRAINT `details_panier_ibfk_2` FOREIGN KEY (`id_produits`) REFERENCES `produits` (`id_produits`),
   ADD CONSTRAINT `details_panier_ibfk_3` FOREIGN KEY (`id_produits`) REFERENCES `produits` (`id_produits`);
+
+--
+-- Contraintes pour la table `favoris`
+--
+ALTER TABLE `favoris`
+  ADD CONSTRAINT `favoris_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `users` (`id_users`),
+  ADD CONSTRAINT `favoris_ibfk_2` FOREIGN KEY (`id_produits`) REFERENCES `produits` (`id_produits`);
 
 --
 -- Contraintes pour la table `produits`
