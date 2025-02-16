@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 include 'db.php';
 
 // Vérifier si l'ID est présent dans l'URL

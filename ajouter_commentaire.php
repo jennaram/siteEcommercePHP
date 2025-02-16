@@ -11,6 +11,14 @@ if (!isset($_SESSION['id_users'])) {
 // Inclure le fichier de connexion à la base de données
 include 'db.php';
 
+// Obtenir la connexion à la base de données
+$pdo = getDBConnection();
+
+// Vérifier si la connexion a réussi
+if ($pdo === null) {
+    die("Erreur de connexion à la base de données.");
+}
+
 // Récupérer les données du formulaire
 $id_produit = $_POST['id_produit'] ?? null;
 $notation = $_POST['notation'] ?? null;
