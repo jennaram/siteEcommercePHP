@@ -90,7 +90,7 @@ $bestSellers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body class="page-index">
     <!-- Bandeau promotionnel -->
-    <div class="promo-banner py-4">
+    <div class="promo-banner py-4 mb-5">
         <div class="container">
             <div class="row align-items-center">
             <div class="col-md-6 text-start">
@@ -109,10 +109,10 @@ $bestSellers = $stmt->fetchAll(PDO::FETCH_ASSOC);
      <!-- Section des meilleures ventes -->
      <div class="content-section-wrapper">
     <div class="container content-section">
-        <h2>Nos meilleures ventes</h2>
+        
         <div class="row">
             <?php foreach ($bestSellers as $product) : ?>
-                <div class="col-md-4 mb-4">
+                <div class="col-md-4 mb-4 mb-5">
                     <div class="card h-100 position-relative">
                         <!-- Badge Top ventes -->
                         <div class="position-absolute top-0 start-0 m-2">
@@ -150,7 +150,7 @@ $bestSellers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </div>
 
     <!-- Filtres de recherche -->
-<div class="container mt-4">
+<div class="container mt-4 mb-5">
     <form method="GET" action="index.php">
         <div class="row gx-2 gy-2"> <!-- Ajout de gx-2 et gy-2 pour l'espacement -->
             <!-- Filtre par marque -->
@@ -205,7 +205,7 @@ $bestSellers = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <!-- Section des produits filtrés -->
   <div class="content-section-wrapper">
     <div class="container content-section">
-        <h1>Résultats de la recherche</h1>
+       
         <div class="row">
             <?php if (count($products) > 0) : ?>
                 <?php foreach ($products as $product) : ?>

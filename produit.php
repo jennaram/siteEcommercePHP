@@ -143,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$utilisateur_connecte) {
 
     <!-- Formulaire de commentaire -->
     <?php if ($utilisateur_connecte) : ?>
-        <div class="container mt-5">
+        <div class="container mt-5 mb-5">
             <h3>Laisser un commentaire</h3>
             <form method="POST" action="ajouter_commentaire.php">
                 <input type="hidden" name="id_produit" value="<?= $id ?>">

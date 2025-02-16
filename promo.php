@@ -67,7 +67,7 @@ $promoProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
     <!-- Bandeau promotionnel -->
-    <div class="promo-banner py-4">
+    <div class="promo-banner py-4 mb-5">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6 text-start">
@@ -144,12 +144,12 @@ $promoProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
       
 
     <!-- Section des produits en promotion -->
-    <div class="content-section-wrapper mt-4">
+    <div class="content-section-wrapper mt-4 mb-5">
         <div class="container">
             <div class="row">
             <?php if (!empty($promoProducts)) : ?>
                 <?php foreach ($promoProducts as $product) : ?>
-                    <div class="col-md-3 mb-4">
+                    <div class="col-md-3 mb-4 mb-5">
                         <div class="card h-100 position-relative">
                             <!-- Badge promotion -->
                             <div class="position-absolute top-0 start-0 m-2">

@@ -113,7 +113,7 @@ $tablettes = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
         <div class="row">
             <?php foreach ($tablettes as $product) : ?>
-                <div class="col-md-4 mb-4">
+                <div class="col-md-4 mb-4 mb-5">
                     <div class="card h-100 position-relative">
                         
                         <img src="images/<?= htmlspecialchars($product['images']) ?>" 

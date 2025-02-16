@@ -104,6 +104,7 @@ ob_end_flush();
                     </div>
                     <div class="card-footer bg-light">
                         <a href="vider_panier.php" class="btn btn-danger">Vider le panier</a>
+                        <a href="index.php" class="btn btn-secondary">Continuer mes achats</a>
                     </div>
                 </div>
             </div>
