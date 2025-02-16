@@ -38,13 +38,13 @@ $prixFinal = ($showPromo && $produit['promos'] > 0)
 
 // Récupérer les commentaires associés au produit
 $stmt = $pdo->prepare("
-    SELECT c.*, u.nom, u.prenom 
+    SELECT c.*, u.nom, u.prenom
     FROM commentaires c
     JOIN users u ON c.id_users = u.id_users
     WHERE c.id_produits = :id_produit
     ORDER BY c.date_creation DESC
 ");
-$stmt->execute([':id_produit' => $id]); // Utiliser $id au lieu de $id_produit
+$stmt->execute([':id_produit' => $id]);
 $commentaires = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Vérifier si l'utilisateur est connecté
@@ -73,16 +73,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$utilisateur_connecte) {
 
     <div class="container mt-5">
         <div class="row">
-        <div class="col-md-6">
-    <img src="images/<?= htmlspecialchars($produit['images']) ?>" 
-         alt="<?= htmlspecialchars($produit['nom']) ?>" 
-         class="img-fluid" 
-         style="max-width: 300px; height: auto;"> <!-- Styles inline pour forcer la taille -->
-</div>
+            <div class="col-md-6">
+                <img src="images/<?= htmlspecialchars($produit['images']) ?>"
+                     alt="<?= htmlspecialchars($produit['nom']) ?>"
+                     class="img-fluid"
+                     style="max-width: 300px; height: auto;">
+            </div>
             <div class="col-md-6">
                 <div class="product-details">
                     <h1><?= htmlspecialchars($produit['nom']) ?></h1>
-
+                    <!-- Icône Favoris -->
+                    <div class="d-flex align-items-center mb-3">
+                        <a href="ajouter_favoris.php?id=<?= htmlspecialchars($produit['id_produits']) ?>" class="btn btn-link p-0">
+                            <i class="bi bi-heart fs-3 text-danger"></i>
+                        </a>
+                    </div>
                     <?php if ($showPromo && $produit['promos'] > 0): ?>
                         <div class="promo-badge">
                             <span class="badge bg-danger">-<?= htmlspecialchars($produit['promos']) ?>%</span>

@@ -66,6 +66,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 </form>
 
                 <!-- Icônes utilisateur et panier -->
+                 
                 <div class="d-flex align-items-center">
                     <?php if (isset($_SESSION['id_users'])): ?>
                         <!-- Utilisateur connecté -->
@@ -98,12 +99,14 @@ if (session_status() === PHP_SESSION_NONE) {
         </span>
     <?php endif; ?>
 </a>
+
                 </div>
 
                 <!-- Bouton Connexion / Déconnexion -->
                 <a class="btn btn-primary ms-2" href="<?php echo isset($_SESSION['id_users']) ? 'logout.php' : 'user.php'; ?>">
                     <?php echo isset($_SESSION['id_users']) ? 'Déconnexion' : 'Connexion'; ?>
                 </a>
+                
             </div>
         </div>
 
